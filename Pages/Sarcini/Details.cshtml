@@ -1,0 +1,46 @@
+﻿@page
+@model Challenges.Pages.Sarcini.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>Details</h1>
+
+<div>
+    <h4>Sarcina</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sarcina.Ziua)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sarcina.Ziua)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sarcina.Nume)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sarcina.Nume)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sarcina.Descriere)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sarcina.Descriere)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sarcina.Provocare)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sarcina.Provocare.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Sarcina?.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
+</div>

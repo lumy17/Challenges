@@ -1,0 +1,57 @@
+﻿@page
+@model Challenges.Pages.SarciniRealizate.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SarcinaRealizata[0].ProvocareUtilizatorId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SarcinaRealizata[0].SarcinaId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SarcinaRealizata[0].Data_Realizare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SarcinaRealizata[0].ZiuaRealizare)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.SarcinaRealizata) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProvocareUtilizatorId)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.SarcinaId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_Realizare)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZiuaRealizare)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

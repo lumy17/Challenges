@@ -1,0 +1,55 @@
+﻿@page
+@model Challenges.Pages.Utilizatori.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Utilizator[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Utilizator[0].Nume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Utilizator[0].Prenume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Utilizator[0].NumarTelefon)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Utilizator) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prenume)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumarTelefon)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

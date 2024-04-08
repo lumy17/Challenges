@@ -1,0 +1,58 @@
+﻿@page
+@model Challenges.Pages.Provocari.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>Edit</h1>
+
+<h4>Provocare</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Provocare.Id" />
+            <div class="form-group">
+                <label asp-for="Provocare.Nume" class="control-label"></label>
+                <input asp-for="Provocare.Nume" class="form-control" />
+                <span asp-validation-for="Provocare.Nume" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provocare.Descriere" class="control-label"></label>
+                <input asp-for="Provocare.Descriere" class="form-control" />
+                <span asp-validation-for="Provocare.Descriere" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provocare.Categorie" class="control-label"></label>
+                <input asp-for="Provocare.Categorie" class="form-control" />
+                <span asp-validation-for="Provocare.Categorie" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provocare.UrlImagine" class="control-label"></label>
+                <input asp-for="Provocare.UrlImagine" class="form-control" />
+                <span asp-validation-for="Provocare.UrlImagine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provocare.Durata" class="control-label"></label>
+                <input asp-for="Provocare.Durata" class="form-control" />
+                <span asp-validation-for="Provocare.Durata" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

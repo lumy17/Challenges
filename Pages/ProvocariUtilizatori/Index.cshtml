@@ -1,0 +1,69 @@
+﻿@page
+@model Challenges.Pages.ProvocariUtilizatori.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvocareUtilizator[0].Provocare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvocareUtilizator[0].Utilizator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvocareUtilizator[0].Data_start)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvocareUtilizator[0].DataFinal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvocareUtilizator[0].Stare)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvocareUtilizator[0].ZiuaCurenta)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ProvocareUtilizator) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Provocare.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Utilizator.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_start)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataFinal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stare)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZiuaCurenta)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

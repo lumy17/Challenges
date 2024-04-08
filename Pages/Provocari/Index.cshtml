@@ -1,0 +1,31 @@
+﻿@page
+@model Challenges.Pages.Provocari.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="other_pages">
+    <h4>Toate provocarile</h4>
+    <hr />
+    <p>
+        <a asp-page="Create">Create New</a>
+    </p>
+    <div class="row">
+        @foreach (var item in Model.Provocare)
+        {
+            <!--pt ca cardul sa fie responsive, setam noi dimensiunile pentru ecrane dif-->
+            <div class="col-lg-5 col-md-7 col-sm-12">
+                <div class="card">
+                    <img class="card-img-top challenge-image" src="@item.UrlImagine">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Nume</h5>
+                        <p class="card-text">@item.Descriere.Substring(0, 100)...</p>
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-primary">Vezi mai multe</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

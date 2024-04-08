@@ -1,0 +1,100 @@
+﻿.dashboard-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+.dashboard-container2 {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.stat-box {
+    flex: 1;
+    margin: 50px;
+    padding: 50px;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #25292b;
+}
+.task-box {
+    flex: 1;
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #25292b;
+}
+.st {
+    margin: 10px;
+    padding: 10px;
+}
+.chimg{
+    text-align: center;
+}
+
+.stat-box p {
+    margin: 5px 0;
+}
+
+.badges {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Creează trei coloane de dimensiuni egale */
+    grid-gap: 1rem;
+}
+
+
+.badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+    .badge:hover {
+        transform: translateY(-5px);
+    }
+
+    .badge.active {
+        opacity: 1;
+        filter: none;
+    }
+
+    .badge img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 0.5rem;
+    }
+
+    .badge p {
+        font-size: 0.9rem;
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+.badge-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.number {
+    font-size: 24px; 
+    font-weight: bold;
+}
+.number2 {
+    font-size: 24px;
+    font-weight: bold;
+    padding-top: 20px;
+    margin-left:20px;
+}
+.task-dsp{
+    display:flex;
+    align-content: center;
+}

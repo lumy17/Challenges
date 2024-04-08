@@ -1,0 +1,51 @@
+﻿@page
+@model Challenges.Pages.SarciniRealizate.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>Create</h1>
+
+<h4>SarcinaRealizata</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SarcinaRealizata.ProvocareUtilizatorId" class="control-label"></label>
+                <select asp-for="SarcinaRealizata.ProvocareUtilizatorId" class="form-control" asp-items="ViewBag.ProvocareUtilizatorId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="SarcinaRealizata.SarcinaId" class="control-label"></label>
+                <select asp-for="SarcinaRealizata.SarcinaId" class="form-control" asp-items="ViewBag.SarcinaId"></select>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="SarcinaRealizata.Data_Realizare" class="control-label"></label>
+                <input asp-for="SarcinaRealizata.Data_Realizare" class="form-control" />
+                <span asp-validation-for="SarcinaRealizata.Data_Realizare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SarcinaRealizata.ZiuaRealizare" class="control-label"></label>
+                <input asp-for="SarcinaRealizata.ZiuaRealizare" class="form-control" />
+                <span asp-validation-for="SarcinaRealizata.ZiuaRealizare" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

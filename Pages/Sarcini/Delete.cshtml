@@ -1,0 +1,49 @@
+﻿@page
+@model Challenges.Pages.Sarcini.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Sarcina</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sarcina.Ziua)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sarcina.Ziua)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sarcina.Nume)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sarcina.Nume)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sarcina.Descriere)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sarcina.Descriere)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Sarcina.Provocare)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Sarcina.Provocare.Id)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Sarcina.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>
+</div>

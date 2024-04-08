@@ -1,0 +1,28 @@
+﻿@page
+@model Challenges.Pages.ProvocariUtilizatori.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="other_pages">
+    <h4>Provocarile Mele</h4>
+    <hr />
+    <div class="row">
+        @foreach(var item in Model.ProvocareUtilizator)
+        {
+            <div class="col-lg-5 col-md-7 col-sm-12">
+                <div class="card">
+                    <img class="card-img-top challenge-image" src="@item.Provocare.UrlImagine">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Provocare.Nume</h5>
+                        <p class="card-text">Provocare: @item.Stare</p>
+                        <p class="card-text">Ziua curenta @item.ZiuaCurenta</p>
+                        <a asp-page="/Provocari/Tasks" asp-route-id="@item.Provocare.Id" class="btn btn-primary">Vezi sarcini</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
