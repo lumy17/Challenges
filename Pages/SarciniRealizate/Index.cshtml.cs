@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Challenges.Data;
 using Challenges.Models;
+using MessagePack;
 
 namespace Challenges.Pages.SarciniRealizate
 {
@@ -20,13 +21,22 @@ namespace Challenges.Pages.SarciniRealizate
         }
 
         public IList<SarcinaRealizata> SarcinaRealizata { get;set; } = default!;
+        public List<Provocare> ListaProvocari { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? provocareUtilId)
         {
-            if (_context.SarcinaRealizata != null)
+            if (provocareUtilId.HasValue)
+            {
+                SarcinaRealizata = await _context.SarcinaRealizata
+                    .Where(sr => sr.ProvocareUtilizatorId == provocareUtilId.Value)
+                    .ToListAsync();
+            }
+            else
             {
                 SarcinaRealizata = await _context.SarcinaRealizata.ToListAsync();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
         }
     }
 }

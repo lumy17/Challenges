@@ -20,7 +20,7 @@ namespace Challenges.Pages.ProvocariUtilizatori
         }
 
         public IList<ProvocareUtilizator> ProvocareUtilizator { get;set; } = default!;
-
+        public List<Provocare> ListaProvocari { get; set; }
         public async Task OnGetAsync()
         {
             if (_context.ProvocareUtilizator != null)
@@ -29,6 +29,8 @@ namespace Challenges.Pages.ProvocariUtilizatori
                 .Include(p => p.Provocare)
                 .Include(p => p.Utilizator).ToListAsync();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
         }
     }
 }

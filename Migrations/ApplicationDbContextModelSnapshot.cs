@@ -17,10 +17,73 @@ namespace Challenges.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.27")
+                .HasAnnotation("ProductVersion", "6.0.28")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Challenges.Models.Categorie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Nume")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorie");
+                });
+
+            modelBuilder.Entity("Challenges.Models.CategorieProvocare", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategorieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProvocareId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.HasIndex("ProvocareId");
+
+                    b.ToTable("CategorieProvocare");
+                });
+
+            modelBuilder.Entity("Challenges.Models.CategorieUtilizator", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategorieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UtilizatorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategorieId");
+
+                    b.HasIndex("UtilizatorId");
+
+                    b.ToTable("CategorieUtilizator");
+                });
 
             modelBuilder.Entity("Challenges.Models.Provocare", b =>
                 {
@@ -49,6 +112,9 @@ namespace Challenges.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Vizualizari")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Provocare");
@@ -72,6 +138,7 @@ namespace Challenges.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Stare")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UtilizatorId")
@@ -119,9 +186,6 @@ namespace Challenges.Migrations
 
                     b.Property<DateTime>("Data")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("EsteDeblocat")
-                        .HasColumnType("bit");
 
                     b.Property<int>("RealizareId")
                         .HasColumnType("int");
@@ -227,6 +291,32 @@ namespace Challenges.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Utilizator");
+                });
+
+            modelBuilder.Entity("Challenges.Models.VizualizareProvocare", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DataVizualizare")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProvocareId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UtilizatorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProvocareId");
+
+                    b.HasIndex("UtilizatorId");
+
+                    b.ToTable("VizualizareProvocare");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -431,6 +521,44 @@ namespace Challenges.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Challenges.Models.CategorieProvocare", b =>
+                {
+                    b.HasOne("Challenges.Models.Categorie", "Categorie")
+                        .WithMany("CategoriiProvocari")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Challenges.Models.Provocare", "Provocare")
+                        .WithMany("CategoriiProvocari")
+                        .HasForeignKey("ProvocareId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categorie");
+
+                    b.Navigation("Provocare");
+                });
+
+            modelBuilder.Entity("Challenges.Models.CategorieUtilizator", b =>
+                {
+                    b.HasOne("Challenges.Models.Categorie", "Categorie")
+                        .WithMany("CategoriiUtilizatori")
+                        .HasForeignKey("CategorieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Challenges.Models.Utilizator", "Utilizator")
+                        .WithMany("CategoriiUtilizatori")
+                        .HasForeignKey("UtilizatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categorie");
+
+                    b.Navigation("Utilizator");
+                });
+
             modelBuilder.Entity("Challenges.Models.ProvocareUtilizator", b =>
                 {
                     b.HasOne("Challenges.Models.Provocare", "Provocare")
@@ -453,7 +581,7 @@ namespace Challenges.Migrations
             modelBuilder.Entity("Challenges.Models.RealizareUtilizator", b =>
                 {
                     b.HasOne("Challenges.Models.Realizare", "Realizare")
-                        .WithMany("realizariUtilizatori")
+                        .WithMany("RealizariUtilizatori")
                         .HasForeignKey("RealizareId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -487,7 +615,7 @@ namespace Challenges.Migrations
                         .IsRequired();
 
                     b.HasOne("Challenges.Models.Sarcina", "Sarcina")
-                        .WithMany()
+                        .WithMany("SarcinaRealizata")
                         .HasForeignKey("SarcinaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -495,6 +623,25 @@ namespace Challenges.Migrations
                     b.Navigation("ProvocareUtilizator");
 
                     b.Navigation("Sarcina");
+                });
+
+            modelBuilder.Entity("Challenges.Models.VizualizareProvocare", b =>
+                {
+                    b.HasOne("Challenges.Models.Provocare", "Provocare")
+                        .WithMany("ProvocareVizualizare")
+                        .HasForeignKey("ProvocareId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Challenges.Models.Utilizator", "Utilizator")
+                        .WithMany("ProvocareVizualizare")
+                        .HasForeignKey("UtilizatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Provocare");
+
+                    b.Navigation("Utilizator");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -548,8 +695,19 @@ namespace Challenges.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Challenges.Models.Categorie", b =>
+                {
+                    b.Navigation("CategoriiProvocari");
+
+                    b.Navigation("CategoriiUtilizatori");
+                });
+
             modelBuilder.Entity("Challenges.Models.Provocare", b =>
                 {
+                    b.Navigation("CategoriiProvocari");
+
+                    b.Navigation("ProvocareVizualizare");
+
                     b.Navigation("Sarcini");
 
                     b.Navigation("provocariUtilizatori");
@@ -557,11 +715,20 @@ namespace Challenges.Migrations
 
             modelBuilder.Entity("Challenges.Models.Realizare", b =>
                 {
-                    b.Navigation("realizariUtilizatori");
+                    b.Navigation("RealizariUtilizatori");
+                });
+
+            modelBuilder.Entity("Challenges.Models.Sarcina", b =>
+                {
+                    b.Navigation("SarcinaRealizata");
                 });
 
             modelBuilder.Entity("Challenges.Models.Utilizator", b =>
                 {
+                    b.Navigation("CategoriiUtilizatori");
+
+                    b.Navigation("ProvocareVizualizare");
+
                     b.Navigation("provocariUtilizatori");
 
                     b.Navigation("realizariUtilizatori");

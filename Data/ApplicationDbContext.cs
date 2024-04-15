@@ -17,5 +17,9 @@ namespace Challenges.Data
         public DbSet<RealizareUtilizator> RealizareUtilizator { get; set; } = default!;
         public DbSet<Sarcina> Sarcina { get; set; } = default!;
         public DbSet<SarcinaRealizata> SarcinaRealizata { get; set; } = default!;
+        public DbSet<VizualizareProvocare> VizualizareProvocare { get; set; } = default!;
+        public DbSet<Categorie> Categorie { get; set; } = default!;
+        public DbSet<CategorieProvocare> CategorieProvocare { get; set; } = default!;
+        public DbSet<CategorieUtilizator> CategorieUtilizator { get; set; } = default!;
     }
 }

@@ -22,13 +22,15 @@ namespace Challenges.Pages.SarciniRealizate
 
         [BindProperty]
         public SarcinaRealizata SarcinaRealizata { get; set; } = default!;
-
+        public List<Provocare> ListaProvocari { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.SarcinaRealizata == null)
             {
                 return NotFound();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
 
             var sarcinarealizata =  await _context.SarcinaRealizata.FirstOrDefaultAsync(m => m.Id == id);
             if (sarcinarealizata == null)

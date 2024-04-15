@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Challenges.Data;
+using Challenges.Models;
+using System.Configuration;
+using Microsoft.Extensions.Configuration.UserSecrets;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString
@@ -21,6 +26,15 @@ options.SignIn.RequireConfirmedAccount = true)
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<RankingService>();
+
+var config = builder.Configuration;
+
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = config["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = config["Authentication:Google:ClientSecret"];
+});
 
 var app = builder.Build();
 

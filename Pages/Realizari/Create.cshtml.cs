@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenges.Data;
 using Challenges.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Challenges.Pages.Realizari
 {
@@ -21,12 +22,15 @@ namespace Challenges.Pages.Realizari
 
         public IActionResult OnGet()
         {
+            ListaProvocari = _context.Provocare.ToList();
+
             return Page();
         }
 
         [BindProperty]
         public Realizare Realizare { get; set; } = default!;
-        
+        public List<Provocare> ListaProvocari { get; set; }
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

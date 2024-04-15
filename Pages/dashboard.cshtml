@@ -5,61 +5,77 @@
 <head>
     <link rel="stylesheet" href="/dashboard.cshtml.css" asp-append-version="true" />
 </head>
-<div class="dashboard-container">
-    <div class="stat-box st">
-        <br/>
-        <img src="~/images/ch1.png" class="chimg" width="40px" height="40px" />
-        <p>Provocări finalizate</p>
-
-        <p class="number">@Model.FinishedChallengesCount</p>
+<div class="main--content">
+    <div class="header--wrapper">
+        <div class="header--title">
+            <h2>Dashboard</h2>
+        </div>
     </div>
+    <div class="card--container">
+        <div class="card--wrapper">
+            <div class="stat-box st">
+                <br />
+                <img src="~/images/ch1.png" class="chimg" width="40px" height="40px" />
+                <p>Provocări finalizate</p>
 
-    <div class="stat-box st">
-        <div class="badges">
-            @for (int i = 0; i < 3; i++)
+                <p class="number">@Model.FinishedChallengesCount</p>
+            </div>
+
+            <div class="stat-box st">
+                <div class="badges">
+                    @for (int i = 0; i < 3; i++)
+                    {
+                        var badge = Model.Badgeuri[i];
+                        <div class="badge @(Model.UserHasBadge(badge.Id) ? "active" : "")">
+                            <img src="/images/@(badge.NumeRealizare).png" />
+                        </div>
+                    }
+                </div>
+                <p>Badges</p>
+                <div class="badge-header">
+                    <a href="/badges">Arată mai multe</a>
+                </div>
+            </div>
+
+            <div class="stat-box st">
+                <br />
+                <img src="~/images/streak1.png" class="chimg" width="40px" height="40px" />
+                <p>Streak</p>
+
+                <p class="number">@Model.Streak</p>
+            </div>
+        </div>
+    </div>
+    <div class="card--container">
+        <h3 class="main--title">Sarcini Curente</h3>
+        <div class="card--wrapper">
+            @if (Model.SarcinaCurenta == null)
             {
-                var badge = Model.Badgeuri[i];
-                <div class="badge @(Model.UserHasBadge(badge.Id) ? "active" : "")">
-                    <img src="/images/@(badge.NumeRealizare).png" />
+                <div class="task-box">
+                    <p>Nu exista sarcini pe ziua de azi</p>
+                    <a asp-page="/Provocari/Index" class="btn btn-primary">Incepe un challenge</a>
                 </div>
             }
-        </div>
-        <p>Badges</p>
-        <div class="badge-header">
-            <a href="/badges">Arată mai multe</a>
+            else
+            {
+                <div class="task-box current-task">
+                    <div class="task-dsp">
+                        <img src="~/images/task4.webp" class="chimg" width="50px" height="50px" />
+                        <p class="number">@Model.SarcinaCurenta.Nume</p>
+                    </div>
+                    <p>@Model.SarcinaCurenta.Descriere</p>
+                </div>
+                <div class="container6">
+                    <div class="ctaa">
+                        <img src="https://images.pexels.com/photos/705425/pexels-photo-705425.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="">
+                        <div class="text">
+                            <h2>Citatul zilei</h2>
+                            <p>"Cum folosim cuvintele poate să ne deschidă inimile sau să ne construiască ziduri între noi." - Marshall B. Rosenberg</p>
+                        </div>
+                    </div>
+                </div>
+            }
+
         </div>
     </div>
-
-    <div class="stat-box st">
-        <br/>
-        <img src="~/images/streak1.png" class="chimg" width="40px" height="40px" />
-        <p>Streak</p>
-
-        <p class="number">@Model.Streak</p>
     </div>
-</div>
-<p class="number2">Sarcini Curente</p>
-<div class="dashboard-container2">
-    @if (Model.SarcinaCurenta == null)
-    {
-        <div class="task-box">
-            <p>Nu exista sarcini pe ziua de azi</p>
-            <a asp-page="/Provocari/Index" class="btn btn-primary">Incepe un challenge</a>
-        </div>
-    }
-    else
-    {
-        <div class="task-box current-task">
-            <div class="task-dsp">
-                <img src="~/images/task4.webp" class="chimg" width="50px" height="50px" />
-                <p class="number">@Model.SarcinaCurenta.Nume</p>
-            </div>
-            <p>@Model.SarcinaCurenta.Descriere</p>
-        </div>
-        <div class="task-box">
-            <p class="number">Citatul zilei</p>
-            <p>"Cum folosim cuvintele poate să ne deschidă inimile sau să ne construiască ziduri între noi." - Marshall B. Rosenberg</p>
-        </div>
-    }
-
-</div>

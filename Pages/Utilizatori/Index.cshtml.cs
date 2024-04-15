@@ -20,13 +20,19 @@ namespace Challenges.Pages.Utilizatori
         }
 
         public IList<Utilizator> Utilizator { get;set; } = default!;
+        public List<Provocare> ListaProvocari { get; set; }
 
         public async Task OnGetAsync()
         {
             if (_context.Utilizator != null)
             {
-                Utilizator = await _context.Utilizator.ToListAsync();
+                Utilizator = await _context.Utilizator
+                    .Include(u => u.CategoriiUtilizatori)
+                    .ThenInclude(cu => cu.Categorie)
+                    .ToListAsync();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
         }
     }
 }

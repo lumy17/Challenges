@@ -22,6 +22,7 @@ namespace Challenges.Pages.Sarcini
 
         [BindProperty]
         public Sarcina Sarcina { get; set; } = default!;
+        public List<Provocare> ListaProvocari { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,7 +37,8 @@ namespace Challenges.Pages.Sarcini
                 return NotFound();
             }
             Sarcina = sarcina;
-           ViewData["ProvocareId"] = new SelectList(_context.Provocare, "Id", "Id");
+                 ListaProvocari = await _context.Provocare.ToListAsync();
+            ViewData["ProvocareId"] = new SelectList(_context.Provocare, "Id", "Id");
             return Page();
         }
 

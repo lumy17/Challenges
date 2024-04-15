@@ -20,13 +20,15 @@ namespace Challenges.Pages.Realizari
         }
 
         public IList<Realizare> Realizare { get;set; } = default!;
-
+        public List<Provocare> ListaProvocari { get; set; }
         public async Task OnGetAsync()
         {
             if (_context.Realizare != null)
             {
                 Realizare = await _context.Realizare.ToListAsync();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
         }
     }
 }

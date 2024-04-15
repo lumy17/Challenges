@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenges.Data;
 using Challenges.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Challenges.Pages.SarciniRealizate
 {
@@ -23,12 +24,14 @@ namespace Challenges.Pages.SarciniRealizate
         {
             ViewData["IdProvocareUtilizator"] = new SelectList(_context.ProvocareUtilizator, "Id", "Id");
             ViewData["IdSarcini"] = new SelectList(_context.Sarcina, "Id", "Id");
+            ListaProvocari = _context.Provocare.ToList();
             return Page();
         }
 
         [BindProperty]
         public SarcinaRealizata SarcinaRealizata { get; set; } = default!;
-        
+        public List<Provocare> ListaProvocari { get; set; }
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenges.Data;
 using Challenges.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Challenges.Pages.ProvocariUtilizatori
 {
@@ -23,12 +24,16 @@ namespace Challenges.Pages.ProvocariUtilizatori
         {
         ViewData["ProvocareId"] = new SelectList(_context.Provocare, "Id", "Id");
         ViewData["UtilizatorId"] = new SelectList(_context.Utilizator, "Id", "Id");
+            ListaProvocari = _context.Provocare.ToList();
+
             return Page();
         }
 
         [BindProperty]
         public ProvocareUtilizator ProvocareUtilizator { get; set; }
-        
+
+        public List<Provocare> ListaProvocari { get; set; }
+
         //pentru a evita modelstate invalid a trebui sa atribui valori si obiectelor
         //provocare si utilizator. astfel, le-am cautat in bd in functie de id si dupa
         //le-am salvat in bd.

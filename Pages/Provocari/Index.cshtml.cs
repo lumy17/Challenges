@@ -19,13 +19,13 @@ namespace Challenges.Pages.Provocari
             _context = context;
         }
 
-        public IList<Provocare> Provocare { get;set; } = default!;
+        public List<Provocare> ListaProvocari { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
             if (_context.Provocare != null)
             {
-                Provocare = await _context.Provocare.ToListAsync();
+                ListaProvocari= await _context.Provocare.ToListAsync();
             }
         }
     }

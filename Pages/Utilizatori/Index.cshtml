@@ -26,6 +26,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Utilizator[0].NumarTelefon)
             </th>
+            <th>
+                Categorii de Interes
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -44,6 +47,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NumarTelefon)
             </td>
+                <td>
+                    <ul>
+                        @foreach (var categ in item.CategoriiUtilizatori)
+                        {
+                            <li>@categ.Categorie.Nume</li>
+                        }
+                    </ul>
+                </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |

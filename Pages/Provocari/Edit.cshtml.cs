@@ -22,6 +22,11 @@ namespace Challenges.Pages.Provocari
 
         [BindProperty]
         public Provocare Provocare { get; set; } = default!;
+        public List<Provocare> ListaProvocari { get; set; }
+        public List<Categorie> ListaCategorii { get; set; }
+        [BindProperty]
+        public List<int> SelectedCategories { get; set; } = new List<int>();
+
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,6 +41,15 @@ namespace Challenges.Pages.Provocari
                 return NotFound();
             }
             Provocare = provocare;
+            ListaProvocari = await _context.Provocare.ToListAsync();
+            ListaCategorii = await _context.Categorie.ToListAsync();
+
+            // Fetch the categories associated with the current Provocare
+            SelectedCategories = await _context.CategorieProvocare
+                .Where(cp => cp.ProvocareId == provocare.Id)
+                .Select(cp => cp.CategorieId)
+                .ToListAsync();
+
             return Page();
         }
 
@@ -43,12 +57,24 @@ namespace Challenges.Pages.Provocari
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            _context.Attach(Provocare).State = EntityState.Modified;
+
+            // Add the newly selected categories
+
+            foreach (var categoryId in SelectedCategories)
             {
-                return Page();
+                var categ = await _context.Categorie.FindAsync(categoryId);
+                if (categ != null)
+                {
+                    var categorieProvocari = new CategorieProvocare
+                    {
+                        Provocare = Provocare,
+                        Categorie = categ
+                    };
+                    _context.CategorieProvocare.Add(categorieProvocari);
+                }
             }
 
-            _context.Attach(Provocare).State = EntityState.Modified;
 
             try
             {
@@ -66,7 +92,7 @@ namespace Challenges.Pages.Provocari
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexAdmin");
         }
 
         private bool ProvocareExists(int id)

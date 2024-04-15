@@ -58,6 +58,8 @@ namespace Challenges.Areas.Identity.Pages.Account
         [BindProperty]
             public Utilizator Utilizator { get; set; }
         [BindProperty]
+        public List<int> SelectedCategories { get; set; } = new List<int>();
+        [BindProperty]
         public InputModel Input { get; set; }
 
         /// <summary>
@@ -116,7 +118,14 @@ namespace Challenges.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            if (User.IsInRole("Admin"))
+            {
+                returnUrl ??= Url.Content("~/DashboardAdmin");
+            }
+            else
+            {
+                returnUrl ??= Url.Content("~/dashboard");
+            }
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
                 var userExists = await _userManager.FindByEmailAsync(Input.Email);
@@ -152,8 +161,19 @@ namespace Challenges.Areas.Identity.Pages.Account
                         pageHandler: null,
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
+                foreach (var categoryId in SelectedCategories)
+                {
+                    var categorieUtilizator = new CategorieUtilizator
+                    {
+                        UtilizatorId = Utilizator.Id,
+                        CategorieId = categoryId
+                    };
+                    _context.CategorieUtilizator.Add(categorieUtilizator);
+                }
+                await _context.SaveChangesAsync();
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+
+                await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)

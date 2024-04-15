@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenges.Data;
 using Challenges.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Challenges.Pages.Provocari
 {
@@ -19,21 +20,37 @@ namespace Challenges.Pages.Provocari
             _context = context;
         }
 
-        public IActionResult OnGet()
+
+        public async Task<IActionResult> OnGetAsync()
         {
+            ListaProvocari = await _context.Provocare.ToListAsync();
+            ListaCategorii = await _context.Categorie.ToListAsync();   
+
             return Page();
         }
 
         [BindProperty]
         public Provocare Provocare { get; set; } = default!;
-        
+        public List<Provocare> ListaProvocari { get; set; }
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        public List<Categorie> ListaCategorii { get; set; }
+        [BindProperty]
+        public List<int> SelectedCategories { get; set; } = new List<int>();
+
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Provocare == null || Provocare == null)
+          foreach(var categId in SelectedCategories)
             {
-                return Page();
+                var categ = await _context.Categorie.FindAsync(categId);
+                if (categ != null)
+                {
+                    var categorieProvocari = new CategorieProvocare
+                    {
+                        Provocare = Provocare,
+                        Categorie = categ
+                    };
+                    _context.CategorieProvocare.Add(categorieProvocari);
+                }
             }
 
             _context.Provocare.Add(Provocare);

@@ -20,7 +20,7 @@ namespace Challenges.Pages.Provocari
         }
 
         public Provocare Provocare { get; set; } = default!;
-
+        public List<Provocare> ListaProvocari { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,7 +28,9 @@ namespace Challenges.Pages.Provocari
             {
                 return NotFound();
             }
-            var provocare = await _context.Provocare.FirstOrDefaultAsync(m => m.Id == id);
+            var provocare = await _context.Provocare
+                .FirstOrDefaultAsync(m => m.Id == id);
+            ListaProvocari = await _context.Provocare.ToListAsync();
             if (provocare == null)
             {
                 return NotFound();
@@ -36,6 +38,26 @@ namespace Challenges.Pages.Provocari
             else
             {
                 Provocare = provocare;
+            }
+            var currentUser = User.Identity.Name;
+            var user = _context.Utilizator.FirstOrDefault(u => u.Email == currentUser);
+            // Verificăm dacă utilizatorul a vizitat deja această provocare
+            var vizualizareProvocare = await _context.VizualizareProvocare
+                .FirstOrDefaultAsync(uc => uc.UtilizatorId == user.Id &&
+                uc.ProvocareId == id);
+            if (vizualizareProvocare == null)
+            {        // Dacă utilizatorul nu a vizitat provocarea, adăugăm o nouă înregistrare și incrementăm numărul de vizualizări
+                     // 					Provocare.Vizualizari++;
+
+                var vizualizareUtilizator = new VizualizareProvocare
+                {
+                    ProvocareId = Provocare.Id,
+                    UtilizatorId = user.Id,
+                    DataVizualizare = DateTime.Today
+                };
+                _context.VizualizareProvocare.Add(vizualizareUtilizator);
+                Provocare.Vizualizari++;
+                await _context.SaveChangesAsync();
             }
             return Page();
         }
@@ -55,12 +77,13 @@ namespace Challenges.Pages.Provocari
             var user = _context.Utilizator.FirstOrDefault(u => u.Email == currentUser);
             if (user != null)
             {
+
                 var provocareUtilizator = new ProvocareUtilizator
                 {
                     ProvocareId = Provocare.Id,
                     UtilizatorId = user.Id,
-                    Data_start = DateTime.Today,
-                    DataFinal = DateTime.Today.AddDays(Provocare.Durata),
+                    Data_start = DateTime.Now,
+                    DataFinal = DateTime.Now.AddDays(Provocare.Durata),
                     ZiuaCurenta = 1,
                     Stare = "In desfasurare"
                 };

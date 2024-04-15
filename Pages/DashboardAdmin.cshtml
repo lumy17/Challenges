@@ -1,0 +1,75 @@
+﻿@page
+@model Challenges.Pages.DashboardAdminModel
+@{
+}
+<div class="main--content">
+    <div class="header--wrapper">
+        <div class="header--title">
+            <h2>Dashboard</h2>
+        </div>
+        <div class="user--info">
+            <div class="search--box">
+                <i class="fa-solid fa-search"></i>
+                <!--<input type="text" placeholder="Search" />-->
+            </div>
+            <img src="~/images/cub.png" width="200px" height="100" />
+
+        </div>
+    </div>
+    <div class="card--container">
+        <h3 class="main--title">Date Curente</h3>
+        <div class="card--wrapper">
+            <div class="payment--card">
+                <div class="card--header">
+                    <div class="amount">
+                        <span class="title">
+                            Utilizatori Inregistrati
+                        </span>
+                        <span class="amount-value"> @Model.InregistrariUtilizatori</span>
+                    </div>
+                    <i class="fas fa-dollar-sign icon"></i>
+                </div>
+            </div>
+            <div class="payment--card">
+                <div class="card--header">
+                    <div class="amount">
+                        <span class="title">
+                            Provocari Incepute
+                        </span>
+                        <span class="amount-value"> @Model.ProvocariIncepute</span>
+                    </div>
+                    <i class="fas fa-dollar-sign icon"></i>
+                </div>
+            </div>
+            <div class="payment--card">
+                <div class="card--header">
+                    <div class="amount">
+                        <span class="title">
+                            Provocari Finalizate
+                        </span>
+                        <span class="amount-value"> @Model.ProvocariFinalizate</span>
+                    </div>
+                    <i class="fas fa-dollar-sign icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tabular-wrapper">
+        <h3 class="main--title">Ultimele activități</h3>
+        <div class="table-container">
+            <div class="activity-data">
+                <table>
+                    <tbody>
+                        @foreach (var activity in Model.Activitati)
+                        {
+                            <tr>
+                                <td>@activity</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

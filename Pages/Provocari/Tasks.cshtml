@@ -62,7 +62,7 @@
         <h2>@item.Nume</h2>
         <h3>Ziua: @item.Ziua</h3>
         <br />
-            @if (Model.IsTaskCompleted(item.Id))
+            @if (await Model.IsTaskCompletedAsync(item.Id))
             {
                 var sentences2 = item.Descriere.Split('.');
                 for (var i = 0; i < sentences2.Length; i += 2)

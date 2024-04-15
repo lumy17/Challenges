@@ -22,6 +22,7 @@ namespace Challenges.Pages.Realizari
 
         [BindProperty]
         public Realizare Realizare { get; set; } = default!;
+        public List<Provocare> ListaProvocari { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,6 +30,7 @@ namespace Challenges.Pages.Realizari
             {
                 return NotFound();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
 
             var realizare =  await _context.Realizare.FirstOrDefaultAsync(m => m.Id == id);
             if (realizare == null)

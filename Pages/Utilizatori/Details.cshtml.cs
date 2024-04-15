@@ -19,7 +19,8 @@ namespace Challenges.Pages.Utilizatori
             _context = context;
         }
 
-      public Utilizator Utilizator { get; set; } = default!; 
+      public Utilizator Utilizator { get; set; } = default!;
+        public List<Provocare> ListaProvocari { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,6 +30,8 @@ namespace Challenges.Pages.Utilizatori
             }
 
             var utilizator = await _context.Utilizator.FirstOrDefaultAsync(m => m.Id == id);
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
             if (utilizator == null)
             {
                 return NotFound();

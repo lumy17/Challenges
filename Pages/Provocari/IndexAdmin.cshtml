@@ -1,0 +1,78 @@
+﻿@page
+@model Challenges.Pages.Provocari.IndexAdminModel
+
+@{
+    ViewData["Title"] = "IndexAdmin";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>IndexAdmin</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Provocare[0].Nume)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Provocare[0].Descriere)
+            </th>
+            <th>
+                Categorii
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Provocare[0].UrlImagine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Provocare[0].Durata)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Provocare[0].Vizualizari)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Provocare)
+        {
+            var descriere = item.Descriere.Length > 50 ? item.Descriere.Substring(0, 50) + "..." : item.Descriere;
+            var urlImagine = item.UrlImagine.Length > 40 ? item.UrlImagine.Substring(0, 40) + "..." : item.UrlImagine;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nume)
+                </td>
+                <td>
+                    @descriere
+                </td>
+                <td>
+                    <ul>
+                        @foreach (var categorie in item.CategoriiProvocari)
+                        {
+                            <li>@categorie.Categorie.Nume</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    @urlImagine
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Durata)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Vizualizari)
+                </td>
+                <td>
+                    <a asp-page="/Sarcini/Index" asp-route-id="@item.Id">Vezi Sarcini</a>
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./DetailsAdmin" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

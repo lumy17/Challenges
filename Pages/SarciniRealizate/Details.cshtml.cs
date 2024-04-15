@@ -19,7 +19,8 @@ namespace Challenges.Pages.SarciniRealizate
             _context = context;
         }
 
-      public SarcinaRealizata SarcinaRealizata { get; set; } = default!; 
+      public SarcinaRealizata SarcinaRealizata { get; set; } = default!;
+        public List<Provocare> ListaProvocari { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -27,6 +28,8 @@ namespace Challenges.Pages.SarciniRealizate
             {
                 return NotFound();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
 
             var sarcinarealizata = await _context.SarcinaRealizata.FirstOrDefaultAsync(m => m.Id == id);
             if (sarcinarealizata == null)

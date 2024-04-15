@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenges.Data;
 using Challenges.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Challenges.Pages.Sarcini
 {
@@ -18,10 +19,12 @@ namespace Challenges.Pages.Sarcini
         {
             _context = context;
         }
-
+        public List<Provocare> ListaProvocari { get; set; }
         public IActionResult OnGet()
         {
         ViewData["ProvocareId"] = new SelectList(_context.Provocare, "Id", "Id");
+            ListaProvocari = _context.Provocare.ToList();
+
             return Page();
         }
 

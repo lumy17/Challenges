@@ -1,11 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap');
+
 html {
   font-size: 14px;
 }
-
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 main {
     margin-bottom: 60px;
@@ -26,26 +27,41 @@ h1, h2, h3 {
 .other_pages {
     margin: 60px;
 }
-/*css pentru pag specifica de provocare imagine-text*/
-.imgss {
-    flex: 0 0 auto;
-    width: 300px;
-    margin-right: 50px;
-}
-.imgss img {
-    width: 100%;
-    height: auto;
+.card-header a {
+    font-weight: 600 ;
+    font-size: 1.15rem;
+    line-height: 1.25;
+    padding-right: 1rem;
+    text-decoration: none;
+    color: inherit;
 }
 
-.txtt {
-    flex: 1 1 auto; 
-    max-width: 100%;
-    word-wrap: break-word;
+    .card-header a:after {
+        content: "";
+        position: absolute;
+        left: 0 ;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+.card-header2 a {
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.25 !important;
+    padding-right: 1rem !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    will-change: transform;
 }
-.container4 {
-    margin-left: 60px;
-    margin-right: 60px;
-}
+
+    .card-header2 a:after {
+        content: "" !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+    }
 /*css pt pagina de home*/
 .container2 {
     width: 100%;
@@ -82,7 +98,7 @@ h1, h2, h3 {
 }
 
 .challenge-image {
-    height: 200px;
+    height: 10vw;
     width: 100%;
     object-fit: cover;
 }
@@ -149,3 +165,5 @@ html, body, .container2 {
 .container4 {
 
 }
+/*for sidebar right*/
+

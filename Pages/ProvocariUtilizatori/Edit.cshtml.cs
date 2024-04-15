@@ -22,7 +22,7 @@ namespace Challenges.Pages.ProvocariUtilizatori
 
         [BindProperty]
         public ProvocareUtilizator ProvocareUtilizator { get; set; } = default!;
-
+        public List<Provocare> ListaProvocari { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.ProvocareUtilizator == null)
@@ -35,6 +35,8 @@ namespace Challenges.Pages.ProvocariUtilizatori
             {
                 return NotFound();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
             ProvocareUtilizator = provocareutilizator;
            ViewData["ProvocareId"] = new SelectList(_context.Provocare, "Id", "Id");
            ViewData["UtilizatorId"] = new SelectList(_context.Utilizator, "Id", "Id");

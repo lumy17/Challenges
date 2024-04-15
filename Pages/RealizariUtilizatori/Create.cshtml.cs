@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenges.Data;
 using Challenges.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Challenges.Pages.RealizariUtilizatori
 {
@@ -23,12 +24,15 @@ namespace Challenges.Pages.RealizariUtilizatori
         {
         ViewData["RealizareId"] = new SelectList(_context.Realizare, "Id", "Id");
         ViewData["UtilizatorId"] = new SelectList(_context.Utilizator, "Id", "Id");
+            ListaProvocari = _context.Provocare.ToList();
+
             return Page();
         }
 
         [BindProperty]
         public RealizareUtilizator RealizareUtilizator { get; set; } = default!;
-        
+
+        public List<Provocare> ListaProvocari { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

@@ -1,7 +1,9 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+.main-container {
 
+}
 .border-top {
     border-top: 1px solid #e5e5e5;
 }
@@ -41,3 +43,19 @@ button.accept-policy {
             flex-grow: 1;
             overflow-y: auto;
         }
+.wrr {
+    font-size: 1rem;
+}
+
+.ch-right {
+    width: 20vw;
+}
+
+.pdd {
+    margin-top: 50px;
+    flex-wrap: wrap;
+}
+
+.txt4 {
+    margin-left: 1.5rem;
+}

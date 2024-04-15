@@ -32,7 +32,10 @@ namespace Challenges.Models
         public int Streak { get; set; } = 0;
         [DataType(DataType.Date)]
         public DateTime? DataUltimaActualizareStreak { get; set; }
-        public ICollection<ProvocareUtilizator>? provocariUtilizatori {  get; set; }
+		public ICollection<VizualizareProvocare>? ProvocareVizualizare { get; set; }
+
+		public ICollection<ProvocareUtilizator>? provocariUtilizatori {  get; set; }
         public ICollection<RealizareUtilizator>? realizariUtilizatori {  get; set; }
+        public ICollection<CategorieUtilizator>? CategoriiUtilizatori {  get; set; }
     }
 }

@@ -1,4 +1,50 @@
-﻿.dashboard-container {
+﻿.main--content {
+    position: relative;
+    background: #2b2b2b;
+    width: 100%;
+    padding: 1rem;
+}
+
+.header--wrapper img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.header--wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #222;
+    border-radius: 10px;
+    padding: 10px 2rem;
+    margin-bottom: 1rem;
+}
+
+.header--title {
+    color: rgba(255, 255, 255, 0.6);
+}
+.card--container {
+    background: #222;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.card--wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.main--title {
+    color: rgba(255, 255, 255, 0.6);
+    padding-bottom: 10px;
+    padding-left: 10px;
+    font-size: 20px;
+}
+.dashboard-container {
     display: flex;
     justify-content: space-between;
     margin-top: 40px;
@@ -17,6 +63,11 @@
     text-align: center;
     border-radius: 20px;
     background-color: #25292b;
+}
+.dashboard-heading {
+    margin-top: 60px;
+    margin-left: 20px;
+    font-size: 2em;
 }
 .task-box {
     flex: 1;
@@ -98,3 +149,76 @@
     display:flex;
     align-content: center;
 }
+body {
+    background: #111;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.ctaa-background {
+    background-size: cover;
+    background-position: center center;
+    bottom: 0;
+    filter: blur(50px);
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}
+
+.container6 {
+    align-items: center;
+    display: flex;
+    height: 70vh;
+    justify-content: center;
+}
+
+.ctaa {
+    background: #333;
+    box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.2);
+    height: 400px;
+    overflow: hidden;
+    position: relative;
+    width: 300px;
+}
+
+    .ctaa:hover img {
+        top: -10%;
+        filter: brightness(70%);
+    }
+
+    .ctaa:hover .text {
+        bottom: 0;
+    }
+
+    .ctaa img {
+        bottom: 0;
+        filter: brightness(100%);
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: 0.5s ease-in-out;
+        width: 115%;
+    }
+
+    .ctaa .text {
+        bottom: -40%;
+        padding: 15px;
+        position: absolute;
+        transition: 0.5s ease-in-out;
+    }
+
+        .ctaa .text h2 {
+            color: #fff;
+            display: inline-block;
+            font-weight: 300;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .ctaa .text p {
+            color: #fff;
+            font-weight: 300;
+        }

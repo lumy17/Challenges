@@ -20,7 +20,7 @@ namespace Challenges.Pages.RealizariUtilizatori
         }
 
         public IList<RealizareUtilizator> RealizareUtilizator { get;set; } = default!;
-
+        public List<Provocare> ListaProvocari { get; set; }
         public async Task OnGetAsync()
         {
             if (_context.RealizareUtilizator != null)
@@ -29,6 +29,8 @@ namespace Challenges.Pages.RealizariUtilizatori
                 .Include(r => r.Realizare)
                 .Include(r => r.Utilizator).ToListAsync();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
         }
     }
 }

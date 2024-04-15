@@ -1,4 +1,4 @@
-﻿@page 
+﻿@page
 @model Challenges.Pages.Provocari.DetailsModel
 
 @{
@@ -6,14 +6,14 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-
+<h4 class="title-ch">@Model.Provocare.Nume</h4>
 <div class="container4 mt-5 other_pages">
-    <h2>@Model.Provocare.Nume</h2> <br />
-    <div class="d-flex">
+    <br />
+    <div class="ch-cont">
         <div class="imgss">
             <img src="@Model.Provocare.UrlImagine" class="img-fluid">
         </div>
-        <div class="txtt align-self-center">
+        <div class="txtt align-self-center ">
             @{
                 var sentences = Model.Provocare.Descriere.Split('.');
                 for (var i = 0; i < sentences.Length; i += 2)

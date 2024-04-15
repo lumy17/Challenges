@@ -1,0 +1,62 @@
+﻿body {
+    background-image: linear-gradient(to bottom, rgba(56,40,38,0.22), rgba(254,249,255,0.55)), url('../images/cub.png') !important;
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    color: white;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+}
+/*css pentru pag specifica de provocare imagine-text*/
+.imgss {
+    flex: 0 0 auto;
+    width: 300px;
+    margin-right: 50px;
+}
+
+.imgss img {
+        max-width: 100%;
+        float: left;
+        border-radius: 10px;
+        border: 5px solid white;
+        margin-right: 20px;
+}
+
+.ch-cont {
+    margin-left: 60px;
+    margin-right: 60px;
+    width: 90%;
+}
+
+.wrap-2sd {
+    background-image: linear-gradient(to bottom, rgba(56,40,38,0.22), rgba(254,249,255,0.55));
+    width: 100%;
+    height: 500px;
+    background-size: cover;
+    color: white;
+    align-items: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin: 0;
+}
+
+.txtt {
+    font-size: 15px;
+}
+
+.container4 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.title-ch {
+    margin: 50px 0 0 130px;
+    max-width: 60%;
+}

@@ -103,8 +103,14 @@ namespace Challenges.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/dashboard");
-
+                            if (User.IsInRole("Admin"))
+                {
+                    returnUrl ??= Url.Content("~/DashboardAdmin");
+                }
+                else
+                {
+                    returnUrl ??= Url.Content("~/dashboard");
+                }
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
@@ -112,6 +118,7 @@ namespace Challenges.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -132,7 +139,6 @@ namespace Challenges.Areas.Identity.Pages.Account
                     return Page();
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }

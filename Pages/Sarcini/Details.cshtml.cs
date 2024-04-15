@@ -19,7 +19,8 @@ namespace Challenges.Pages.Sarcini
             _context = context;
         }
 
-      public Sarcina Sarcina { get; set; } = default!; 
+      public Sarcina Sarcina { get; set; } = default!;
+        public List<Provocare> ListaProvocari { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -37,6 +38,8 @@ namespace Challenges.Pages.Sarcini
             {
                 Sarcina = sarcina;
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
             return Page();
         }
     }

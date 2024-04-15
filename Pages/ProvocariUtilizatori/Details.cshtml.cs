@@ -20,9 +20,11 @@ namespace Challenges.Pages.ProvocariUtilizatori
         }
 
       public IList<ProvocareUtilizator> ProvocareUtilizator { get; set; }
+        public List<Provocare> ListaProvocari { get; set; }
 
         public async Task OnGetAsync()
         {
+            ListaProvocari = await _context.Provocare.ToListAsync();
             var currentUser = User.Identity.Name;
             var user = _context.Utilizator.FirstOrDefault
                         (u => u.Email == currentUser);

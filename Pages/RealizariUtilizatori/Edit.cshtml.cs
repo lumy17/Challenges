@@ -22,13 +22,15 @@ namespace Challenges.Pages.RealizariUtilizatori
 
         [BindProperty]
         public RealizareUtilizator RealizareUtilizator { get; set; } = default!;
-
+        public List<Provocare> ListaProvocari { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.RealizareUtilizator == null)
             {
                 return NotFound();
             }
+            ListaProvocari = await _context.Provocare.ToListAsync();
+
 
             var realizareutilizator =  await _context.RealizareUtilizator.FirstOrDefaultAsync(m => m.Id == id);
             if (realizareutilizator == null)

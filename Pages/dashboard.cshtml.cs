@@ -16,6 +16,7 @@ namespace Challenges.Pages
         public string currentUser { get; set; }
         public List<Realizare> Badgeuri { get; set; }
         public Sarcina SarcinaCurenta { get; set; }
+        public List<Provocare> ListaProvocari { get; set; }
 
         public dashboardModel(ApplicationDbContext context)
         {
@@ -23,6 +24,7 @@ namespace Challenges.Pages
         }
         public void OnGet()
         {
+            ListaProvocari = _context.Provocare.ToList();
             currentUser = User.Identity.Name;
             var user = _context.Utilizator.FirstOrDefault
                 (u => u.Email == currentUser);
@@ -44,11 +46,11 @@ namespace Challenges.Pages
                 {
                     bool sarcinaFinalizataAzi = _context.SarcinaRealizata
                         .Any(u => u.ProvocareUtilizatorId == provocareUser.Id
-                        && u.Data_Realizare == DateTime.Today);
+                        && u.Data_Realizare.Value.Date == DateTime.Today);
                     // Verifica daca utilizatorul a finalizat o sarcina ieri
                     bool sarcinaFinalizataIeri = _context.SarcinaRealizata
                         .Any(u => u.ProvocareUtilizatorId == provocareUser.Id
-                        && u.Data_Realizare == DateTime.Today.AddDays(-1));
+                        && u.Data_Realizare.Value.Date == DateTime.Today.AddDays(-1));
 
                     if (sarcinaFinalizataAzi && user.DataUltimaActualizareStreak != DateTime.Today)
                     {
@@ -59,7 +61,7 @@ namespace Challenges.Pages
                         _context.SaveChanges();
                     }
                     // Daca utilizatorul nu a finalizat o sarcina ieri, reseteaza streak-ul la 0
-                    else if (!sarcinaFinalizataIeri)
+                    else if (!sarcinaFinalizataIeri && !sarcinaFinalizataAzi)
                     {
                         user.Streak = 0;
 
