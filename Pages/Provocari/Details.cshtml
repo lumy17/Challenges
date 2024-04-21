@@ -5,8 +5,14 @@
     ViewData["Title"] = "Details";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-
-<h4 class="title-ch">@Model.Provocare.Nume</h4>
+<div class="main--content">
+    <div class="header--wrapper">
+        <div class="header--title">
+            <h2>@Model.Provocare.Nume</h2>
+        </div>
+    </div>
+    <div class="card--container">
+        <div class="card--wrapper">
 <div class="container4 mt-5 other_pages">
     <br />
     <div class="ch-cont">
@@ -38,4 +44,6 @@
         </div>
     </div>
 </div>
-
+</div>
+</div>
+</div>

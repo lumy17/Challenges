@@ -4,7 +4,7 @@ using Challenges.Data;
 using Challenges.Models;
 using System.Configuration;
 using Microsoft.Extensions.Configuration.UserSecrets;
-
+using OpenAI_API;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +24,32 @@ options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+});
+
+builder.Services.AddSingleton<OpenAIAPI>();
+
+
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Provocari");
+    options.Conventions.AuthorizeFolder("/ProvocariUtilizatori");
+    options.Conventions.AuthorizeFolder("/Sarcini");
+    options.Conventions.AuthorizePage("/dashboard");
+    options.Conventions.AllowAnonymousToPage("/Index");
+    options.Conventions.AllowAnonymousToPage("/Provocari/Index");
+    options.Conventions.AuthorizeFolder("/Sarcini", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/SarciniRealizate", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Realizari", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/RealizariUtilizator", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Categorii", "AdminPolicy");
+});
 builder.Services.AddScoped<RankingService>();
+
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
 var config = builder.Configuration;
 
@@ -53,6 +76,11 @@ app.UseRouting();
 app.UseAuthentication();;
 
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+	endpoints.MapRazorPages();
+});
+
 
 app.MapRazorPages();
 

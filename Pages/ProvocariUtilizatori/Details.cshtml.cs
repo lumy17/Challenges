@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Challenges.Data;
 using Challenges.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Challenges.Pages.ProvocariUtilizatori
 {

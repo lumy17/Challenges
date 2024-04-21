@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Challenges.Data;
 using Challenges.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Challenges.Pages.Provocari
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly Challenges.Data.ApplicationDbContext _context;
@@ -57,27 +59,32 @@ namespace Challenges.Pages.Provocari
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            ListaCategorii = await _context.Categorie.ToListAsync();
+
             _context.Attach(Provocare).State = EntityState.Modified;
-
-            // Add the newly selected categories
-
-            foreach (var categoryId in SelectedCategories)
-            {
-                var categ = await _context.Categorie.FindAsync(categoryId);
-                if (categ != null)
-                {
-                    var categorieProvocari = new CategorieProvocare
-                    {
-                        Provocare = Provocare,
-                        Categorie = categ
-                    };
-                    _context.CategorieProvocare.Add(categorieProvocari);
-                }
-            }
+			_context.CategorieProvocare.RemoveRange(_context.CategorieProvocare.Where(cp => cp.ProvocareId == Provocare.Id));
 
 
-            try
-            {
+			// Add the newly selected categories
+
+			foreach (var categoryId in SelectedCategories)
+			{
+				var categ = ListaCategorii.FirstOrDefault(c => c.Id == categoryId);
+				if (categ != null)
+				{
+					var categorieProvocari = new CategorieProvocare
+					{
+						Provocare = Provocare,
+						Categorie = categ
+					};
+					_context.CategorieProvocare.Add(categorieProvocari);
+				}
+			}
+
+
+
+			try
+			{
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)

@@ -7,11 +7,8 @@
 }
 
 <div class="other_pages">
-    <h1>Index</h1>
+    <h1>Badge-urile Utilizatorilor</h1>
 
-    <p>
-        <a asp-page="Create">Create New</a>
-    </p>
     <table class="table">
         <thead>
             <tr>
@@ -32,18 +29,16 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Utilizator.Id)
+                        @Html.DisplayFor(modelItem => item.Utilizator.Email)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Realizare.Id)
+                        @Html.DisplayFor(modelItem => item.Realizare.NumeRealizare)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Data)
                     </td>
                     <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                         <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                     </td>
                 </tr>
             }

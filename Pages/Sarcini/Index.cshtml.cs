@@ -29,8 +29,12 @@ namespace Challenges.Pages.Sarcini
                             .Include(p => p.Sarcini)
                             .FirstOrDefaultAsync(p => p.Id == id);
 
-            Sarcina = Provocare.Sarcini.ToList();
-            ListaProvocari = await _context.Provocare.ToListAsync();
+			if (Provocare != null)
+			{
+				Sarcina = Provocare.Sarcini.ToList();
+			}
+
+			ListaProvocari = await _context.Provocare.ToListAsync();
         }
     }
 }

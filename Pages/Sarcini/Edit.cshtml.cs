@@ -69,10 +69,10 @@ namespace Challenges.Pages.Sarcini
                 }
             }
 
-            return RedirectToPage("./Index");
-        }
+			return RedirectToPage("./Index", new { id = Sarcina.ProvocareId });
+		}
 
-        private bool SarcinaExists(int id)
+		private bool SarcinaExists(int id)
         {
           return (_context.Sarcina?.Any(e => e.Id == id)).GetValueOrDefault();
         }

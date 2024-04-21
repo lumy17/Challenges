@@ -41,24 +41,11 @@ namespace Challenges.Pages.Provocari
             }
             var currentUser = User.Identity.Name;
             var user = _context.Utilizator.FirstOrDefault(u => u.Email == currentUser);
-            // Verificăm dacă utilizatorul a vizitat deja această provocare
-            var vizualizareProvocare = await _context.VizualizareProvocare
-                .FirstOrDefaultAsync(uc => uc.UtilizatorId == user.Id &&
-                uc.ProvocareId == id);
-            if (vizualizareProvocare == null)
-            {        // Dacă utilizatorul nu a vizitat provocarea, adăugăm o nouă înregistrare și incrementăm numărul de vizualizări
-                     // 					Provocare.Vizualizari++;
+            //de fiecare data cand un vizitator da click pe o provocare
+            //vizulizarile vor creste
+            Provocare.Vizualizari++;
+            await _context.SaveChangesAsync();
 
-                var vizualizareUtilizator = new VizualizareProvocare
-                {
-                    ProvocareId = Provocare.Id,
-                    UtilizatorId = user.Id,
-                    DataVizualizare = DateTime.Today
-                };
-                _context.VizualizareProvocare.Add(vizualizareUtilizator);
-                Provocare.Vizualizari++;
-                await _context.SaveChangesAsync();
-            }
             return Page();
         }
         public async Task<IActionResult> OnPostAsync(int? id)

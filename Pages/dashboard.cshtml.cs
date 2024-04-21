@@ -15,7 +15,7 @@ namespace Challenges.Pages
         public int Streak { get; set; }
         public string currentUser { get; set; }
         public List<Realizare> Badgeuri { get; set; }
-        public Sarcina SarcinaCurenta { get; set; }
+        public List<Sarcina> SarciniCurente { get; set; } = new List<Sarcina>();
         public List<Provocare> ListaProvocari { get; set; }
 
         public dashboardModel(ApplicationDbContext context)
@@ -71,14 +71,22 @@ namespace Challenges.Pages
                 }
                 Streak = user.Streak;
 
-                var provocareUtilizator = _context.ProvocareUtilizator.
-                    FirstOrDefault(pu => pu.UtilizatorId == user.Id &&
-                    pu.Stare != "finalizat");
-                if (provocareUtilizator != null)
+                var provocariUtilizator = _context.ProvocareUtilizator
+    .Where(pu => pu.UtilizatorId == user.Id && pu.Stare != "finalizat")
+    .ToList();
+                if (provocariUtilizator.Count != 0)
                 {
-                    SarcinaCurenta = _context.Sarcina.FirstOrDefault
-                        (s => s.ProvocareId == provocareUtilizator.ProvocareId
-                        && s.Ziua == provocareUtilizator.ZiuaCurenta);
+                    foreach (var prov in provocariUtilizator)
+                    {
+                        var sarcinaCurenta = _context.Sarcina.FirstOrDefault(s =>
+                            s.ProvocareId == prov.ProvocareId
+                            && s.Ziua == prov.ZiuaCurenta);
+
+                        if (sarcinaCurenta != null)
+                        {
+                            SarciniCurente.Add(sarcinaCurenta);
+                        }
+                    }
                 }
             }
         }

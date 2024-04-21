@@ -7,19 +7,19 @@
 }
 <div class="other_pages">
 
-<h1>Index</h1>
+<h1>Sarcini Realizate</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.SarcinaRealizata[0].ProvocareUtilizatorId)
+                Provocare
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SarcinaRealizata[0].SarcinaId)
+                Utilizator
+            </th>
+            <th>
+                Sarcina
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.SarcinaRealizata[0].Data_Realizare)
@@ -34,21 +34,19 @@
 @foreach (var item in Model.SarcinaRealizata) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProvocareUtilizatorId)
+                @Html.DisplayFor(modelItem => item.ProvocareUtilizator.Provocare.Nume)
+            </td> 
+            <td>
+                @Html.DisplayFor(modelItem => item.ProvocareUtilizator.Utilizator.Email)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.SarcinaId)
+                    @Html.DisplayFor(modelItem => item.Sarcina.Nume)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data_Realizare)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ZiuaRealizare)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

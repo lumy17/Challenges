@@ -20,15 +20,20 @@ namespace Challenges.Pages.SarciniRealizate
             _context = context;
         }
 
-        public IList<SarcinaRealizata> SarcinaRealizata { get;set; } = default!;
+        public IList<SarcinaRealizata> SarcinaRealizata { get; set; } = default!;
         public List<Provocare> ListaProvocari { get; set; }
 
-        public async Task OnGetAsync(int? provocareUtilId)
+        public async Task OnGetAsync(int? provocareUtilizatorId)
         {
-            if (provocareUtilId.HasValue)
+            if (provocareUtilizatorId.HasValue)
             {
                 SarcinaRealizata = await _context.SarcinaRealizata
-                    .Where(sr => sr.ProvocareUtilizatorId == provocareUtilId.Value)
+                    .Where(sr => sr.ProvocareUtilizatorId == provocareUtilizatorId.Value)
+                    .Include(s => s.Sarcina)
+                    .Include(sr => sr.ProvocareUtilizator)
+                    .ThenInclude(pu => pu.Provocare)
+                    .Include(sr => sr.ProvocareUtilizator)
+                    .ThenInclude(pu => pu.Utilizator)
                     .ToListAsync();
             }
             else

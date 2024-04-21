@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Challenges.Data;
 using Challenges.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Challenges.Pages.ProvocariUtilizatori
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
         private readonly Challenges.Data.ApplicationDbContext _context;

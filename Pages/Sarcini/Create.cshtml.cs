@@ -43,7 +43,7 @@ namespace Challenges.Pages.Sarcini
             _context.Sarcina.Add(Sarcina);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
-        }
+			return RedirectToPage("./Index", new { id = Sarcina.ProvocareId });
+		}
     }
 }

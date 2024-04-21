@@ -7,11 +7,8 @@
 }
 <div class="other_pages">
 
-<h1>Index</h1>
+<h1>Provocarile Utilizatorilor</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -40,10 +37,10 @@
 @foreach (var item in Model.ProvocareUtilizator) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Provocare.Id)
+                @Html.DisplayFor(modelItem => item.Provocare.Nume)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Utilizator.Id)
+                @Html.DisplayFor(modelItem => item.Utilizator.Email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data_start)

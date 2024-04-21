@@ -26,6 +26,7 @@ namespace Challenges.Pages.Provocari
         public int PageSize { get; set; } = 1;
         public bool ShowPrevious => CurrentPage > 1;
         public bool ShowNext => CurrentPage < Count;
+        public List<DateTime> ssarcinaRealizata { get; set; } = new List<DateTime>();
 
         public async Task<IActionResult> OnGetAsync(int? id, int? currentpage)
         {
@@ -52,6 +53,7 @@ namespace Challenges.Pages.Provocari
 
             ListaProvocari = await _context.Provocare.ToListAsync();
             Count = Provocare.Durata;
+
             return Page();
         }
         public async Task<IActionResult> OnPostAsync(int id)
@@ -178,7 +180,8 @@ namespace Challenges.Pages.Provocari
             var firstTask = await _context.Sarcina.FirstOrDefaultAsync(s => s.ProvocareId == Provocare.Id
             && s.Ziua == 1);
 
-            if (firstTask.Id == taskId)
+
+			if (firstTask.Id == taskId)
             {
                 return true;
             }
@@ -186,9 +189,9 @@ namespace Challenges.Pages.Provocari
             else
             {
                 return _context.SarcinaRealizata.Any(
-                    sr => sr.SarcinaId == taskId &&
-                    sr.ProvocareUtilizatorId == provocareUtilizator.Id)
-                    && sarcina.Ziua <= currentDay;
+                    sr => sr.SarcinaId+1 == taskId &&
+                    sr.ProvocareUtilizatorId == provocareUtilizator.Id
+                    && sr.Data_Realizare <= DateTime.Now);
             }
         }
 
