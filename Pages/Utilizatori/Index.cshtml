@@ -55,10 +55,13 @@
                         }
                     </ul>
                 </td>
+                <td>
+                    <a asp-page="/RealizariUtilizatori/Index" asp-route-id="@item.Id">
+                        Realizari</a> 
+                </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Editare</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Stergere</a>
             </td>
         </tr>
 }

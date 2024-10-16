@@ -10,8 +10,6 @@
         public int Durata { get; set; }
         public int Vizualizari { get; set; } = 0;
         public ICollection<Sarcina>? Sarcini { get; set; }
-        public ICollection<VizualizareProvocare>? ProvocareVizualizare { get; set; }
-
         public ICollection<ProvocareUtilizator>? provocariUtilizatori { get; set; }
         public ICollection<CategorieProvocare> CategoriiProvocari { get; set; }
    

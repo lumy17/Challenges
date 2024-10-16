@@ -96,6 +96,8 @@ namespace Challenges.Pages.Provocari
                 Data_Realizare = DateTime.Now,
                 ZiuaRealizare = sarcina.Ziua
             };
+            provocareUtilizator.ZiuaCurenta++;
+            user.Puncte++;
             _context.SarcinaRealizata.Add(sarcinaRealizata);
             await _context.SaveChangesAsync();
 
@@ -126,6 +128,8 @@ namespace Challenges.Pages.Provocari
                 Data_Realizare = DateTime.Now,
                 ZiuaRealizare = sarcina.Ziua
             };
+            provocareUtilizator.ZiuaCurenta++;
+            user.Puncte++;
             _context.SarcinaRealizata.Add(sarcinaRealizata);
             _context.Update(provocareUtilizator);
 

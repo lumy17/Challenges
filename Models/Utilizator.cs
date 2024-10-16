@@ -21,18 +21,15 @@ namespace Challenges.Models
         ErrorMessage = "Telefonul trebuie sa fie de forma'0722-112-123' sau '0722.122.123' sau '0722 123 123'")]
         public string? NumarTelefon { get; set; }
 
-        [Display(Name = "Nume Complet")]
-        public string? NumeComplet
-        {
-            get
-            {
-                return Nume + " " + Prenume;
-            }
-        }
         public int Streak { get; set; } = 0;
+        public int Puncte { get; set; } = 0;
+        //aceasta data este folosita pentru actualizarea streakului (se verifica daca 
+        //data actualizarii streakului este data de azi. daca nu, in urma finalizarii
+        //data actualizarii streakului este data de azi. daca nu, in urma finalizarii
+        //unei sarcini streakul este incrementat insa daca in aceasi zi se finalizeaza
+        //alte sarcini nu se va mai incrementa streakul.
         [DataType(DataType.Date)]
         public DateTime? DataUltimaActualizareStreak { get; set; }
-		public ICollection<VizualizareProvocare>? ProvocareVizualizare { get; set; }
 
 		public ICollection<ProvocareUtilizator>? provocariUtilizatori {  get; set; }
         public ICollection<RealizareUtilizator>? realizariUtilizatori {  get; set; }

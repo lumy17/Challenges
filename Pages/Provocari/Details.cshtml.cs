@@ -79,8 +79,8 @@ namespace Challenges.Pages.Provocari
 
                 return RedirectToPage("./Tasks", new { id = Provocare.Id });
             }
+            return RedirectToPage("/Account/Login", new { area = "Identity" }); // Redirect to login page
 
-            return Page();
         }
     }
 }

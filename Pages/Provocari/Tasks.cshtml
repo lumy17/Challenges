@@ -21,6 +21,8 @@
         <a asp-page="./Tasks" asp-route-id="@Model.Provocare.Id"
            asp-route-currentpage="@(Model.CurrentPage-1)">
             <i class="arrow left"></i>
+
+
         </a>
 
         @if (Model.ShowPrevious)
@@ -74,29 +76,29 @@
                     }
                     <p>@line</p>
                 }
+            <form method="post">
+                @if (@Model.ShowNext)
+                {
+                    <button type="submit" class="btn btn-primary"
+                            asp-page-handler="MarkTaskAsCompleted"
+                            asp-route-idTask="@item.Id"
+                            asp-route-idProv="@Model.Provocare.Id">
+                        Task finalizat
+                    </button>
+                }
+                else
+                {
+                    <button type="submit" class="btn btn-primary"
+                            asp-page-handler="MarkChallengeAsCompleted"
+                            asp-route-id="@Model.Provocare.Id">
+                        Provocare finalizată
+                    </button>
+                }
+            </form>
             }
             else
             {
-                <p>Information about this task will be available on the day of the task.</p>
+            <p>Informațiile despre această sarcină vor fi disponibile în ziua sarcinii.</p>
             }
-        <form method="post">
-            @if (@Model.ShowNext)
-            {
-                <button type="submit" class="btn btn-primary"
-                        asp-page-handler="MarkTaskAsCompleted"
-                        asp-route-idTask="@item.Id"
-                        asp-route-idProv="@Model.Provocare.Id">
-                    Task finalizat
-                </button>
-            }
-            else
-            {
-                <button type="submit" class="btn btn-primary"
-                        asp-page-handler="MarkChallengeAsCompleted"
-                        asp-route-id="@Model.Provocare.Id">
-                    Provocare finalizată
-                </button>
-            }
-        </form>
     }
 </div>

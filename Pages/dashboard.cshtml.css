@@ -25,6 +25,14 @@
 
 .header--title {
     color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.puncte {
+    margin-left: auto;
+    padding-left: 20px;
 }
 .card--container {
     background: #222;

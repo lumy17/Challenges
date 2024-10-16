@@ -13,6 +13,7 @@ namespace Challenges.Pages
         private readonly ApplicationDbContext _context;
         public int FinishedChallengesCount { get; set; }
         public int Streak { get; set; }
+        public int Puncte { get; set; }
         public string currentUser { get; set; }
         public List<Realizare> Badgeuri { get; set; }
         public List<Sarcina> SarciniCurente { get; set; } = new List<Sarcina>();
@@ -35,6 +36,7 @@ namespace Challenges.Pages
                 && p.Stare == "finalizat");
 
                 Streak = user.Streak;
+                Puncte = user.Puncte;
 
                 Badgeuri = _context.Realizare.ToList();
                 var provocareUser = _context.ProvocareUtilizator.FirstOrDefault
@@ -76,15 +78,29 @@ namespace Challenges.Pages
     .ToList();
                 if (provocariUtilizator.Count != 0)
                 {
+                    bool sarcinaFinalizataAzi = _context.SarcinaRealizata
+    .Any(u => u.ProvocareUtilizatorId == provocareUser.Id
+    && u.Data_Realizare.Value.Date == DateTime.Today);
                     foreach (var prov in provocariUtilizator)
                     {
-                        var sarcinaCurenta = _context.Sarcina.FirstOrDefault(s =>
-                            s.ProvocareId == prov.ProvocareId
-                            && s.Ziua == prov.ZiuaCurenta);
-
-                        if (sarcinaCurenta != null)
+                        if (sarcinaFinalizataAzi)
                         {
-                            SarciniCurente.Add(sarcinaCurenta);
+                            var sarcinaCurenta = _context.Sarcina.FirstOrDefault(s =>
+    s.ProvocareId == prov.ProvocareId
+    && s.Ziua == prov.ZiuaCurenta-1);
+                            if (sarcinaCurenta != null)
+                            {
+                                SarciniCurente.Add(sarcinaCurenta);
+                            }
+                        }
+                        else {
+                            var sarcinaCurenta = _context.Sarcina.FirstOrDefault(s =>
+        s.ProvocareId == prov.ProvocareId
+        && s.Ziua == prov.ZiuaCurenta);
+                            if (sarcinaCurenta != null)
+                            {
+                                SarciniCurente.Add(sarcinaCurenta);
+                            }
                         }
                     }
                 }
