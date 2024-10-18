@@ -8,7 +8,7 @@
 <div class="main--content">
     <div class="header--wrapper">
         <div class="header--title">
-            <h2>Dashboard</h2> 
+            <h2>Dashboard</h2>
             <h3 class="puncte">Puncte: @Model.Puncte</h3>
         </div>
     </div>
@@ -24,12 +24,15 @@
 
             <div class="stat-box st">
                 <div class="badges">
-                    @for (int i = 0; i < 3; i++)
-                    {
-                        var badge = Model.Badgeuri[i];
-                        <div class="badge @(Model.UserHasBadge(badge.Id) ? "active" : "")">
-                            <img src="/images/@(badge.NumeRealizare).png" />
-                        </div>
+                    @{
+                        var badgesCount = Math.Min(3, Model.Badgeuri.Count);
+                        for (int i = 0; i < badgesCount; i++)
+                        {
+                            var badge = Model.Badgeuri[i];
+                            <div class="badge @(Model.UserHasBadge(badge.Id) ? "active" : "")">
+                                <img src="/images/@(badge.NumeRealizare).png" />
+                            </div>
+                        }
                     }
                 </div>
                 <p>Badges</p>
@@ -50,7 +53,7 @@
     <div class="card--container">
         <h3 class="main--title">Sarcini Curente</h3>
         <div class="card--wrapper">
-            @if (Model.SarciniCurente.Count == 0 )
+            @if (Model.SarciniCurente.Count == 0)
             {
                 <div class="task-box">
                     <p>Nu exista sarcini pe ziua de azi</p>
@@ -82,4 +85,4 @@
 
         </div>
     </div>
-    </div>
+</div>

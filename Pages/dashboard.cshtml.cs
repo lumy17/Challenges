@@ -87,13 +87,14 @@ namespace Challenges.WebApp.Pages
                         {
                             var sarcinaCurenta = _context.Sarcina.FirstOrDefault(s =>
     s.ProvocareId == prov.ProvocareId
-    && s.Ziua == prov.ZiuaCurenta-1);
+    && s.Ziua == prov.ZiuaCurenta - 1);
                             if (sarcinaCurenta != null)
                             {
                                 SarciniCurente.Add(sarcinaCurenta);
                             }
                         }
-                        else {
+                        else
+                        {
                             var sarcinaCurenta = _context.Sarcina.FirstOrDefault(s =>
         s.ProvocareId == prov.ProvocareId
         && s.Ziua == prov.ZiuaCurenta);

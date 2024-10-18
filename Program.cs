@@ -53,11 +53,11 @@ builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
 var config = builder.Configuration;
 
-builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+/*builder.Services.AddAuthentication().AddGoogle(googleOptions =>
 {
     googleOptions.ClientId = config["Authentication:Google:ClientId"];
     googleOptions.ClientSecret = config["Authentication:Google:ClientSecret"];
-});
+});*/
 
 var app = builder.Build();
 
