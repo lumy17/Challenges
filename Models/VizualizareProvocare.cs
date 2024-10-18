@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Challenges.Models
+namespace Challenges.WebApp.Models
 {
 	public class VizualizareProvocare
 	{

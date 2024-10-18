@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Challenges.Data;
+namespace Challenges.WebApp.Data;
 
 public class LibraryIdentityContext : IdentityDbContext<IdentityUser>
 {

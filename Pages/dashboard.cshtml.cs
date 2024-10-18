@@ -1,12 +1,12 @@
-using Challenges.Data;
+using Challenges.WebApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
-using Challenges.Models;
+using Challenges.WebApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Challenges.Pages
+namespace Challenges.WebApp.Pages
 {
     public class dashboardModel : PageModel
     {

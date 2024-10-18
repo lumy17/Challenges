@@ -1,11 +1,11 @@
-using Challenges.Data;
+using Challenges.WebApp.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 
-namespace Challenges.Pages
+namespace Challenges.WebApp.Pages
 {
     [Authorize(Roles = "Admin")]
     public class DashboardAdminModel : PageModel

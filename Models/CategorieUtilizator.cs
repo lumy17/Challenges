@@ -1,4 +1,4 @@
-﻿namespace Challenges.Models
+﻿namespace Challenges.WebApp.Models
 {
     public class CategorieUtilizator
     {

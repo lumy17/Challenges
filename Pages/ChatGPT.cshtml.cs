@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using OpenAI_API.Completions;
 
 
-namespace Challenges.Pages
+namespace Challenges.WebApp.Pages
 {
 	public class ChatGPTModel : PageModel
 	{

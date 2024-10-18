@@ -1,8 +1,8 @@
-﻿using Challenges.Models;
+﻿using Challenges.WebApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Challenges.Data
+namespace Challenges.WebApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

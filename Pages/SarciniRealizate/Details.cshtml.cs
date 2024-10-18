@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.SarciniRealizate
+namespace Challenges.WebApp.Pages.SarciniRealizate
 {
     public class DetailsModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public DetailsModel(Challenges.Data.ApplicationDbContext context)
+        public DetailsModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }

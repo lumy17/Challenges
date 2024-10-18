@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Challenges.Migrations
+namespace Challenges.WebApp.Migrations
 {
     public partial class nww2 : Migration
     {

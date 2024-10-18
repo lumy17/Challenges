@@ -1,7 +1,7 @@
-﻿using Challenges.Data;
+﻿using Challenges.WebApp.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace Challenges.Models
+namespace Challenges.WebApp.Models
 {
     public class RankingService
     {

@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Challenges.Models
+@using Challenges.WebApp.Models
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @inject RankingService rankingService
@@ -12,7 +12,7 @@
     <title>@ViewData["Title"] - Challenges</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Challenges.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Challenges.WebApp.styles.css" asp-append-version="true" />
 </head>
 <body>
     @if (SignInManager.IsSignedIn(User))
