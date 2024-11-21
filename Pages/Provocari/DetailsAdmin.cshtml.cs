@@ -21,23 +21,23 @@ namespace Challenges.WebApp.Pages.Provocari
             _context = context;
         }
 
-      public Provocare Provocare { get; set; } = default!; 
+      public Challenge Challenge { get; set; } = default!; 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Provocare == null)
+            if (id == null || _context.Challenge == null)
             {
                 return NotFound();
             }
 
-            var provocare = await _context.Provocare.FirstOrDefaultAsync(m => m.Id == id);
-            if (provocare == null)
+            var challenge = await _context.Challenge.FirstOrDefaultAsync(m => m.Id == id);
+            if (challenge == null)
             {
                 return NotFound();
             }
             else 
             {
-                Provocare = provocare;
+                Challenge = challenge;
             }
             return Page();
         }

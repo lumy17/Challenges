@@ -20,20 +20,20 @@ namespace Challenges.WebApp.Pages.ProvocariUtilizatori
             _context = context;
         }
 
-      public IList<ProvocareUtilizator> ProvocareUtilizator { get; set; }
-        public List<Provocare> ListaProvocari { get; set; }
+      public IList<UserChallenge> UserChallenges { get; set; }
+        public List<Challenge> Challenges { get; set; }
 
         public async Task OnGetAsync()
         {
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
             var currentUser = User.Identity.Name;
-            var user = _context.Utilizator.FirstOrDefault
+            var user = _context.AppUser.FirstOrDefault
                         (u => u.Email == currentUser);
             if (user != null)
             {
-                ProvocareUtilizator = await _context.ProvocareUtilizator
-                    .Include(p => p.Provocare)
-                    .Where(u => u.UtilizatorId == user.Id)
+                UserChallenges = await _context.UserChallenge
+                    .Include(p => p.Challenge)
+                    .Where(u => u.AppUserId == user.Id)
                     .ToListAsync();
             }
 

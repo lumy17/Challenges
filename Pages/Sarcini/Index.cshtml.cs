@@ -18,23 +18,23 @@ namespace Challenges.WebApp.Pages.Sarcini
         {
             _context = context;
         }
-        public List<Provocare> ListaProvocari { get; set; }
-                    public Provocare Provocare { get; set; }
+        public List<Challenge> Challenges { get; set; }
+                    public Challenge Challenge { get; set; }
 
-        public IList<Sarcina> Sarcina { get;set; } = default!;
+        public IList<TodoTask> TodoTasks { get;set; } = default!;
 
         public async Task OnGetAsync(int? id)
         {
-            Provocare = await _context.Provocare
-                            .Include(p => p.Sarcini)
+            Challenge = await _context.Challenge
+                            .Include(p => p.TodoTasks)
                             .FirstOrDefaultAsync(p => p.Id == id);
 
-			if (Provocare != null)
+			if (Challenge != null)
 			{
-				Sarcina = Provocare.Sarcini.ToList();
+				TodoTasks = Challenge.TodoTasks.ToList();
 			}
 
-			ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
         }
     }
 }

@@ -19,17 +19,17 @@ namespace Challenges.WebApp.Pages.RealizariUtilizatori
             _context = context;
         }
 
-        public IList<RealizareUtilizator> RealizareUtilizator { get;set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public IList<UserBadge> UserBadge { get;set; } = default!;
+        public List<Challenge> Challenges { get; set; }
         public async Task OnGetAsync()
         {
-            if (_context.RealizareUtilizator != null)
+            if (_context.UserBadge != null)
             {
-                RealizareUtilizator = await _context.RealizareUtilizator
-                .Include(r => r.Realizare)
-                .Include(r => r.Utilizator).ToListAsync();
+                UserBadge = await _context.UserBadge
+                .Include(r => r.Badge)
+                .Include(r => r.User).ToListAsync();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
         }
     }

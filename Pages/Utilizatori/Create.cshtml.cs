@@ -19,28 +19,26 @@ namespace Challenges.WebApp.Pages.Utilizatori
         {
             _context = context;
         }
-
+        [BindProperty]
+        public AppUser AppUser { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
         public IActionResult OnGet()
         {
-            ListaProvocari = _context.Provocare.ToList();
+            Challenges = _context.Challenge.ToList();
 
             return Page();
         }
-
-        [BindProperty]
-        public Utilizator Utilizator { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
 
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Utilizator == null || Utilizator == null)
+          if (!ModelState.IsValid || _context.AppUser == null || User == null)
             {
                 return Page();
             }
 
-            _context.Utilizator.Add(Utilizator);
+            _context.AppUser.Add(AppUser);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

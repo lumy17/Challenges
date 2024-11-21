@@ -15,16 +15,16 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Utilizator[0].Email)
+                @Html.DisplayNameFor(model => model.AppUser[0].Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Utilizator[0].Nume)
+                @Html.DisplayNameFor(model => model.AppUser[0].FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Utilizator[0].Prenume)
+                @Html.DisplayNameFor(model => model.AppUser[0].LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Utilizator[0].NumarTelefon)
+                @Html.DisplayNameFor(model => model.AppUser[0].PhoneNumber)
             </th>
             <th>
                 Categorii de Interes
@@ -33,35 +33,36 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Utilizator) {
+        @foreach (var item in Model.AppUser)
+        {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nume)
+                @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Prenume)
+                    @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumarTelefon)
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
                 <td>
                     <ul>
-                        @foreach (var categ in item.CategoriiUtilizatori)
+                        @foreach (var category in item.UserCategories)
                         {
-                            <li>@categ.Categorie.Nume</li>
+                            <li>@category.Category.Name</li>
                         }
                     </ul>
                 </td>
                 <td>
                     <a asp-page="/RealizariUtilizatori/Index" asp-route-id="@item.Id">
-                        Realizari</a> 
+                        Badges</a> 
                 </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Editare</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Stergere</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

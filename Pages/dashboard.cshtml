@@ -9,7 +9,7 @@
     <div class="header--wrapper">
         <div class="header--title">
             <h2>Dashboard</h2> 
-            <h3 class="puncte">Puncte: @Model.Puncte</h3>
+            <h3 class="points">Points: @Model.Points</h3>
         </div>
     </div>
     <div class="card--container">
@@ -17,7 +17,7 @@
             <div class="stat-box st">
                 <br />
                 <img src="~/images/ch1.png" class="chimg" width="40px" height="40px" />
-                <p>Provocări finalizate</p>
+                <p>Finished Challenges</p>
 
                 <p class="number">@Model.FinishedChallengesCount</p>
             </div>
@@ -26,15 +26,15 @@
                 <div class="badges">
                     @for (int i = 0; i < 3; i++)
                     {
-                        var badge = Model.Badgeuri[i];
+                        var badge = Model.Badges[i];
                         <div class="badge @(Model.UserHasBadge(badge.Id) ? "active" : "")">
-                            <img src="/images/@(badge.NumeRealizare).png" />
+                            <img src="/images/@(badge.Name).png" />
                         </div>
                     }
                 </div>
                 <p>Badges</p>
                 <div class="badge-header">
-                    <a href="/badges">Arată mai multe</a>
+                    <a href="/badges">Show more..</a>
                 </div>
             </div>
 
@@ -48,33 +48,33 @@
         </div>
     </div>
     <div class="card--container">
-        <h3 class="main--title">Sarcini Curente</h3>
+        <h3 class="main--title">Current Tasks</h3>
         <div class="card--wrapper">
-            @if (Model.SarciniCurente.Count == 0 )
+            @if (Model.CurrentTasks.Count == 0 )
             {
                 <div class="task-box">
                     <p>Nu exista sarcini pe ziua de azi</p>
-                    <a asp-page="/Provocari/Index" class="btn btn-primary">Incepe un challenge</a>
+                    <a asp-page="/Provocari/Index" class="btn btn-primary">Start a Challenge</a>
                 </div>
             }
             else
             {
-                @foreach (var sarcina in Model.SarciniCurente)
+                @foreach (var todoTask in Model.CurrentTasks)
                 {
                     <div class="task-box current-task">
                         <div class="task-dsp">
                             <img src="~/images/task4.webp" class="chimg" width="50px" height="50px" />
-                            <p class="number">@sarcina.Nume</p>
+                            <p class="number">@todoTask.Name</p>
                         </div>
-                        <p>@sarcina.Descriere</p>
+                        <p>@todoTask.Description</p>
                     </div>
                 }
                 <div class="container6">
                     <div class="ctaa">
                         <img src="https://images.pexels.com/photos/705425/pexels-photo-705425.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" alt="">
                         <div class="text">
-                            <h2>Citatul zilei</h2>
-                            <p>"Cum folosim cuvintele poate să ne deschidă inimile sau să ne construiască ziduri între noi." - Marshall B. Rosenberg</p>
+                            <h2>Quote of the Day</h2>
+                            <p>"How we use the words can either open our hearts or build walls between us." - Marshall B. Rosenberg</p>
                         </div>
                     </div>
                 </div>

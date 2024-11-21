@@ -22,40 +22,40 @@ namespace Challenges.WebApp.Pages.Provocari
         }
 
         [BindProperty]
-      public Provocare Provocare { get; set; } = default!;
+      public Challenge Challenge { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Provocare == null)
+            if (id == null || _context.Challenge  == null)
             {
                 return NotFound();
             }
 
-            var provocare = await _context.Provocare.FirstOrDefaultAsync(m => m.Id == id);
+            var challenge = await _context.Challenge.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (provocare == null)
+            if (challenge == null)
             {
                 return NotFound();
             }
             else 
             {
-                Provocare = provocare;
+                Challenge = challenge;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Provocare == null)
+            if (id == null || _context.Challenge == null)
             {
                 return NotFound();
             }
-            var provocare = await _context.Provocare.FindAsync(id);
+            var challenge = await _context.Challenge.FindAsync(id);
 
-            if (provocare != null)
+            if (challenge != null)
             {
-                Provocare = provocare;
-                _context.Provocare.Remove(Provocare);
+                Challenge = challenge;
+                _context.Challenge.Remove(Challenge);
                 await _context.SaveChangesAsync();
             }
 

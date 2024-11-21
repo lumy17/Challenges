@@ -49,7 +49,7 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account.Manage
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [BindProperty]
-        public Utilizator Input { get; set; }
+        public AppUser Input { get; set; }
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -58,7 +58,7 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = _context.Utilizator.FirstOrDefault
+            var user = _context.AppUser.FirstOrDefault
                             (u => u.Email == User.Identity.Name);
             Input = user;
 
@@ -67,12 +67,12 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = _context.Utilizator.FirstOrDefault
+            var user = _context.AppUser.FirstOrDefault
                             (u => u.Email == User.Identity.Name);
 
-            user.Nume = Input.Nume;
-            user.Prenume = Input.Prenume;
-            user.NumarTelefon = Input.NumarTelefon;
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            user.PhoneNumber = Input.PhoneNumber;
 
             _context.Update(user);
 

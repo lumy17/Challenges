@@ -20,27 +20,27 @@ namespace Challenges.WebApp.Pages.SarciniRealizate
             _context = context;
         }
 
-        public IList<SarcinaRealizata> SarcinaRealizata { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public IList<FinishedTask> FinishedTask { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
-        public async Task OnGetAsync(int? provocareUtilizatorId)
+        public async Task OnGetAsync(int? userChallengeId)
         {
-            if (provocareUtilizatorId.HasValue)
+            if (userChallengeId.HasValue)
             {
-                SarcinaRealizata = await _context.SarcinaRealizata
-                    .Where(sr => sr.ProvocareUtilizatorId == provocareUtilizatorId.Value)
-                    .Include(s => s.Sarcina)
-                    .Include(sr => sr.ProvocareUtilizator)
-                    .ThenInclude(pu => pu.Provocare)
-                    .Include(sr => sr.ProvocareUtilizator)
-                    .ThenInclude(pu => pu.Utilizator)
+                FinishedTask = await _context.FinishedTask
+                    .Where(sr => sr.UserChallengeId == userChallengeId.Value)
+                    .Include(s => s.TodoTask)
+                    .Include(sr => sr.UserChallenge)
+                    .ThenInclude(pu => pu.Challenge)
+                    .Include(sr => sr.UserChallenge)
+                    .ThenInclude(pu => pu.AppUser)
                     .ToListAsync();
             }
             else
             {
-                SarcinaRealizata = await _context.SarcinaRealizata.ToListAsync();
+                FinishedTask = await _context.FinishedTask.ToListAsync();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
         }
     }

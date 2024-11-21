@@ -16,34 +16,35 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Sarcina[0].Ziua)
+                @Html.DisplayNameFor(model => model.TodoTasks[0].Day)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sarcina[0].Nume)
+                    @Html.DisplayNameFor(model => model.TodoTasks[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sarcina[0].Descriere)
+                    @Html.DisplayNameFor(model => model.TodoTasks[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Sarcina[0].Provocare)
+                    @Html.DisplayNameFor(model => model.TodoTasks[0].Description)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Sarcina) {
+            @foreach (var item in Model.TodoTasks)
+            {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Ziua)
+                @Html.DisplayFor(modelItem => item.Day)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nume)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Descriere)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Provocare.Nume)
+                @Html.DisplayFor(modelItem => item.Challenge.Name)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

@@ -20,44 +20,44 @@ namespace Challenges.WebApp.Pages.Sarcini
         }
 
         [BindProperty]
-      public Sarcina Sarcina { get; set; } = default!;
+      public TodoTask TodoTask { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Sarcina == null)
+            if (id == null || _context.TodoTask == null)
             {
                 return NotFound();
             }
 
-            var sarcina = await _context.Sarcina.FirstOrDefaultAsync(m => m.Id == id);
+            var todoTask = await _context.TodoTask.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (sarcina == null)
+            if (todoTask == null)
             {
                 return NotFound();
             }
             else 
             {
-                Sarcina = sarcina;
+                TodoTask = todoTask;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Sarcina == null)
+            if (id == null || _context.TodoTask == null)
             {
                 return NotFound();
             }
-            var sarcina = await _context.Sarcina.FindAsync(id);
+            var todoTask = await _context.TodoTask.FindAsync(id);
 
-            if (sarcina != null)
+            if (todoTask != null)
             {
-                Sarcina = sarcina;
-                _context.Sarcina.Remove(Sarcina);
+                TodoTask = todoTask;
+                _context.TodoTask.Remove(TodoTask);
                 await _context.SaveChangesAsync();
             }
 
-			return RedirectToPage("./Index", new { id = Sarcina.ProvocareId });
+			return RedirectToPage("./Index", new { id = TodoTask.ChallengeId });
 		}
 	}
 }

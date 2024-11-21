@@ -13,7 +13,7 @@ namespace Challenges.WebApp.Pages
         private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _context;
 
-        public List<Provocare> ListaProvocari { get; set; }
+        public List<Challenge> Challenges { get; set; }
 
 
         public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
@@ -24,7 +24,7 @@ namespace Challenges.WebApp.Pages
 
         public void OnGet()
         {
-            ListaProvocari = _context.Provocare.ToList();
+            Challenges = _context.Challenge.ToList();
         }
     }
 }

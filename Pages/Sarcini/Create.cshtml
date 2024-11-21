@@ -16,23 +16,23 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Sarcina.Ziua" class="control-label"></label>
-                <input asp-for="Sarcina.Ziua" class="form-control" />
-                <span asp-validation-for="Sarcina.Ziua" class="text-danger"></span>
+                    <label asp-for="TodoTask.Day" class="control-label"></label>
+                    <input asp-for="TodoTask.Day" class="form-control" />
+                    <span asp-validation-for="TodoTask.Day" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sarcina.Nume" class="control-label"></label>
-                <input asp-for="Sarcina.Nume" class="form-control" />
-                <span asp-validation-for="Sarcina.Nume" class="text-danger"></span>
+                    <label asp-for="TodoTask.Name" class="control-label"></label>
+                    <input asp-for="TodoTask.Name" class="form-control" />
+                    <span asp-validation-for="TodoTask.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sarcina.Descriere" class="control-label"></label>
-                <input asp-for="Sarcina.Descriere" class="form-control" />
-                <span asp-validation-for="Sarcina.Descriere" class="text-danger"></span>
+                    <label asp-for="TodoTask.Description" class="control-label"></label>
+                    <input asp-for="TodoTask.Description" class="form-control" />
+                    <span asp-validation-for="TodoTask.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Sarcina.ProvocareId" class="control-label"></label>
-                <select asp-for="Sarcina.ProvocareId" class ="form-control" asp-items="ViewBag.ProvocareId"></select>
+                    <label asp-for="TodoTask.ChallengeId" class="control-label"></label>
+                    <select asp-for="TodoTask.ChallengeId" class="form-control" asp-items="ViewBag.ChallengeId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

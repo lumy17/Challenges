@@ -21,15 +21,15 @@ namespace Challenges.WebApp.Pages.Provocari
             _context = context;
         }
 
-        public IList<Provocare> Provocare { get;set; } = default!;
+        public IList<Challenge> Challenges { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-            if (_context.Provocare != null)
+            if (_context.Challenge != null)
             {
-                Provocare = await _context.Provocare
-                    .Include(cp => cp.CategoriiProvocari)
-                    .ThenInclude(c=>c.Categorie)
+                Challenges = await _context.Challenge
+                    .Include(cp => cp.ChallengeCategories)
+                    .ThenInclude(c=>c.Category)
                     .ToListAsync();
             }
         }

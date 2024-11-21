@@ -15,62 +15,62 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Provocare[0].Nume)
+                @Html.DisplayNameFor(model => model.Challenges[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Provocare[0].Descriere)
+                @Html.DisplayNameFor(model => model.Challenges[0].Description)
             </th>
             <th>
-                Categorii
+                Categories
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Provocare[0].UrlImagine)
+                @Html.DisplayNameFor(model => model.Challenges[0].ImageUrl)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Provocare[0].Durata)
+                @Html.DisplayNameFor(model => model.Challenges[0].Duration)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Provocare[0].Vizualizari)
+                @Html.DisplayNameFor(model => model.Challenges[0].Views)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Provocare)
+        @foreach (var item in Model.Challenges)
         {
-            var descriere = item.Descriere.Length > 50 ? item.Descriere.Substring(0, 50) + "..." : item.Descriere;
-            var urlImagine = item.UrlImagine.Length > 40 ? item.UrlImagine.Substring(0, 40) + "..." : item.UrlImagine;
+            var description = item.Description.Length > 50 ? item.Description.Substring(0, 50) + "..." : item.Description;
+            var imageUrl = item.ImageUrl.Length > 40 ? item.ImageUrl.Substring(0, 40) + "..." : item.ImageUrl;
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nume)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @descriere
+                    @description
                 </td>
                 <td>
                     <ul>
-                        @foreach (var categorie in item.CategoriiProvocari)
+                        @foreach (var category in item.ChallengeCategories)
                         {
-                            <li>@categorie.Categorie.Nume</li>
+                            <li>@category.Category.Name</li>
                         }
                     </ul>
                 </td>
                 <td>
-                    @urlImagine
+                    @imageUrl
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Durata)
+                    @Html.DisplayFor(modelItem => item.Duration)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Vizualizari)
+                    @Html.DisplayFor(modelItem => item.Views)
                 </td>
                 <td>
-                    <a asp-page="/Sarcini/Index" asp-route-id="@item.Id">Vezi Sarcini</a>
+                    <a asp-page="/Sarcini/Index" asp-route-id="@item.Id">See All Tasks</a>
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Editare</a> |
-                    <a asp-page="./DetailsAdmin" asp-route-id="@item.Id">Detalii</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Stergere</a>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./DetailsAdmin" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }

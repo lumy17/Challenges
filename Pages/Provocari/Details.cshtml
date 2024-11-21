@@ -8,7 +8,7 @@
 <div class="main--content">
     <div class="header--wrapper">
         <div class="header--title">
-            <h2>@Model.Provocare.Nume</h2>
+            <h2>@Model.Challenge.Name</h2>
         </div>
     </div>
     <div class="card--container">
@@ -17,11 +17,11 @@
     <br />
     <div class="ch-cont">
         <div class="imgss">
-            <img src="@Model.Provocare.UrlImagine" class="img-fluid">
+            <img src="@Model.Challenge.ImageUrl" class="img-fluid">
         </div>
         <div class="txtt align-self-center ">
             @{
-                var sentences = Model.Provocare.Descriere.Split('.');
+                var sentences = Model.Challenge.Description.Split('.');
                 for (var i = 0; i < sentences.Length; i += 2)
                 {
                     var line = sentences[i].Trim();
@@ -32,12 +32,12 @@
                     <p>@line</p>
                 }
             }
-            <p><strong>Categorie:</strong> @Model.Provocare.Categorie</p>
-            <p><strong>Durata:</strong> @Model.Provocare.Durata</p>
+            <p><strong>Category:</strong> @Model.Challenge.Category</p>
+            <p><strong>Duration:</strong> @Model.Challenge.Duration</p>
             <form method="post">
-                <button type="submit" asp-route-id="@Model.Provocare.Id"
+                <button type="submit" asp-route-id="@Model.Challenge.Id"
                         class="btn btn-primary">
-                    Start provocare
+                    Start Challenge
                 </button>
             </form>
         </div>

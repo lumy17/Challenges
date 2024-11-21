@@ -19,31 +19,31 @@ namespace Challenges.WebApp.Pages.Sarcini
         {
             _context = context;
         }
-        public List<Provocare> ListaProvocari { get; set; }
+        public List<Challenge> Challenges { get; set; }
         public IActionResult OnGet()
         {
-        ViewData["ProvocareId"] = new SelectList(_context.Provocare, "Id", "Id");
-            ListaProvocari = _context.Provocare.ToList();
+        ViewData["ProvocareId"] = new SelectList(_context.Challenge, "Id", "Id");
+            Challenges = _context.Challenge.ToList();
 
             return Page();
         }
 
         [BindProperty]
-        public Sarcina Sarcina { get; set; } = default!;
+        public TodoTask TodoTask { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Sarcina == null || Sarcina == null)
+          if (!ModelState.IsValid || _context.TodoTask == null || TodoTask == null)
             {
                 return Page();
             }
 
-            _context.Sarcina.Add(Sarcina);
+            _context.TodoTask.Add(TodoTask);
             await _context.SaveChangesAsync();
 
-			return RedirectToPage("./Index", new { id = Sarcina.ProvocareId });
+			return RedirectToPage("./Index", new { id = TodoTask.ChallengeId });
 		}
     }
 }

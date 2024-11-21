@@ -20,40 +20,40 @@ namespace Challenges.WebApp.Pages.Categorii
         }
 
         [BindProperty]
-      public Categorie Categorie { get; set; } = default!;
+      public Category Category { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Categorie == null)
+            if (id == null || _context.Category == null)
             {
                 return NotFound();
             }
 
-            var categorie = await _context.Categorie.FirstOrDefaultAsync(m => m.Id == id);
+            var category = await _context.Category.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (categorie == null)
+            if (category == null)
             {
                 return NotFound();
             }
             else 
             {
-                Categorie = categorie;
+                Category = category;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Categorie == null)
+            if (id == null || _context  == null)
             {
                 return NotFound();
             }
-            var categorie = await _context.Categorie.FindAsync(id);
+            var categorie = await _context.Category.FindAsync(id);
 
             if (categorie != null)
             {
-                Categorie = categorie;
-                _context.Categorie.Remove(Categorie);
+                Category = categorie;
+                _context.Category.Remove(Category);
                 await _context.SaveChangesAsync();
             }
 

@@ -13,40 +13,41 @@
     <thead>
         <tr>
             <th>
-                Provocare
+                Challenge
             </th>
             <th>
-                Utilizator
+                User
             </th>
             <th>
-                Sarcina
+                Task
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SarcinaRealizata[0].Data_Realizare)
+                @Html.DisplayNameFor(model => model.FinishedTask[0].CompletionDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SarcinaRealizata[0].ZiuaRealizare)
+                @Html.DisplayNameFor(model => model.FinishedTask[0].CompletionDay)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.SarcinaRealizata) {
+            @foreach (var item in Model.FinishedTask)
+            {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProvocareUtilizator.Provocare.Nume)
+                @Html.DisplayFor(modelItem => item.UserChallenge.Challenge.Name)
             </td> 
             <td>
-                @Html.DisplayFor(modelItem => item.ProvocareUtilizator.Utilizator.Email)
+                        @Html.DisplayFor(modelItem => item.UserChallenge.AppUser.Email)
             </td>
             <td>
-                    @Html.DisplayFor(modelItem => item.Sarcina.Nume)
+                        @Html.DisplayFor(modelItem => item.TodoTask.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Data_Realizare)
+                @Html.DisplayFor(modelItem => item.CompletionDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ZiuaRealizare)
+                @Html.DisplayFor(modelItem => item.CompletionDay)
             </td>
         </tr>
 }

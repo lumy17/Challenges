@@ -56,7 +56,7 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account
         /// dorim ca atunci cand se inregistreaza un utilizator nou, adresa acestuia de email sa fie salvata 
         /// concomitentsi in tabelul Utilizator, iar ulterior el isi poate completa si celelalte date de contact
         [BindProperty]
-            public Utilizator Utilizator { get; set; }
+            public AppUser AppUser { get; set; }
         [BindProperty]
         public List<int> SelectedCategories { get; set; } = new List<int>();
         [BindProperty]
@@ -145,8 +145,8 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     //adaugam in tabelul utilizator mailul introdus la inregistrare
-                    Utilizator.Email = Input.Email;
-                    _context.Utilizator.Add(Utilizator);
+                    AppUser.Email = Input.Email;
+                    _context.AppUser.Add(AppUser);
                     await _context.SaveChangesAsync();
 
                     _logger.LogInformation("User created a new account with password.");
@@ -163,12 +163,12 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
                 foreach (var categoryId in SelectedCategories)
                 {
-                    var categorieUtilizator = new CategorieUtilizator
+                    var userPreference = new UserPreference
                     {
-                        UtilizatorId = Utilizator.Id,
-                        CategorieId = categoryId
+                        AppUserId = AppUser.Id,
+                        CategoryId = categoryId
                     };
-                    _context.CategorieUtilizator.Add(categorieUtilizator);
+                    _context.UserPreference.Add(userPreference);
                 }
                 await _context.SaveChangesAsync();
 

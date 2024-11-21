@@ -5,10 +5,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Challenges.WebApp.Migrations
 {
-    public partial class init : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AppUser",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Streak = table.Column<int>(type: "int", nullable: false),
+                    Points = table.Column<int>(type: "int", nullable: false),
+                    LastStreakUpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppUser", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -49,50 +68,48 @@ namespace Challenges.WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Provocare",
+                name: "Badge",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nume = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descriere = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Categorie = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UrlImagine = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Durata = table.Column<int>(type: "int", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Provocare", x => x.Id);
+                    table.PrimaryKey("PK_Badge", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Realizare",
+                name: "Category",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NumeRealizare = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descriere = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Realizare", x => x.Id);
+                    table.PrimaryKey("PK_Category", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Utilizator",
+                name: "Challenge",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Nume = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    Prenume = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    NumarTelefon = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Duration = table.Column<int>(type: "int", nullable: false),
+                    Views = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Utilizator", x => x.Id);
+                    table.PrimaryKey("PK_Challenge", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,109 +219,159 @@ namespace Challenges.WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sarcina",
+                name: "UserBadge",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Ziua = table.Column<int>(type: "int", nullable: false),
-                    Nume = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Descriere = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProvocareId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    BadgeId = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sarcina", x => x.Id);
+                    table.PrimaryKey("PK_UserBadge", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sarcina_Provocare_ProvocareId",
-                        column: x => x.ProvocareId,
-                        principalTable: "Provocare",
+                        name: "FK_UserBadge_AppUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserBadge_Badge_BadgeId",
+                        column: x => x.BadgeId,
+                        principalTable: "Badge",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserPreference",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPreference", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserPreference_AppUser_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserPreference_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChallengeCategory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    ChallengeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChallengeCategory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChallengeCategory_Category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Category",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChallengeCategory_Challenge_ChallengeId",
+                        column: x => x.ChallengeId,
+                        principalTable: "Challenge",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TodoTask",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Day = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ChallengeId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TodoTask", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TodoTask_Challenge_ChallengeId",
+                        column: x => x.ChallengeId,
+                        principalTable: "Challenge",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProvocareUtilizator",
+                name: "UserChallenge",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProvocareId = table.Column<int>(type: "int", nullable: false),
-                    UtilizatorId = table.Column<int>(type: "int", nullable: false),
-                    Data_start = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DataFinal = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Stare = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ZiuaCurenta = table.Column<int>(type: "int", nullable: true)
+                    ChallengeId = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CurrentState = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CurrentDay = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProvocareUtilizator", x => x.Id);
+                    table.PrimaryKey("PK_UserChallenge", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProvocareUtilizator_Provocare_ProvocareId",
-                        column: x => x.ProvocareId,
-                        principalTable: "Provocare",
+                        name: "FK_UserChallenge_AppUser_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AppUser",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProvocareUtilizator_Utilizator_UtilizatorId",
-                        column: x => x.UtilizatorId,
-                        principalTable: "Utilizator",
+                        name: "FK_UserChallenge_Challenge_ChallengeId",
+                        column: x => x.ChallengeId,
+                        principalTable: "Challenge",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RealizareUtilizator",
+                name: "FinishedTask",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UtilizatorId = table.Column<int>(type: "int", nullable: false),
-                    RealizareId = table.Column<int>(type: "int", nullable: false),
-                    Data = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UserChallengeId = table.Column<int>(type: "int", nullable: false),
+                    TodoTaskId = table.Column<int>(type: "int", nullable: false),
+                    CompletionDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CompletionDay = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RealizareUtilizator", x => x.Id);
+                    table.PrimaryKey("PK_FinishedTask", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RealizareUtilizator_Realizare_RealizareId",
-                        column: x => x.RealizareId,
-                        principalTable: "Realizare",
+                        name: "FK_FinishedTask_TodoTask_TodoTaskId",
+                        column: x => x.TodoTaskId,
+                        principalTable: "TodoTask",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RealizareUtilizator_Utilizator_UtilizatorId",
-                        column: x => x.UtilizatorId,
-                        principalTable: "Utilizator",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "SarcinaRealizata",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdProvocareUtilizator = table.Column<int>(type: "int", nullable: false),
-                    provocareUtilizatorId = table.Column<int>(type: "int", nullable: false),
-                    IdSarcini = table.Column<int>(type: "int", nullable: false),
-                    SarcinaId = table.Column<int>(type: "int", nullable: false),
-                    Data_Realizare = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ZiuaRealizare = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SarcinaRealizata", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_SarcinaRealizata_ProvocareUtilizator_provocareUtilizatorId",
-                        column: x => x.provocareUtilizatorId,
-                        principalTable: "ProvocareUtilizator",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_SarcinaRealizata_Sarcina_SarcinaId",
-                        column: x => x.SarcinaId,
-                        principalTable: "Sarcina",
+                        name: "FK_FinishedTask_UserChallenge_UserChallengeId",
+                        column: x => x.UserChallengeId,
+                        principalTable: "UserChallenge",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -349,39 +416,59 @@ namespace Challenges.WebApp.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProvocareUtilizator_ProvocareId",
-                table: "ProvocareUtilizator",
-                column: "ProvocareId");
+                name: "IX_ChallengeCategory_CategoryId",
+                table: "ChallengeCategory",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProvocareUtilizator_UtilizatorId",
-                table: "ProvocareUtilizator",
-                column: "UtilizatorId");
+                name: "IX_ChallengeCategory_ChallengeId",
+                table: "ChallengeCategory",
+                column: "ChallengeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RealizareUtilizator_RealizareId",
-                table: "RealizareUtilizator",
-                column: "RealizareId");
+                name: "IX_FinishedTask_TodoTaskId",
+                table: "FinishedTask",
+                column: "TodoTaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RealizareUtilizator_UtilizatorId",
-                table: "RealizareUtilizator",
-                column: "UtilizatorId");
+                name: "IX_FinishedTask_UserChallengeId",
+                table: "FinishedTask",
+                column: "UserChallengeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sarcina_ProvocareId",
-                table: "Sarcina",
-                column: "ProvocareId");
+                name: "IX_TodoTask_ChallengeId",
+                table: "TodoTask",
+                column: "ChallengeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SarcinaRealizata_provocareUtilizatorId",
-                table: "SarcinaRealizata",
-                column: "provocareUtilizatorId");
+                name: "IX_UserBadge_BadgeId",
+                table: "UserBadge",
+                column: "BadgeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SarcinaRealizata_SarcinaId",
-                table: "SarcinaRealizata",
-                column: "SarcinaId");
+                name: "IX_UserBadge_UserId",
+                table: "UserBadge",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserChallenge_AppUserId",
+                table: "UserChallenge",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserChallenge_ChallengeId",
+                table: "UserChallenge",
+                column: "ChallengeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPreference_AppUserId",
+                table: "UserPreference",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPreference_CategoryId",
+                table: "UserPreference",
+                column: "CategoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -402,10 +489,16 @@ namespace Challenges.WebApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "RealizareUtilizator");
+                name: "ChallengeCategory");
 
             migrationBuilder.DropTable(
-                name: "SarcinaRealizata");
+                name: "FinishedTask");
+
+            migrationBuilder.DropTable(
+                name: "UserBadge");
+
+            migrationBuilder.DropTable(
+                name: "UserPreference");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -414,19 +507,22 @@ namespace Challenges.WebApp.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Realizare");
+                name: "TodoTask");
 
             migrationBuilder.DropTable(
-                name: "ProvocareUtilizator");
+                name: "UserChallenge");
 
             migrationBuilder.DropTable(
-                name: "Sarcina");
+                name: "Badge");
 
             migrationBuilder.DropTable(
-                name: "Utilizator");
+                name: "Category");
 
             migrationBuilder.DropTable(
-                name: "Provocare");
+                name: "AppUser");
+
+            migrationBuilder.DropTable(
+                name: "Challenge");
         }
     }
 }

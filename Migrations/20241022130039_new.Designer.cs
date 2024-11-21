@@ -12,223 +12,290 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Challenges.WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240402220916_new3")]
-    partial class new3
+    [Migration("20241022130039_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.27")
+                .HasAnnotation("ProductVersion", "6.0.28")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Challenges.Models.Provocare", b =>
+            modelBuilder.Entity("Challenges.WebApp.Models.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Categorie")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Descriere")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Durata")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Nume")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UrlImagine")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Provocare");
-                });
-
-            modelBuilder.Entity("Challenges.Models.ProvocareUtilizator", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("DataFinal")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("Data_start")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProvocareId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Stare")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UtilizatorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ZiuaCurenta")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProvocareId");
-
-                    b.HasIndex("UtilizatorId");
-
-                    b.ToTable("ProvocareUtilizator");
-                });
-
-            modelBuilder.Entity("Challenges.Models.Realizare", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Descriere")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumeRealizare")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Realizare");
-                });
-
-            modelBuilder.Entity("Challenges.Models.RealizareUtilizator", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("EsteDeblocat")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("RealizareId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UtilizatorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RealizareId");
-
-                    b.HasIndex("UtilizatorId");
-
-                    b.ToTable("RealizareUtilizator");
-                });
-
-            modelBuilder.Entity("Challenges.Models.Sarcina", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Descriere")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nume")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ProvocareId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Ziua")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProvocareId");
-
-                    b.ToTable("Sarcina");
-                });
-
-            modelBuilder.Entity("Challenges.Models.SarcinaRealizata", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("Data_Realizare")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProvocareUtilizatorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SarcinaId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ZiuaRealizare")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProvocareUtilizatorId");
-
-                    b.HasIndex("SarcinaId");
-
-                    b.ToTable("SarcinaRealizata");
-                });
-
-            modelBuilder.Entity("Challenges.Models.Utilizator", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("DataUltimaActualizareStreak")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NumarTelefon")
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("LastName")
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<DateTime?>("LastStreakUpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Nume")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
-
-                    b.Property<string>("Prenume")
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
 
                     b.Property<int>("Streak")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Utilizator");
+                    b.ToTable("AppUser");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.Badge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Badge");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.Challenge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Views")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Challenge");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.ChallengeCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("ChallengeCategory");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.FinishedTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("CompletionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("CompletionDay")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TodoTaskId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserChallengeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TodoTaskId");
+
+                    b.HasIndex("UserChallengeId");
+
+                    b.ToTable("FinishedTask");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.TodoTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("TodoTask");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.UserBadge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BadgeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BadgeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserBadge");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.UserChallenge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ChallengeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CurrentDay")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CurrentState")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ChallengeId");
+
+                    b.ToTable("UserChallenge");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.UserPreference", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("UserPreference");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -433,70 +500,110 @@ namespace Challenges.WebApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Challenges.Models.ProvocareUtilizator", b =>
+            modelBuilder.Entity("Challenges.WebApp.Models.ChallengeCategory", b =>
                 {
-                    b.HasOne("Challenges.Models.Provocare", "Provocare")
-                        .WithMany("provocariUtilizatori")
-                        .HasForeignKey("ProvocareId")
+                    b.HasOne("Challenges.WebApp.Models.Category", "Category")
+                        .WithMany("ChallengeCategories")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Challenges.Models.Utilizator", "Utilizator")
-                        .WithMany("provocariUtilizatori")
-                        .HasForeignKey("UtilizatorId")
+                    b.HasOne("Challenges.WebApp.Models.Challenge", "Challenge")
+                        .WithMany("ChallengeCategories")
+                        .HasForeignKey("ChallengeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Provocare");
+                    b.Navigation("Category");
 
-                    b.Navigation("Utilizator");
+                    b.Navigation("Challenge");
                 });
 
-            modelBuilder.Entity("Challenges.Models.RealizareUtilizator", b =>
+            modelBuilder.Entity("Challenges.WebApp.Models.FinishedTask", b =>
                 {
-                    b.HasOne("Challenges.Models.Realizare", "Realizare")
-                        .WithMany("realizariUtilizatori")
-                        .HasForeignKey("RealizareId")
+                    b.HasOne("Challenges.WebApp.Models.TodoTask", "TodoTask")
+                        .WithMany("FinishedTask")
+                        .HasForeignKey("TodoTaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Challenges.Models.Utilizator", "Utilizator")
-                        .WithMany("realizariUtilizatori")
-                        .HasForeignKey("UtilizatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Realizare");
-
-                    b.Navigation("Utilizator");
-                });
-
-            modelBuilder.Entity("Challenges.Models.Sarcina", b =>
-                {
-                    b.HasOne("Challenges.Models.Provocare", "Provocare")
-                        .WithMany("Sarcini")
-                        .HasForeignKey("ProvocareId");
-
-                    b.Navigation("Provocare");
-                });
-
-            modelBuilder.Entity("Challenges.Models.SarcinaRealizata", b =>
-                {
-                    b.HasOne("Challenges.Models.ProvocareUtilizator", "ProvocareUtilizator")
+                    b.HasOne("Challenges.WebApp.Models.UserChallenge", "UserChallenge")
                         .WithMany()
-                        .HasForeignKey("ProvocareUtilizatorId")
+                        .HasForeignKey("UserChallengeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Challenges.Models.Sarcina", "Sarcina")
-                        .WithMany()
-                        .HasForeignKey("SarcinaId")
+                    b.Navigation("TodoTask");
+
+                    b.Navigation("UserChallenge");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.TodoTask", b =>
+                {
+                    b.HasOne("Challenges.WebApp.Models.Challenge", "Challenge")
+                        .WithMany("TodoTasks")
+                        .HasForeignKey("ChallengeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ProvocareUtilizator");
+                    b.Navigation("Challenge");
+                });
 
-                    b.Navigation("Sarcina");
+            modelBuilder.Entity("Challenges.WebApp.Models.UserBadge", b =>
+                {
+                    b.HasOne("Challenges.WebApp.Models.Badge", "Badge")
+                        .WithMany("UserBadges")
+                        .HasForeignKey("BadgeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Challenges.WebApp.Models.AppUser", "User")
+                        .WithMany("UserBadges")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Badge");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.UserChallenge", b =>
+                {
+                    b.HasOne("Challenges.WebApp.Models.AppUser", "AppUser")
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Challenges.WebApp.Models.Challenge", "Challenge")
+                        .WithMany("UserChallenges")
+                        .HasForeignKey("ChallengeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Challenge");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.UserPreference", b =>
+                {
+                    b.HasOne("Challenges.WebApp.Models.AppUser", "AppUser")
+                        .WithMany("UserCategories")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Challenges.WebApp.Models.Category", "Category")
+                        .WithMany("UserPreferences")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -550,23 +657,39 @@ namespace Challenges.WebApp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Challenges.Models.Provocare", b =>
+            modelBuilder.Entity("Challenges.WebApp.Models.AppUser", b =>
                 {
-                    b.Navigation("Sarcini");
+                    b.Navigation("UserBadges");
 
-                    b.Navigation("provocariUtilizatori");
+                    b.Navigation("UserCategories");
+
+                    b.Navigation("UserChallenges");
                 });
 
-            modelBuilder.Entity("Challenges.Models.Realizare", b =>
+            modelBuilder.Entity("Challenges.WebApp.Models.Badge", b =>
                 {
-                    b.Navigation("realizariUtilizatori");
+                    b.Navigation("UserBadges");
                 });
 
-            modelBuilder.Entity("Challenges.Models.Utilizator", b =>
+            modelBuilder.Entity("Challenges.WebApp.Models.Category", b =>
                 {
-                    b.Navigation("provocariUtilizatori");
+                    b.Navigation("ChallengeCategories");
 
-                    b.Navigation("realizariUtilizatori");
+                    b.Navigation("UserPreferences");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.Challenge", b =>
+                {
+                    b.Navigation("ChallengeCategories");
+
+                    b.Navigation("TodoTasks");
+
+                    b.Navigation("UserChallenges");
+                });
+
+            modelBuilder.Entity("Challenges.WebApp.Models.TodoTask", b =>
+                {
+                    b.Navigation("FinishedTask");
                 });
 #pragma warning restore 612, 618
         }

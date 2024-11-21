@@ -25,7 +25,7 @@
                         <span class="title">
                             Utilizatori Inregistrati
                         </span>
-                        <span class="amount-value"> @Model.InregistrariUtilizatori</span>
+                        <span class="amount-value"> @Model.UserRegistrations</span>
                     </div>
                     <i class="fas fa-dollar-sign icon"></i>
                 </div>
@@ -34,9 +34,9 @@
                 <div class="card--header">
                     <div class="amount">
                         <span class="title">
-                            Provocari Incepute
+                            Started Challenges
                         </span>
-                        <span class="amount-value"> @Model.ProvocariIncepute</span>
+                        <span class="amount-value"> @Model.StartedChallenges</span>
                     </div>
                     <i class="fas fa-dollar-sign icon"></i>
                 </div>
@@ -45,9 +45,9 @@
                 <div class="card--header">
                     <div class="amount">
                         <span class="title">
-                            Provocari Finalizate
+                            Finished Challenges
                         </span>
-                        <span class="amount-value"> @Model.ProvocariFinalizate</span>
+                        <span class="amount-value"> @Model.FinishedChallenges</span>
                     </div>
                     <i class="fas fa-dollar-sign icon"></i>
                 </div>
@@ -55,12 +55,12 @@
         </div>
     </div>
     <div class="tabular-wrapper">
-        <h3 class="main--title">Ultimele activități</h3>
+        <h3 class="main--title">Last Activities</h3>
         <div class="table-container">
             <div class="activity-data">
                 <table>
                     <tbody>
-                        @foreach (var activity in Model.Activitati)
+                        @foreach (var activity in Model.Activities)
                         {
                             <tr>
                                 <td>@activity</td>

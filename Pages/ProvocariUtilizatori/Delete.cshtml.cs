@@ -22,40 +22,40 @@ namespace Challenges.WebApp.Pages.ProvocariUtilizatori
         }
 
         [BindProperty]
-      public ProvocareUtilizator ProvocareUtilizator { get; set; } = default!;
+      public UserChallenge UserChallenge { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.ProvocareUtilizator == null)
+            if (id == null || _context.UserChallenge == null)
             {
                 return NotFound();
             }
 
-            var provocareutilizator = await _context.ProvocareUtilizator.FirstOrDefaultAsync(m => m.Id == id);
+            var userChallenge = await _context.UserChallenge.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (provocareutilizator == null)
+            if (userChallenge == null)
             {
                 return NotFound();
             }
             else 
             {
-                ProvocareUtilizator = provocareutilizator;
+                UserChallenge = userChallenge;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.ProvocareUtilizator == null)
+            if (id == null || _context.UserChallenge == null)
             {
                 return NotFound();
             }
-            var provocareutilizator = await _context.ProvocareUtilizator.FindAsync(id);
+            var userChallenge = await _context.UserChallenge.FindAsync(id);
 
-            if (provocareutilizator != null)
+            if (userChallenge != null)
             {
-                ProvocareUtilizator = provocareutilizator;
-                _context.ProvocareUtilizator.Remove(ProvocareUtilizator);
+                UserChallenge = userChallenge;
+                _context.UserChallenge.Remove(UserChallenge);
                 await _context.SaveChangesAsync();
             }
 

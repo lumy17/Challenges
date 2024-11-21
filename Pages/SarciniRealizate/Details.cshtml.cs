@@ -19,26 +19,26 @@ namespace Challenges.WebApp.Pages.SarciniRealizate
             _context = context;
         }
 
-      public SarcinaRealizata SarcinaRealizata { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+      public FinishedTask FinishedTask { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.SarcinaRealizata == null)
+            if (id == null || _context.FinishedTask == null)
             {
                 return NotFound();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
 
-            var sarcinarealizata = await _context.SarcinaRealizata.FirstOrDefaultAsync(m => m.Id == id);
-            if (sarcinarealizata == null)
+            var finishedTask = await _context.FinishedTask.FirstOrDefaultAsync(m => m.Id == id);
+            if (finishedTask == null)
             {
                 return NotFound();
             }
             else 
             {
-                SarcinaRealizata = sarcinarealizata;
+                FinishedTask = finishedTask;
             }
             return Page();
         }

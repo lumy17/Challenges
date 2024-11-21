@@ -22,25 +22,25 @@ namespace Challenges.WebApp.Pages.Realizari
 
         public IActionResult OnGet()
         {
-            ListaProvocari = _context.Provocare.ToList();
+            Challenges = _context.Challenge.ToList();
 
             return Page();
         }
 
         [BindProperty]
-        public Realizare Realizare { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public Badge Badge { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Realizare == null || Realizare == null)
+          if (!ModelState.IsValid || _context.Badge == null || Badge == null)
             {
                 return Page();
             }
 
-            _context.Realizare.Add(Realizare);
+            _context.Badge.Add(Badge);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

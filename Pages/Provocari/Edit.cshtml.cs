@@ -23,33 +23,33 @@ namespace Challenges.WebApp.Pages.Provocari
         }
 
         [BindProperty]
-        public Provocare Provocare { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
-        public List<Categorie> ListaCategorii { get; set; }
+        public Challenge Challenge { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
+        public List<Category> Categories { get; set; }
         [BindProperty]
         public List<int> SelectedCategories { get; set; } = new List<int>();
 
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Provocare == null)
+            if (id == null || _context.Challenge == null)
             {
                 return NotFound();
             }
 
-            var provocare =  await _context.Provocare.FirstOrDefaultAsync(m => m.Id == id);
-            if (provocare == null)
+            var challenge =  await _context.Challenge.FirstOrDefaultAsync(m => m.Id == id);
+            if (challenge == null)
             {
                 return NotFound();
             }
-            Provocare = provocare;
-            ListaProvocari = await _context.Provocare.ToListAsync();
-            ListaCategorii = await _context.Categorie.ToListAsync();
+            Challenge = challenge;
+            Challenges = await _context.Challenge.ToListAsync();
+            Categories = await _context.Category.ToListAsync();
 
             // Fetch the categories associated with the current Provocare
-            SelectedCategories = await _context.CategorieProvocare
-                .Where(cp => cp.ProvocareId == provocare.Id)
-                .Select(cp => cp.CategorieId)
+            SelectedCategories = await _context.ChallengeCategory
+                .Where(cp => cp.ChallengeId == challenge.Id)
+                .Select(cp => cp.CategoryId)
                 .ToListAsync();
 
             return Page();
@@ -59,25 +59,25 @@ namespace Challenges.WebApp.Pages.Provocari
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            ListaCategorii = await _context.Categorie.ToListAsync();
+            Categories = await _context.Category.ToListAsync();
 
-            _context.Attach(Provocare).State = EntityState.Modified;
-			_context.CategorieProvocare.RemoveRange(_context.CategorieProvocare.Where(cp => cp.ProvocareId == Provocare.Id));
+            _context.Attach(Challenge).State = EntityState.Modified;
+			_context.ChallengeCategory.RemoveRange(_context.ChallengeCategory.Where(cp => cp.ChallengeId == Challenge.Id));
 
 
 			// Add the newly selected categories
 
 			foreach (var categoryId in SelectedCategories)
 			{
-				var categ = ListaCategorii.FirstOrDefault(c => c.Id == categoryId);
-				if (categ != null)
+				var category = Categories.FirstOrDefault(c => c.Id == categoryId);
+				if (category != null)
 				{
-					var categorieProvocari = new CategorieProvocare
+					var challengeCategory = new ChallengeCategory
 					{
-						Provocare = Provocare,
-						Categorie = categ
+                        Challenge = Challenge,
+						Category = category
 					};
-					_context.CategorieProvocare.Add(categorieProvocari);
+					_context.ChallengeCategory.Add(challengeCategory);
 				}
 			}
 
@@ -89,7 +89,7 @@ namespace Challenges.WebApp.Pages.Provocari
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProvocareExists(Provocare.Id))
+                if (!ChallengeExists(Challenge.Id))
                 {
                     return NotFound();
                 }
@@ -102,9 +102,9 @@ namespace Challenges.WebApp.Pages.Provocari
             return RedirectToPage("./IndexAdmin");
         }
 
-        private bool ProvocareExists(int id)
+        private bool ChallengeExists(int id)
         {
-          return (_context.Provocare?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Challenge?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

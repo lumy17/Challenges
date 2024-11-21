@@ -19,17 +19,17 @@ namespace Challenges.WebApp.Pages.Categorii
             _context = context;
         }
 
-        public IList<Categorie> Categorie { get;set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public IList<Category> Categories { get;set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
 
         public async Task OnGetAsync()
         {
-            if (_context.Categorie != null)
+            if (_context.Category != null)
             {
-                Categorie = await _context.Categorie.ToListAsync();
+                Categories = await _context.Category.ToListAsync();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
         }
     }

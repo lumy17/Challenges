@@ -19,19 +19,19 @@ namespace Challenges.WebApp.Pages.Utilizatori
             _context = context;
         }
 
-        public IList<Utilizator> Utilizator { get;set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public IList<AppUser> AppUser { get;set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
         public async Task OnGetAsync()
         {
-            if (_context.Utilizator != null)
+            if (_context.AppUser != null)
             {
-                Utilizator = await _context.Utilizator
-                    .Include(u => u.CategoriiUtilizatori)
-                    .ThenInclude(cu => cu.Categorie)
+                AppUser = await _context.AppUser
+                    .Include(u => u.UserCategories)
+                    .ThenInclude(cu => cu.Category)
                     .ToListAsync();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
         }
     }

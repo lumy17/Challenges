@@ -19,15 +19,15 @@ namespace Challenges.WebApp.Pages.Realizari
             _context = context;
         }
 
-        public IList<Realizare> Realizare { get;set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public IList<Badge> Badges { get;set; } = default!;
+        public List<Challenge> Challenges { get; set; }
         public async Task OnGetAsync()
         {
-            if (_context.Realizare != null)
+            if (_context.Badge != null)
             {
-                Realizare = await _context.Realizare.ToListAsync();
+                Badges = await _context.Badge.ToListAsync();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
         }
     }

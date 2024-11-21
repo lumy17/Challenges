@@ -15,24 +15,24 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Utilizator.Email" class="control-label"></label>
-                <input asp-for="Utilizator.Email" class="form-control" />
-                <span asp-validation-for="Utilizator.Email" class="text-danger"></span>
+                <label asp-for="AppUser.Email" class="control-label"></label>
+                <input asp-for="AppUser.Email" class="form-control" />
+                <span asp-validation-for="AppUser.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Utilizator.Nume" class="control-label"></label>
-                <input asp-for="Utilizator.Nume" class="form-control" />
-                <span asp-validation-for="Utilizator.Nume" class="text-danger"></span>
+                <label asp-for="AppUser.FirstName" class="control-label"></label>
+                <input asp-for="AppUser.FirstName" class="form-control" />
+                <span asp-validation-for="AppUser.FirstName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Utilizator.Prenume" class="control-label"></label>
-                <input asp-for="Utilizator.Prenume" class="form-control" />
-                <span asp-validation-for="Utilizator.Prenume" class="text-danger"></span>
+                <label asp-for="AppUser.LastName" class="control-label"></label>
+                <input asp-for="AppUser.LastName" class="form-control" />
+                <span asp-validation-for="AppUser.LastName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Utilizator.NumarTelefon" class="control-label"></label>
-                <input asp-for="Utilizator.NumarTelefon" class="form-control" />
-                <span asp-validation-for="Utilizator.NumarTelefon" class="text-danger"></span>
+                <label asp-for="AppUser.PhoneNumber" class="control-label"></label>
+                <input asp-for="AppUser.PhoneNumber" class="form-control" />
+                <span asp-validation-for="AppUser.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
