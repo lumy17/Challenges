@@ -10,6 +10,13 @@ namespace Challenges.WebApp.Data
             : base(options)
         {
         }
+        
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.HasDefaultSchema("challenges");
+            base.OnModelCreating(builder);
+        }
+
         public DbSet<Challenge> Challenge { get; set; } = default!;
         public DbSet<UserChallenge> UserChallenge { get; set; } = default!;
         public DbSet<AppUser> AppUser { get; set; } = default!;
