@@ -6,38 +6,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.Realizari
+namespace Challenges.WebApp.Pages.Realizari
 {
     public class EditModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public EditModel(Challenges.Data.ApplicationDbContext context)
+        public EditModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Realizare Realizare { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public Badge Badge { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Realizare == null)
+            if (id == null || _context.Badge == null)
             {
                 return NotFound();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
-            var realizare =  await _context.Realizare.FirstOrDefaultAsync(m => m.Id == id);
-            if (realizare == null)
+            var badge =  await _context.Badge.FirstOrDefaultAsync(m => m.Id == id);
+            if (badge == null)
             {
                 return NotFound();
             }
-            Realizare = realizare;
+            Badge = badge;
             return Page();
         }
 
@@ -50,7 +50,7 @@ namespace Challenges.Pages.Realizari
                 return Page();
             }
 
-            _context.Attach(Realizare).State = EntityState.Modified;
+            _context.Attach(Badge).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace Challenges.Pages.Realizari
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!RealizareExists(Realizare.Id))
+                if (!RealizareExists(Badge.Id))
                 {
                     return NotFound();
                 }
@@ -73,7 +73,7 @@ namespace Challenges.Pages.Realizari
 
         private bool RealizareExists(int id)
         {
-          return (_context.Realizare?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Badge?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

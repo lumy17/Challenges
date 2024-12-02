@@ -1,8 +1,8 @@
-﻿using Challenges.Models;
+﻿using Challenges.WebApp.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Challenges.Data
+namespace Challenges.WebApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
@@ -10,16 +10,22 @@ namespace Challenges.Data
             : base(options)
         {
         }
-        public DbSet<Provocare> Provocare { get; set; } = default!;
-        public DbSet<ProvocareUtilizator> ProvocareUtilizator { get; set; } = default!;
-        public DbSet<Utilizator> Utilizator { get; set; } = default!;
-        public DbSet<Realizare> Realizare { get; set; } = default!;
-        public DbSet<RealizareUtilizator> RealizareUtilizator { get; set; } = default!;
-        public DbSet<Sarcina> Sarcina { get; set; } = default!;
-        public DbSet<SarcinaRealizata> SarcinaRealizata { get; set; } = default!;
-        public DbSet<VizualizareProvocare> VizualizareProvocare { get; set; } = default!;
-        public DbSet<Categorie> Categorie { get; set; } = default!;
-        public DbSet<CategorieProvocare> CategorieProvocare { get; set; } = default!;
-        public DbSet<CategorieUtilizator> CategorieUtilizator { get; set; } = default!;
+        
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.HasDefaultSchema("challenges");
+            base.OnModelCreating(builder);
+        }
+
+        public DbSet<Challenge> Challenge { get; set; } = default!;
+        public DbSet<UserChallenge> UserChallenge { get; set; } = default!;
+        public DbSet<AppUser> AppUser { get; set; } = default!;
+        public DbSet<Badge> Badge { get; set; } = default!;
+        public DbSet<UserBadge> UserBadge { get; set; } = default!;
+        public DbSet<TodoTask> TodoTask { get; set; } = default!;
+        public DbSet<FinishedTask> FinishedTask { get; set; } = default!;
+        public DbSet<Category> Category { get; set; } = default!;
+        public DbSet<ChallengeCategory> ChallengeCategory { get; set; } = default!;
+        public DbSet<UserPreference> UserPreference { get; set; } = default!;
     }
 }

@@ -6,39 +6,39 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.Categorii
+namespace Challenges.WebApp.Pages.Categorii
 {
     public class EditModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public EditModel(Challenges.Data.ApplicationDbContext context)
+        public EditModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Categorie Categorie { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public Category Category { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Categorie == null)
+            if (id == null || _context.Category == null)
             {
                 return NotFound();
             }
 
-            var categorie =  await _context.Categorie.FirstOrDefaultAsync(m => m.Id == id);
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            var category =  await _context.Category.FirstOrDefaultAsync(m => m.Id == id);
+            Challenges = await _context.Challenge.ToListAsync();
 
-            if (categorie == null)
+            if (category == null)
             {
                 return NotFound();
             }
-            Categorie = categorie;
+            Category = category;
             return Page();
         }
 
@@ -51,7 +51,7 @@ namespace Challenges.Pages.Categorii
                 return Page();
             }
 
-            _context.Attach(Categorie).State = EntityState.Modified;
+            _context.Attach(Category).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace Challenges.Pages.Categorii
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategorieExists(Categorie.Id))
+                if (!CategorieExists(Category.Id))
                 {
                     return NotFound();
                 }
@@ -74,7 +74,7 @@ namespace Challenges.Pages.Categorii
 
         private bool CategorieExists(int id)
         {
-          return (_context.Categorie?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Category?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

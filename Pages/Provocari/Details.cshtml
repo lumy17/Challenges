@@ -1,21 +1,27 @@
 ﻿@page
-@model Challenges.Pages.Provocari.DetailsModel
+@model Challenges.WebApp.Pages.Provocari.DetailsModel
 
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-
-<h4 class="title-ch">@Model.Provocare.Nume</h4>
+<div class="main--content">
+    <div class="header--wrapper">
+        <div class="header--title">
+            <h2>@Model.Challenge.Name</h2>
+        </div>
+    </div>
+    <div class="card--container">
+        <div class="card--wrapper">
 <div class="container4 mt-5 other_pages">
     <br />
     <div class="ch-cont">
         <div class="imgss">
-            <img src="@Model.Provocare.UrlImagine" class="img-fluid">
+            <img src="@Model.Challenge.ImageUrl" class="img-fluid">
         </div>
         <div class="txtt align-self-center ">
             @{
-                var sentences = Model.Provocare.Descriere.Split('.');
+                var sentences = Model.Challenge.Description.Split('.');
                 for (var i = 0; i < sentences.Length; i += 2)
                 {
                     var line = sentences[i].Trim();
@@ -26,16 +32,17 @@
                     <p>@line</p>
                 }
             }
-            <p><strong>Categorie:</strong> @Model.Provocare.Categorie</p>
-            <p><strong>Durata:</strong> @Model.Provocare.Durata</p>
+            <p><strong>Category:</strong> @Model.Challenge.Category</p>
+            <p><strong>Duration:</strong> @Model.Challenge.Duration</p>
             <form method="post">
-                <button type="submit" asp-route-id="@Model.Provocare.Id"
+                <button type="submit" asp-route-id="@Model.Challenge.Id"
                         class="btn btn-primary">
                     Start Challenge
                 </button>
             </form>
-            <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
         </div>
     </div>
 </div>
-
+</div>
+</div>
+</div>

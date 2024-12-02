@@ -1,5 +1,5 @@
 ﻿@page
-@model Challenges.Pages.Realizari.EditModel
+@model Challenges.WebApp.Pages.Realizari.EditModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,22 +9,22 @@
 
 <h1>Edit</h1>
 
-<h4>Realizare</h4>
+    <h4>Badge</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Realizare.Id" />
+                <input type="hidden" asp-for="Badge.Id" />
             <div class="form-group">
-                <label asp-for="Realizare.NumeRealizare" class="control-label"></label>
-                <input asp-for="Realizare.NumeRealizare" class="form-control" />
-                <span asp-validation-for="Realizare.NumeRealizare" class="text-danger"></span>
+                <label asp-for="Badge.Name" class="control-label"></label>
+                    <input asp-for="Badge.Name" class="form-control" />
+                    <span asp-validation-for="Badge.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Realizare.Descriere" class="control-label"></label>
-                <input asp-for="Realizare.Descriere" class="form-control" />
-                <span asp-validation-for="Realizare.Descriere" class="text-danger"></span>
+                    <label asp-for="Badge.Description" class="control-label"></label>
+                    <input asp-for="Badge.Description" class="form-control" />
+                    <span asp-validation-for="Badge.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

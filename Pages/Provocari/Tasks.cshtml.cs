@@ -1,11 +1,11 @@
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SQLitePCL;
 
-namespace Challenges.Pages.Provocari
+namespace Challenges.WebApp.Pages.Provocari
 {
     public class TasksModel : PageModel
     {
@@ -14,10 +14,10 @@ namespace Challenges.Pages.Provocari
         {
             _context = context;
         }
-        public Provocare Provocare { get; set; } = default!;
-
-        public List<Sarcina> Sarcini { get; set; } = new List<Sarcina>();
-        public List<Provocare> ListaProvocari { get; set; }
+        public Challenge Challenge { get; set; } = default!;
+        //afiseaza taskurile pentru primul challenge.
+        public List<TodoTask> TodoTasks { get; set; } = new List<TodoTask>();
+        public List<Challenge> Challenges { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public int CurrentPage { get; set; } = 1;
@@ -26,32 +26,35 @@ namespace Challenges.Pages.Provocari
         public int PageSize { get; set; } = 1;
         public bool ShowPrevious => CurrentPage > 1;
         public bool ShowNext => CurrentPage < Count;
+        public List<DateTime> FinishedTasks { get; set; } = new List<DateTime>();
 
         public async Task<IActionResult> OnGetAsync(int? id, int? currentpage)
         {
-            if (id == null || _context.Provocare == null)
+
+            if (id == null || _context.Challenge == null)
             {
                 return NotFound();
             }
-            var provocare = await _context.Provocare.FirstOrDefaultAsync(m => m.Id == id);
-            if (provocare == null)
+            var challenge = await _context.Challenge.FirstOrDefaultAsync(m => m.Id == id);
+            if (challenge == null)
             {
                 return NotFound();
             }
             
             else
             {
-                Provocare = provocare;
-                var allSarcini = await _context.Sarcina.Where(
-                   s => s.ProvocareId == id).ToListAsync();
+                Challenge = challenge;
+                var allSarcini = await _context.TodoTask.Where(
+                   s => s.ChallengeId == id).ToListAsync();
                 // daca intra prima data pe pagina de sarcini currentpage ia valoarea 1
                 CurrentPage = currentpage ?? 1;
-                Sarcini = allSarcini.OrderBy(d => d.Ziua).Skip(CurrentPage - 1).Take(PageSize).ToList();
+                TodoTasks = allSarcini.OrderBy(d => d.Day).Skip(CurrentPage - 1).Take(PageSize).ToList();
 
             }
 
-            ListaProvocari = await _context.Provocare.ToListAsync();
-            Count = Provocare.Durata;
+            Challenges = await _context.Challenge.ToListAsync();
+            Count = Challenge.Duration;
+
             return Page();
         }
         public async Task<IActionResult> OnPostAsync(int id)
@@ -61,12 +64,12 @@ namespace Challenges.Pages.Provocari
                 return NotFound();
             }
 
-            Provocare = await _context.Provocare.FirstOrDefaultAsync
+            Challenge = await _context.Challenge.FirstOrDefaultAsync
                 (m => m.Id == id);
             var currentUser = User.Identity.Name;
-            var user = _context.Utilizator.FirstOrDefault
+            var user = _context.AppUser.FirstOrDefault
                 (u => u.Email == currentUser);
-            if (Provocare == null)
+            if (Challenge == null)
             {
                 return NotFound();
             }
@@ -75,26 +78,28 @@ namespace Challenges.Pages.Provocari
         public async Task<IActionResult> OnPostMarkTaskAsCompletedAsync(int idTask, int idProv)
         {
             var currentUser = User.Identity.Name;
-            var user = _context.Utilizator.FirstOrDefault
+            var user = _context.AppUser.FirstOrDefault
                 (u => u.Email == currentUser);
-            Provocare = await _context.Provocare.FirstOrDefaultAsync
+            Challenge = await _context.Challenge.FirstOrDefaultAsync
                 (m => m.Id == idProv);
 
             //gaseste provocarea utilizatorului si sarcina
-            var provocareUtilizator = _context.ProvocareUtilizator.
-                FirstOrDefault(pu => pu.UtilizatorId == user.Id 
-                && pu.ProvocareId == Provocare.Id);
-            var sarcina = _context.Sarcina.FirstOrDefault(s => s.Id == idTask);
+            var userChallenge = _context.UserChallenge.
+                FirstOrDefault(pu => pu.AppUserId == user.Id 
+                && pu.ChallengeId == Challenge.Id);
+            var todoTask = _context.TodoTask.FirstOrDefault(s => s.Id == idTask);
 
             //creaza o noua inregistrare in SarcinaRealizata
-            var sarcinaRealizata = new SarcinaRealizata
+            var sarcinaRealizata = new FinishedTask
             {
-                ProvocareUtilizatorId = provocareUtilizator.Id,
-                SarcinaId = sarcina.Id,
-                Data_Realizare = DateTime.Now,
-                ZiuaRealizare = sarcina.Ziua
+                UserChallengeId = userChallenge.Id,
+                TodoTaskId = todoTask.Id,
+                CompletionDate = DateTime.Now,
+                CompletionDay = todoTask.Day
             };
-            _context.SarcinaRealizata.Add(sarcinaRealizata);
+            userChallenge.CurrentDay++;
+            user.Points++;
+            _context.FinishedTask.Add(sarcinaRealizata);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("../dashboard");
@@ -102,93 +107,96 @@ namespace Challenges.Pages.Provocari
         public async Task<IActionResult> OnPostMarkChallengeAsCompletedAsync(int id)
         {
             var currentUser = User.Identity.Name;
-            var user = _context.Utilizator.FirstOrDefault
+            var user = _context.AppUser.FirstOrDefault
                 (u => u.Email == currentUser);
 
             //gaseste provocarea utilizatorului
-            var provocareUtilizator = _context.ProvocareUtilizator.
-                FirstOrDefault(pu => pu.UtilizatorId == user.Id 
-                && pu.ProvocareId == id);
+            var userChallenge = _context.UserChallenge.
+                FirstOrDefault(pu => pu.AppUserId == user.Id 
+                && pu.ChallengeId == id);
 
             //marcheaza provocarea ca finalizata
-            provocareUtilizator.Stare = "Finalizat";
-            provocareUtilizator.DataFinal = DateTime.Now;
+            userChallenge.CurrentState = "Completed";
+            userChallenge.EndDate = DateTime.Now;
 
-            var sarcina = _context.Sarcina.FirstOrDefault(s => s.Id == id);
+            var todoTask = _context.TodoTask.FirstOrDefault(s => s.Id == id);
 
             //creaza o noua inregistrare in SarcinaRealizata
-            var sarcinaRealizata = new SarcinaRealizata
+            var finishedTask = new FinishedTask
             {
-                ProvocareUtilizatorId = provocareUtilizator.Id,
-                SarcinaId = sarcina.Id,
-                Data_Realizare = DateTime.Now,
-                ZiuaRealizare = sarcina.Ziua
+                UserChallengeId = userChallenge.Id,
+                TodoTaskId = todoTask.Id,
+                CompletionDate = DateTime.Now,
+                CompletionDay = todoTask.Day
             };
-            _context.SarcinaRealizata.Add(sarcinaRealizata);
-            _context.Update(provocareUtilizator);
+            userChallenge.CurrentDay++;
+            user.Points++;
+            _context.FinishedTask.Add(finishedTask);
+            _context.Update(userChallenge);
 
             await _context.SaveChangesAsync();
 
-            await AcordaNouBadge(user);
+            await AwardNewBadge(user);
 
             return RedirectToPage("../dashboard");
         }
-        private bool SuntToateTaskurileFinalizate(ProvocareUtilizator provocareUtilizator)
+        private bool AreAllTasksCompleted(UserChallenge userChallenge)
         {
             //verifica daca toate taskurile din provocarea curenta au fost finalizate
-            var tasksCompleted = _context.SarcinaRealizata
-                .Where(sr => sr.ProvocareUtilizatorId == provocareUtilizator.Id)
+            var tasksCompleted = _context.FinishedTask
+                .Where(sr => sr.UserChallengeId == userChallenge.Id)
                 .Count();
 
-            var totalTasks = _context.Sarcina
-                .Where(s => s.ProvocareId == provocareUtilizator.ProvocareId)
+            var totalTasks = _context.TodoTask
+                .Where(s => s.ChallengeId == userChallenge.ChallengeId)
                 .Count();
 
             return tasksCompleted == totalTasks;
         }
-        public async Task AcordaNouBadge(Utilizator user)
+        public async Task AwardNewBadge(AppUser user)
         {
             // Verificam daca utilizatorul a finalizat o provocare astazi
-            var nextBadge = _context.Realizare.FirstOrDefault
-                (b => !_context.RealizareUtilizator.Any
-                (ru => ru.UtilizatorId == user.Id && ru.RealizareId == b.Id));
+            var nextBadge = _context.Badge.FirstOrDefault
+                (b => !_context.UserBadge.Any
+                (ru => ru.UserId == user.Id && ru.BadgeId == b.Id));
 
             if (nextBadge != null)
             {
                 // Adaugam noul badge utilizatorului
-                var newRealizareUtilizator = new RealizareUtilizator
+                var userBadge = new UserBadge
                 {
-                    UtilizatorId = user.Id,
-                    RealizareId = nextBadge.Id,
-                    Data = DateTime.Now
+                    UserId = user.Id,
+                    BadgeId = nextBadge.Id,
+                    Date = DateTime.Now
                 };
-                _context.RealizareUtilizator.Add(newRealizareUtilizator);
+                _context.UserBadge.Add(userBadge);
                 await _context.SaveChangesAsync();
             }
         }
         public async Task<bool> IsTaskCompletedAsync(int taskId)
         {
             var currentUser = User.Identity.Name;
-            var user = _context.Utilizator.FirstOrDefault(u => u.Email == currentUser);
-            var provocareUtilizator = _context.ProvocareUtilizator.FirstOrDefault(pu => pu.UtilizatorId == user.Id && pu.ProvocareId == Provocare.Id);
+            var user = _context.AppUser.FirstOrDefault(u => u.Email == currentUser);
+            var userChallenge = _context.UserChallenge.FirstOrDefault(pu => pu.AppUserId == user.Id && pu.ChallengeId == Challenge.Id);
 
-            var sarcina = _context.Sarcina.FirstOrDefault(s => s.Id == taskId);
+            var todoTask = _context.TodoTask.FirstOrDefault(s => s.Id == taskId);
             var currentDay = DateTime.Today.Day;
 
-            var firstTask = await _context.Sarcina.FirstOrDefaultAsync(s => s.ProvocareId == Provocare.Id
-            && s.Ziua == 1);
+            var firstTask = await _context.TodoTask.FirstOrDefaultAsync(s => s.ChallengeId == Challenge.Id
+            && s.Day == 1);
 
-            if (firstTask.Id == taskId)
+
+			if (firstTask.Id == taskId)
             {
                 return true;
             }
 
             else
             {
-                return _context.SarcinaRealizata.Any(
-                    sr => sr.SarcinaId == taskId &&
-                    sr.ProvocareUtilizatorId == provocareUtilizator.Id)
-                    && sarcina.Ziua <= currentDay;
+                return _context.FinishedTask.Any(
+                    sr => sr.TodoTaskId+1 == taskId &&
+                    sr.UserChallengeId == userChallenge.Id
+                    && sr.CompletionDate <= DateTime.Now);
             }
         }
 

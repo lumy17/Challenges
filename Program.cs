@@ -1,11 +1,10 @@
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
-using System.Configuration;
-using Microsoft.Extensions.Configuration.UserSecrets;
+using OpenAI_API;
 
-
+//ASP.NET Core project templates use Kestrel by default when not hosted with IIS. In the following template-generated Program.cs, the WebApplication.CreateBuilder method calls UseKestrel internally:so web server is kestrel
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString
@@ -19,22 +18,40 @@ builder.Services.AddDbContext<LibraryIdentityContext>(options =>
     options.UseSqlServer(connectionString));
 
 //adaugam rolurile -- putem avea admin sau user
-builder.Services.AddDefaultIdentity<IdentityUser>(options => 
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+});
+
+builder.Services.AddSingleton<OpenAIAPI>();
+
+
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Provocari");
+    options.Conventions.AuthorizeFolder("/ProvocariUtilizatori");
+    options.Conventions.AuthorizeFolder("/Sarcini");
+    options.Conventions.AuthorizePage("/dashboard");
+    options.Conventions.AllowAnonymousToPage("/Index");
+    options.Conventions.AllowAnonymousToPage("/Provocari/Index");
+    options.Conventions.AllowAnonymousToPage("/Provocari/Details");
+    options.Conventions.AuthorizeFolder("/Sarcini", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/SarciniRealizate", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Realizari", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/RealizariUtilizator", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Categorii", "AdminPolicy");
+});
 builder.Services.AddScoped<RankingService>();
 
-var config = builder.Configuration;
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
-builder.Services.AddAuthentication().AddGoogle(googleOptions =>
-{
-    googleOptions.ClientId = config["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = config["Authentication:Google:ClientSecret"];
-});
+var config = builder.Configuration;
 
 var app = builder.Build();
 
@@ -50,9 +67,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();;
+app.UseAuthentication(); ;
 
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+});
+
 
 app.MapRazorPages();
 

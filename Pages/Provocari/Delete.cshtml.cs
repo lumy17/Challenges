@@ -5,55 +5,57 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace Challenges.Pages.Provocari
+namespace Challenges.WebApp.Pages.Provocari
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public DeleteModel(Challenges.Data.ApplicationDbContext context)
+        public DeleteModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public Provocare Provocare { get; set; } = default!;
+      public Challenge Challenge { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Provocare == null)
+            if (id == null || _context.Challenge  == null)
             {
                 return NotFound();
             }
 
-            var provocare = await _context.Provocare.FirstOrDefaultAsync(m => m.Id == id);
+            var challenge = await _context.Challenge.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (provocare == null)
+            if (challenge == null)
             {
                 return NotFound();
             }
             else 
             {
-                Provocare = provocare;
+                Challenge = challenge;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Provocare == null)
+            if (id == null || _context.Challenge == null)
             {
                 return NotFound();
             }
-            var provocare = await _context.Provocare.FindAsync(id);
+            var challenge = await _context.Challenge.FindAsync(id);
 
-            if (provocare != null)
+            if (challenge != null)
             {
-                Provocare = provocare;
-                _context.Provocare.Remove(Provocare);
+                Challenge = challenge;
+                _context.Challenge.Remove(Challenge);
                 await _context.SaveChangesAsync();
             }
 

@@ -5,55 +5,57 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace Challenges.Pages.ProvocariUtilizatori
+namespace Challenges.WebApp.Pages.ProvocariUtilizatori
 {
+    [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public DeleteModel(Challenges.Data.ApplicationDbContext context)
+        public DeleteModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public ProvocareUtilizator ProvocareUtilizator { get; set; } = default!;
+      public UserChallenge UserChallenge { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.ProvocareUtilizator == null)
+            if (id == null || _context.UserChallenge == null)
             {
                 return NotFound();
             }
 
-            var provocareutilizator = await _context.ProvocareUtilizator.FirstOrDefaultAsync(m => m.Id == id);
+            var userChallenge = await _context.UserChallenge.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (provocareutilizator == null)
+            if (userChallenge == null)
             {
                 return NotFound();
             }
             else 
             {
-                ProvocareUtilizator = provocareutilizator;
+                UserChallenge = userChallenge;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.ProvocareUtilizator == null)
+            if (id == null || _context.UserChallenge == null)
             {
                 return NotFound();
             }
-            var provocareutilizator = await _context.ProvocareUtilizator.FindAsync(id);
+            var userChallenge = await _context.UserChallenge.FindAsync(id);
 
-            if (provocareutilizator != null)
+            if (userChallenge != null)
             {
-                ProvocareUtilizator = provocareutilizator;
-                _context.ProvocareUtilizator.Remove(ProvocareUtilizator);
+                UserChallenge = userChallenge;
+                _context.UserChallenge.Remove(UserChallenge);
                 await _context.SaveChangesAsync();
             }
 

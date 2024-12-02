@@ -48,15 +48,55 @@
 .txtt {
     font-size: 15px;
 }
-
-.container4 {
+/*.container4 {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-}
+}*/
 
 .title-ch {
     margin: 50px 0 0 130px;
     max-width: 60%;
+}
+
+.main--content {
+    position: relative;
+    background: #2b2b2b;
+    width: 100%;
+    padding: 1rem;
+}
+
+.header--wrapper img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.header--wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #222;
+    border-radius: 10px;
+    padding: 10px 2rem;
+    margin-bottom: 1rem;
+}
+
+.header--title {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.card--container {
+    background: #222;
+    padding: 0.1rem;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.card--wrapper {
+    flex-wrap: wrap;
+    gap: 1rem;
 }

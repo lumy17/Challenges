@@ -5,55 +5,55 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
-namespace Challenges.Pages.Provocari
+namespace Challenges.WebApp.Pages.Provocari
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public CreateModel(Challenges.Data.ApplicationDbContext context)
+        public CreateModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
+        [BindProperty]
+        public Challenge Challenge { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
+        public List<Category> Categories { get; set; }
+        [BindProperty]
+        public List<int> SelectedCategories { get; set; } = new List<int>();
 
         public async Task<IActionResult> OnGetAsync()
         {
-            ListaProvocari = await _context.Provocare.ToListAsync();
-            ListaCategorii = await _context.Categorie.ToListAsync();   
+            Challenges = await _context.Challenge.ToListAsync();
+            Categories = await _context.Category.ToListAsync();   
 
             return Page();
         }
 
-        [BindProperty]
-        public Provocare Provocare { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
-
-        public List<Categorie> ListaCategorii { get; set; }
-        [BindProperty]
-        public List<int> SelectedCategories { get; set; } = new List<int>();
-
         public async Task<IActionResult> OnPostAsync()
         {
-          foreach(var categId in SelectedCategories)
+          foreach(var categoryId in SelectedCategories)
             {
-                var categ = await _context.Categorie.FindAsync(categId);
-                if (categ != null)
+                var category = await _context.Category.FindAsync(categoryId);
+                if (category != null)
                 {
-                    var categorieProvocari = new CategorieProvocare
+                    var challengeCategory = new ChallengeCategory
                     {
-                        Provocare = Provocare,
-                        Categorie = categ
+                        Challenge = Challenge,
+                        Category = category
                     };
-                    _context.CategorieProvocare.Add(categorieProvocari);
+                    _context.ChallengeCategory.Add(challengeCategory);
                 }
             }
 
-            _context.Provocare.Add(Provocare);
+            _context.Challenge.Add(Challenge);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

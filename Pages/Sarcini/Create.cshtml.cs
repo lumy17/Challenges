@@ -5,45 +5,45 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Challenges.Pages.Sarcini
+namespace Challenges.WebApp.Pages.Sarcini
 {
     public class CreateModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public CreateModel(Challenges.Data.ApplicationDbContext context)
+        public CreateModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
-        public List<Provocare> ListaProvocari { get; set; }
+        public List<Challenge> Challenges { get; set; }
         public IActionResult OnGet()
         {
-        ViewData["ProvocareId"] = new SelectList(_context.Provocare, "Id", "Id");
-            ListaProvocari = _context.Provocare.ToList();
+        ViewData["ProvocareId"] = new SelectList(_context.Challenge, "Id", "Id");
+            Challenges = _context.Challenge.ToList();
 
             return Page();
         }
 
         [BindProperty]
-        public Sarcina Sarcina { get; set; } = default!;
+        public TodoTask TodoTask { get; set; } = default!;
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Sarcina == null || Sarcina == null)
+          if (!ModelState.IsValid || _context.TodoTask == null || TodoTask == null)
             {
                 return Page();
             }
 
-            _context.Sarcina.Add(Sarcina);
+            _context.TodoTask.Add(TodoTask);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
-        }
+			return RedirectToPage("./Index", new { id = TodoTask.ChallengeId });
+		}
     }
 }

@@ -5,55 +5,55 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.SarciniRealizate
+namespace Challenges.WebApp.Pages.SarciniRealizate
 {
     public class DeleteModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public DeleteModel(Challenges.Data.ApplicationDbContext context)
+        public DeleteModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public SarcinaRealizata SarcinaRealizata { get; set; } = default!;
+      public FinishedTask FinishedTask { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.SarcinaRealizata == null)
+            if (id == null || _context.FinishedTask == null)
             {
                 return NotFound();
             }
 
-            var sarcinarealizata = await _context.SarcinaRealizata.FirstOrDefaultAsync(m => m.Id == id);
+            var finishedTask = await _context.FinishedTask.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (sarcinarealizata == null)
+            if (finishedTask == null)
             {
                 return NotFound();
             }
             else 
             {
-                SarcinaRealizata = sarcinarealizata;
+                FinishedTask = finishedTask;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.SarcinaRealizata == null)
+            if (id == null || _context.FinishedTask == null)
             {
                 return NotFound();
             }
-            var sarcinarealizata = await _context.SarcinaRealizata.FindAsync(id);
+            var sarcinarealizata = await _context.FinishedTask.FindAsync(id);
 
             if (sarcinarealizata != null)
             {
-                SarcinaRealizata = sarcinarealizata;
-                _context.SarcinaRealizata.Remove(SarcinaRealizata);
+                FinishedTask = sarcinarealizata;
+                _context.FinishedTask.Remove(FinishedTask);
                 await _context.SaveChangesAsync();
             }
 

@@ -6,44 +6,42 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.Sarcini
+namespace Challenges.WebApp.Pages.Sarcini
 {
     public class EditModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public EditModel(Challenges.Data.ApplicationDbContext context)
+        public EditModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Sarcina Sarcina { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public TodoTask TodoTask { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Sarcina == null)
+            if (id == null || _context.TodoTask == null)
             {
                 return NotFound();
             }
 
-            var sarcina =  await _context.Sarcina.FirstOrDefaultAsync(m => m.Id == id);
+            var sarcina =  await _context.TodoTask.FirstOrDefaultAsync(m => m.Id == id);
             if (sarcina == null)
             {
                 return NotFound();
             }
-            Sarcina = sarcina;
-                 ListaProvocari = await _context.Provocare.ToListAsync();
-            ViewData["ProvocareId"] = new SelectList(_context.Provocare, "Id", "Id");
+            TodoTask = sarcina;
+                 Challenges = await _context.Challenge.ToListAsync();
+            ViewData["ChallengeId"] = new SelectList(_context.Challenge, "Id", "Id");
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -51,7 +49,7 @@ namespace Challenges.Pages.Sarcini
                 return Page();
             }
 
-            _context.Attach(Sarcina).State = EntityState.Modified;
+            _context.Attach(TodoTask).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +57,7 @@ namespace Challenges.Pages.Sarcini
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SarcinaExists(Sarcina.Id))
+                if (!TodoTaskExists(TodoTask.Id))
                 {
                     return NotFound();
                 }
@@ -69,12 +67,12 @@ namespace Challenges.Pages.Sarcini
                 }
             }
 
-            return RedirectToPage("./Index");
-        }
+			return RedirectToPage("./Index", new { id = TodoTask.ChallengeId });
+		}
 
-        private bool SarcinaExists(int id)
+		private bool TodoTaskExists(int id)
         {
-          return (_context.Sarcina?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.TodoTask?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

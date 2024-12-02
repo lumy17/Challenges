@@ -6,38 +6,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.SarciniRealizate
+namespace Challenges.WebApp.Pages.SarciniRealizate
 {
     public class EditModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public EditModel(Challenges.Data.ApplicationDbContext context)
+        public EditModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public SarcinaRealizata SarcinaRealizata { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public FinishedTask FinishedTask { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.SarcinaRealizata == null)
+            if (id == null || _context.FinishedTask == null)
             {
                 return NotFound();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
 
-            var sarcinarealizata =  await _context.SarcinaRealizata.FirstOrDefaultAsync(m => m.Id == id);
-            if (sarcinarealizata == null)
+            var finishedTask =  await _context.FinishedTask.FirstOrDefaultAsync(m => m.Id == id);
+            if (finishedTask == null)
             {
                 return NotFound();
             }
-            SarcinaRealizata = sarcinarealizata;
+            FinishedTask = finishedTask;
             return Page();
         }
 
@@ -50,7 +50,7 @@ namespace Challenges.Pages.SarciniRealizate
                 return Page();
             }
 
-            _context.Attach(SarcinaRealizata).State = EntityState.Modified;
+            _context.Attach(FinishedTask).State = EntityState.Modified;
 
             try
             {
@@ -58,7 +58,7 @@ namespace Challenges.Pages.SarciniRealizate
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SarcinaRealizataExists(SarcinaRealizata.Id))
+                if (!FinishedTaskExists(FinishedTask.Id))
                 {
                     return NotFound();
                 }
@@ -71,9 +71,9 @@ namespace Challenges.Pages.SarciniRealizate
             return RedirectToPage("./Index");
         }
 
-        private bool SarcinaRealizataExists(int id)
+        private bool FinishedTaskExists(int id)
         {
-          return (_context.SarcinaRealizata?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.FinishedTask?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

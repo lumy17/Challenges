@@ -5,40 +5,40 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.Utilizatori
+namespace Challenges.WebApp.Pages.Utilizatori
 {
     public class DetailsModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public DetailsModel(Challenges.Data.ApplicationDbContext context)
+        public DetailsModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-      public Utilizator Utilizator { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+      public AppUser AppUser { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Utilizator == null)
+            if (id == null || _context.AppUser == null)
             {
                 return NotFound();
             }
 
-            var utilizator = await _context.Utilizator.FirstOrDefaultAsync(m => m.Id == id);
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            var appUser = await _context.AppUser.FirstOrDefaultAsync(m => m.Id == id);
+            Challenges = await _context.Challenge.ToListAsync();
 
-            if (utilizator == null)
+            if (appUser == null)
             {
                 return NotFound();
             }
             else 
             {
-                Utilizator = utilizator;
+                AppUser = appUser;
             }
             return Page();
         }

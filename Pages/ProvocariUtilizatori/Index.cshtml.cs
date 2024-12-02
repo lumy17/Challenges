@@ -5,31 +5,33 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace Challenges.Pages.ProvocariUtilizatori
+namespace Challenges.WebApp.Pages.ProvocariUtilizatori
 {
+    [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public IndexModel(Challenges.Data.ApplicationDbContext context)
+        public IndexModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IList<ProvocareUtilizator> ProvocareUtilizator { get;set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public IList<UserChallenge> UserChallenges { get;set; } = default!;
+        public List<Challenge> Challenges { get; set; }
         public async Task OnGetAsync()
         {
-            if (_context.ProvocareUtilizator != null)
+            if (_context.UserChallenge != null)
             {
-                ProvocareUtilizator = await _context.ProvocareUtilizator
-                .Include(p => p.Provocare)
-                .Include(p => p.Utilizator).ToListAsync();
+                UserChallenges = await _context.UserChallenge
+                .Include(p => p.Challenge)
+                .Include(p => p.AppUser).ToListAsync();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
         }
     }

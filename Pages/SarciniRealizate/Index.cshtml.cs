@@ -5,37 +5,42 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 using MessagePack;
 
-namespace Challenges.Pages.SarciniRealizate
+namespace Challenges.WebApp.Pages.SarciniRealizate
 {
     public class IndexModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public IndexModel(Challenges.Data.ApplicationDbContext context)
+        public IndexModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IList<SarcinaRealizata> SarcinaRealizata { get;set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public IList<FinishedTask> FinishedTask { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
-        public async Task OnGetAsync(int? provocareUtilId)
+        public async Task OnGetAsync(int? userChallengeId)
         {
-            if (provocareUtilId.HasValue)
+            if (userChallengeId.HasValue)
             {
-                SarcinaRealizata = await _context.SarcinaRealizata
-                    .Where(sr => sr.ProvocareUtilizatorId == provocareUtilId.Value)
+                FinishedTask = await _context.FinishedTask
+                    .Where(sr => sr.UserChallengeId == userChallengeId.Value)
+                    .Include(s => s.TodoTask)
+                    .Include(sr => sr.UserChallenge)
+                    .ThenInclude(pu => pu.Challenge)
+                    .Include(sr => sr.UserChallenge)
+                    .ThenInclude(pu => pu.AppUser)
                     .ToListAsync();
             }
             else
             {
-                SarcinaRealizata = await _context.SarcinaRealizata.ToListAsync();
+                FinishedTask = await _context.FinishedTask.ToListAsync();
             }
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
 
         }
     }

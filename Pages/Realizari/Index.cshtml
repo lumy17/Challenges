@@ -1,5 +1,5 @@
 ﻿@page
-@model Challenges.Pages.Realizari.IndexModel
+@model Challenges.WebApp.Pages.Realizari.IndexModel
 
 @{
     ViewData["Title"] = "Index";
@@ -16,22 +16,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Realizare[0].NumeRealizare)
+                @Html.DisplayNameFor(model => model.Badges[0].Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Realizare[0].Descriere)
+                @Html.DisplayNameFor(model => model.Badges[0].Description)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Realizare) {
+@foreach (var item in Model.Badges) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.NumeRealizare)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Descriere)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

@@ -1,5 +1,5 @@
 ﻿@page
-@model Challenges.Pages.SarciniRealizate.EditModel
+@model Challenges.WebApp.Pages.SarciniRealizate.EditModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,32 +9,32 @@
 
 <h1>Edit</h1>
 
-<h4>SarcinaRealizata</h4>
+<h4>Finished Task</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="SarcinaRealizata.Id" />
+                <input type="hidden" asp-for="FinishedTask.Id" />
             <div class="form-group">
-                <label asp-for="SarcinaRealizata.ProvocareUtilizatorId" class="control-label"></label>
-                <input asp-for="SarcinaRealizata.ProvocareUtilizatorId" class="form-control" />
-                <span asp-validation-for="SarcinaRealizata.ProvocareUtilizatorId" class="text-danger"></span>
+                    <label asp-for="FinishedTask.UserChallengeId" class="control-label"></label>
+                    <input asp-for="FinishedTask.UserChallengeId" class="form-control" />
+                    <span asp-validation-for="FinishedTask.UserChallengeId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SarcinaRealizata.SarcinaId" class="control-label"></label>
-                <input asp-for="SarcinaRealizata.SarcinaId" class="form-control" />
-                <span asp-validation-for="SarcinaRealizata.SarcinaId" class="text-danger"></span>
+                    <label asp-for="FinishedTask.TodoTaskId" class="control-label"></label>
+                    <input asp-for="FinishedTask.TodoTaskId" class="form-control" />
+                    <span asp-validation-for="FinishedTask.TodoTaskId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SarcinaRealizata.Data_Realizare" class="control-label"></label>
-                <input asp-for="SarcinaRealizata.Data_Realizare" class="form-control" />
-                <span asp-validation-for="SarcinaRealizata.Data_Realizare" class="text-danger"></span>
+                    <label asp-for="FinishedTask.CompletionDate" class="control-label"></label>
+                    <input asp-for="FinishedTask.CompletionDate" class="form-control" />
+                    <span asp-validation-for="FinishedTask.CompletionDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SarcinaRealizata.ZiuaRealizare" class="control-label"></label>
-                <input asp-for="SarcinaRealizata.ZiuaRealizare" class="form-control" />
-                <span asp-validation-for="SarcinaRealizata.ZiuaRealizare" class="text-danger"></span>
+                    <label asp-for="FinishedTask.CompletionDay" class="control-label"></label>
+                    <input asp-for="FinishedTask.CompletionDay" class="form-control" />
+                    <span asp-validation-for="FinishedTask.CompletionDay" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

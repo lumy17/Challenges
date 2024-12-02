@@ -1,5 +1,5 @@
 ﻿@page
-@model Challenges.Pages.Provocari.DeleteModel
+@model Challenges.WebApp.Pages.Provocari.DeleteModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -15,39 +15,39 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Provocare.Nume)
+            @Html.DisplayNameFor(model => model.Challenge.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Provocare.Nume)
+                @Html.DisplayFor(model => model.Challenge.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Provocare.Descriere)
+                @Html.DisplayNameFor(model => model.Challenge.Description)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Provocare.Descriere)
+                @Html.DisplayFor(model => model.Challenge.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Provocare.Categorie)
+                @Html.DisplayNameFor(model => model.Challenge.Category)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Provocare.Categorie)
+                @Html.DisplayFor(model => model.Challenge.Category)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Provocare.UrlImagine)
+                @Html.DisplayNameFor(model => model.Challenge.ImageUrl)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Provocare.UrlImagine)
+                @Html.DisplayFor(model => model.Challenge.ImageUrl)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Provocare.Durata)
+                @Html.DisplayNameFor(model => model.Challenge.Duration)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Provocare.Durata)
+                @Html.DisplayFor(model => model.Challenge.Duration)
         </dd>
     </dl>
     
     <form method="post">
-        <input type="hidden" asp-for="Provocare.Id" />
+        <input type="hidden" asp-for="Challenge.Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-page="./Index">Back to List</a>
     </form>

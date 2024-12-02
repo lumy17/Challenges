@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using Challenges.Models;
+using Challenges.WebApp.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
-namespace Challenges.Areas.Identity.Pages.Account
+namespace Challenges.WebApp.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
@@ -30,7 +30,7 @@ namespace Challenges.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
@@ -38,7 +38,7 @@ namespace Challenges.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            Challenges.Data.ApplicationDbContext context)
+            Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -56,7 +56,7 @@ namespace Challenges.Areas.Identity.Pages.Account
         /// dorim ca atunci cand se inregistreaza un utilizator nou, adresa acestuia de email sa fie salvata 
         /// concomitentsi in tabelul Utilizator, iar ulterior el isi poate completa si celelalte date de contact
         [BindProperty]
-            public Utilizator Utilizator { get; set; }
+            public AppUser AppUser { get; set; }
         [BindProperty]
         public List<int> SelectedCategories { get; set; } = new List<int>();
         [BindProperty]
@@ -145,8 +145,8 @@ namespace Challenges.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     //adaugam in tabelul utilizator mailul introdus la inregistrare
-                    Utilizator.Email = Input.Email;
-                    _context.Utilizator.Add(Utilizator);
+                    AppUser.Email = Input.Email;
+                    _context.AppUser.Add(AppUser);
                     await _context.SaveChangesAsync();
 
                     _logger.LogInformation("User created a new account with password.");
@@ -163,12 +163,12 @@ namespace Challenges.Areas.Identity.Pages.Account
                         protocol: Request.Scheme);
                 foreach (var categoryId in SelectedCategories)
                 {
-                    var categorieUtilizator = new CategorieUtilizator
+                    var userPreference = new UserPreference
                     {
-                        UtilizatorId = Utilizator.Id,
-                        CategorieId = categoryId
+                        AppUserId = AppUser.Id,
+                        CategoryId = categoryId
                     };
-                    _context.CategorieUtilizator.Add(categorieUtilizator);
+                    _context.UserPreference.Add(userPreference);
                 }
                 await _context.SaveChangesAsync();
 

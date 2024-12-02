@@ -1,6 +1,6 @@
 ﻿@page
 @model RegisterModel
-@inject Challenges.Data.ApplicationDbContext _context
+@inject Challenges.WebApp.Data.ApplicationDbContext _context
 @{
     ViewData["Title"] = "Register";
 }
@@ -68,8 +68,8 @@
                     </div>
 
                     <div data-mdb-input-init class="form-outline mb-4">
-                        <label asp-for="SelectedCategories" class="form-label" for="form3Example3">Categorii de interes: </label>
-                        <select asp-for="SelectedCategories" asp-items="@(new SelectList(_context.Categorie, "Id", "Nume"))" multiple class="form-control"></select>
+                        <label asp-for="SelectedCategories" class="form-label" for="form3Example3">Category Preference: </label>
+                        <select asp-for="SelectedCategories" asp-items="@(new SelectList(_context.Category, "Id", "Name"))" multiple class="form-control"></select>
                         <span asp-validation-for="SelectedCategories" class="text-danger"></span>
                     </div>
 

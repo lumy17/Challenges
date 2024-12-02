@@ -25,6 +25,14 @@
 
 .header--title {
     color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.points {
+    margin-left: auto;
+    padding-left: 20px;
 }
 .card--container {
     background: #222;
@@ -221,4 +229,88 @@ body {
         .ctaa .text p {
             color: #fff;
             font-weight: 300;
+        }
+.conttr {
+    max-width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-gap: 35px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+    .conttr .card {
+        position: relative;
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        background: #25292b;
+        border-radius: 15px;
+        box-shadow: 0 15px 60px rgba(0, 0, 0, 0.5);
+    }
+
+        .conttr .card .face {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .conttr .card .face.face1 {
+                box-sizing: border-box;
+                padding: 20px;
+            }
+
+                .conttr .card .face.face1 h2 {
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .conttr .card .face.face1 .java {
+                    background-color: #25292b;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+                .conttr .card .face.face1 .python {
+                    background-color: #00fffc;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+                .conttr .card .face.face1 .cSharp {
+                    background-color: #fc00ff;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                }
+
+            .conttr .card .face.face2 {
+                transition: 0.5s;
+            }
+
+                .conttr .card .face.face2 h2 {
+                    margin: 0;
+                    padding: 0;
+                    font-size: 4em;
+                    color: #fff;
+                    transition: 0.5s;
+                    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                    z-index: 10;
+                }
+
+        .conttr .card:hover .face.face2 {
+            height: 60px;
+        }
+
+            .conttr .card:hover .face.face2 h2 {
+                font-size: 2em;
+            }
+
+        .conttr .card:nth-child(1) .face.face2 {
+            background: linear-gradient(180deg, #2f2d2d 0%, #3a2727 100%);
+            border-radius: 15px;
         }

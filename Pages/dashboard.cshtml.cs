@@ -1,22 +1,23 @@
-using Challenges.Data;
+using Challenges.WebApp.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Principal;
-using Challenges.Models;
+using Challenges.WebApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Challenges.Pages
+namespace Challenges.WebApp.Pages
 {
     public class dashboardModel : PageModel
     {
         private readonly ApplicationDbContext _context;
         public int FinishedChallengesCount { get; set; }
         public int Streak { get; set; }
-        public string currentUser { get; set; }
-        public List<Realizare> Badgeuri { get; set; }
-        public Sarcina SarcinaCurenta { get; set; }
-        public List<Provocare> ListaProvocari { get; set; }
+        public int Points { get; set; }
+        public string CurrentUser { get; set; }
+        public List<Badge> Badges { get; set; }
+        public List<TodoTask> CurrentTasks { get; set; } = new List<TodoTask>();
+        public List<Challenge> Challenges { get; set; }
 
         public dashboardModel(ApplicationDbContext context)
         {
@@ -24,44 +25,45 @@ namespace Challenges.Pages
         }
         public void OnGet()
         {
-            ListaProvocari = _context.Provocare.ToList();
-            currentUser = User.Identity.Name;
-            var user = _context.Utilizator.FirstOrDefault
-                (u => u.Email == currentUser);
+            Challenges = _context.Challenge.ToList();
+            CurrentUser = User.Identity.Name;
+            var user = _context.AppUser.FirstOrDefault
+                (u => u.Email == CurrentUser);
             if (user != null)
             {
-                FinishedChallengesCount = _context.ProvocareUtilizator
-                .Count(p => p.UtilizatorId == user.Id
-                && p.Stare == "finalizat");
+                FinishedChallengesCount = _context.UserChallenge
+                .Count(p => p.AppUserId == user.Id
+                && p.CurrentState == "finished");
 
                 Streak = user.Streak;
+                Points = user.Points;
 
-                Badgeuri = _context.Realizare.ToList();
-                var provocareUser = _context.ProvocareUtilizator.FirstOrDefault
-                    (u => u.UtilizatorId == user.Id);
+                Badges = _context.Badge.ToList();
+                var userChallenge = _context.UserChallenge.FirstOrDefault
+                    (u => u.AppUserId == user.Id);
                 //verifica daca utilizatorul curent a realizat o sarcina adica
                 //daca exista o data_realizare cu data de azi pentru
                 //o provocare specifica a unui utilizator
-                if (provocareUser != null)
+                if (userChallenge != null)
                 {
-                    bool sarcinaFinalizataAzi = _context.SarcinaRealizata
-                        .Any(u => u.ProvocareUtilizatorId == provocareUser.Id
-                        && u.Data_Realizare.Value.Date == DateTime.Today);
+                    bool taskCompletedToday = _context.FinishedTask
+                        .Any(u => u.UserChallengeId == userChallenge.Id
+                        && u.CompletionDate.Value.Date == DateTime.Today);
                     // Verifica daca utilizatorul a finalizat o sarcina ieri
-                    bool sarcinaFinalizataIeri = _context.SarcinaRealizata
-                        .Any(u => u.ProvocareUtilizatorId == provocareUser.Id
-                        && u.Data_Realizare.Value.Date == DateTime.Today.AddDays(-1));
+                    bool taskCompletedYesterday = _context.FinishedTask
+                        .Any(u => u.UserChallengeId == userChallenge.Id
+                        && u.CompletionDate.Value.Date == DateTime.Today.AddDays(-1));
 
-                    if (sarcinaFinalizataAzi && user.DataUltimaActualizareStreak != DateTime.Today)
+                    if (taskCompletedToday && user.LastStreakUpdateDate != DateTime.Today)
                     {
                         user.Streak++;
-                        user.DataUltimaActualizareStreak = DateTime.Today;
+                        user.LastStreakUpdateDate = DateTime.Today;
 
                         _context.Update(user);
                         _context.SaveChanges();
                     }
                     // Daca utilizatorul nu a finalizat o sarcina ieri, reseteaza streak-ul la 0
-                    else if (!sarcinaFinalizataIeri && !sarcinaFinalizataAzi)
+                    else if (!taskCompletedYesterday && !taskCompletedToday)
                     {
                         user.Streak = 0;
 
@@ -71,21 +73,43 @@ namespace Challenges.Pages
                 }
                 Streak = user.Streak;
 
-                var provocareUtilizator = _context.ProvocareUtilizator.
-                    FirstOrDefault(pu => pu.UtilizatorId == user.Id &&
-                    pu.Stare != "finalizat");
-                if (provocareUtilizator != null)
+                var userChallenges = _context.UserChallenge
+    .Where(pu => pu.AppUserId == user.Id && pu.CurrentState != "finished")
+    .ToList();
+                if (userChallenges.Count != 0)
                 {
-                    SarcinaCurenta = _context.Sarcina.FirstOrDefault
-                        (s => s.ProvocareId == provocareUtilizator.ProvocareId
-                        && s.Ziua == provocareUtilizator.ZiuaCurenta);
+                    bool taskCompletedToday = _context.FinishedTask
+    .Any(u => u.UserChallengeId == userChallenge.Id
+    && u.CompletionDate.Value.Date == DateTime.Today);
+                    foreach (var prov in userChallenges)
+                    {
+                        if (taskCompletedToday)
+                        {
+                            var currentTask = _context.TodoTask.FirstOrDefault(s =>
+    s.ChallengeId == prov.ChallengeId
+    && s.Day == prov.CurrentDay-1);
+                            if (currentTask != null)
+                            {
+                                CurrentTasks.Add(currentTask);
+                            }
+                        }
+                        else {
+                            var currentTask = _context.TodoTask.FirstOrDefault(s =>
+        s.ChallengeId == prov.ChallengeId
+        && s.Day == prov.CurrentDay);
+                            if (currentTask != null)
+                            {
+                                CurrentTasks.Add(currentTask);
+                            }
+                        }
+                    }
                 }
             }
         }
         public bool UserHasBadge(int badgeId)
         {
-            var user = _context.Utilizator.FirstOrDefault(u => u.Email == currentUser);
-            return _context.RealizareUtilizator.Any(ru => ru.UtilizatorId == user.Id && ru.RealizareId == badgeId);
+            var user = _context.AppUser.FirstOrDefault(u => u.Email == CurrentUser);
+            return _context.UserBadge.Any(ru => ru.UserId == user.Id && ru.BadgeId == badgeId);
         }
     }
 }

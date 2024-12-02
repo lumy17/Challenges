@@ -5,55 +5,55 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.Realizari
+namespace Challenges.WebApp.Pages.Realizari
 {
     public class DeleteModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public DeleteModel(Challenges.Data.ApplicationDbContext context)
+        public DeleteModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public Realizare Realizare { get; set; } = default!;
+      public Badge Badge { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Realizare == null)
+            if (id == null || _context.Badge == null)
             {
                 return NotFound();
             }
 
-            var realizare = await _context.Realizare.FirstOrDefaultAsync(m => m.Id == id);
+            var badge = await _context.Badge.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (realizare == null)
+            if (badge == null)
             {
                 return NotFound();
             }
             else 
             {
-                Realizare = realizare;
+                Badge = badge;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Realizare == null)
+            if (id == null || _context.Badge == null)
             {
                 return NotFound();
             }
-            var realizare = await _context.Realizare.FindAsync(id);
+            var badge = await _context.Badge.FindAsync(id);
 
-            if (realizare != null)
+            if (badge != null)
             {
-                Realizare = realizare;
-                _context.Realizare.Remove(Realizare);
+                Badge = badge;
+                _context.Badge.Remove(Badge);
                 await _context.SaveChangesAsync();
             }
 

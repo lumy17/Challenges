@@ -5,60 +5,47 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.Provocari
+namespace Challenges.WebApp.Pages.Provocari
 {
     public class DetailsModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public DetailsModel(Challenges.Data.ApplicationDbContext context)
+        public DetailsModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Provocare Provocare { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
+        public Challenge Challenge { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Provocare == null)
+            if (id == null || _context.Challenge == null)
             {
                 return NotFound();
             }
-            var provocare = await _context.Provocare
+            var provocare = await _context.Challenge
                 .FirstOrDefaultAsync(m => m.Id == id);
-            ListaProvocari = await _context.Provocare.ToListAsync();
+            Challenges = await _context.Challenge.ToListAsync();
             if (provocare == null)
             {
                 return NotFound();
             }
             else
             {
-                Provocare = provocare;
+                Challenge = provocare;
             }
             var currentUser = User.Identity.Name;
-            var user = _context.Utilizator.FirstOrDefault(u => u.Email == currentUser);
-            // Verificăm dacă utilizatorul a vizitat deja această provocare
-            var vizualizareProvocare = await _context.VizualizareProvocare
-                .FirstOrDefaultAsync(uc => uc.UtilizatorId == user.Id &&
-                uc.ProvocareId == id);
-            if (vizualizareProvocare == null)
-            {        // Dacă utilizatorul nu a vizitat provocarea, adăugăm o nouă înregistrare și incrementăm numărul de vizualizări
-                     // 					Provocare.Vizualizari++;
+            var user = _context.AppUser.FirstOrDefault(u => u.Email == currentUser);
+            //de fiecare data cand un vizitator da click pe o provocare
+            //vizulizarile vor creste
+            Challenge.Views++;
+            await _context.SaveChangesAsync();
 
-                var vizualizareUtilizator = new VizualizareProvocare
-                {
-                    ProvocareId = Provocare.Id,
-                    UtilizatorId = user.Id,
-                    DataVizualizare = DateTime.Today
-                };
-                _context.VizualizareProvocare.Add(vizualizareUtilizator);
-                Provocare.Vizualizari++;
-                await _context.SaveChangesAsync();
-            }
             return Page();
         }
         public async Task<IActionResult> OnPostAsync(int? id)
@@ -68,32 +55,32 @@ namespace Challenges.Pages.Provocari
                 return NotFound();
             }
 
-            Provocare = await _context.Provocare.FirstOrDefaultAsync(m => m.Id == id);
-            if (Provocare == null)
+            Challenge = await _context.Challenge.FirstOrDefaultAsync(m => m.Id == id);
+            if (Challenge == null)
             {
                 return NotFound();
             }
             var currentUser = User.Identity.Name;
-            var user = _context.Utilizator.FirstOrDefault(u => u.Email == currentUser);
+            var user = _context.AppUser.FirstOrDefault(u => u.Email == currentUser);
             if (user != null)
             {
 
-                var provocareUtilizator = new ProvocareUtilizator
+                var userChallenge = new UserChallenge
                 {
-                    ProvocareId = Provocare.Id,
-                    UtilizatorId = user.Id,
-                    Data_start = DateTime.Now,
-                    DataFinal = DateTime.Now.AddDays(Provocare.Durata),
-                    ZiuaCurenta = 1,
-                    Stare = "In desfasurare"
+                    ChallengeId = Challenge.Id,
+                    AppUserId = user.Id,
+                    StartDate = DateTime.Now,
+                    EndDate = DateTime.Now.AddDays(Challenge.Duration),
+                    CurrentDay = 1,
+                    CurrentState = "In desfasurare"
                 };
-                _context.ProvocareUtilizator.Add(provocareUtilizator);
+                _context.UserChallenge.Add(userChallenge);
                 await _context.SaveChangesAsync();
 
-                return RedirectToPage("./Tasks", new { id = Provocare.Id });
+                return RedirectToPage("./Tasks", new { id = Challenge.Id });
             }
+            return RedirectToPage("/Account/Login", new { area = "Identity" }); // Redirect to login page
 
-            return Page();
         }
     }
 }

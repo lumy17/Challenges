@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using Challenges.Models
+@using Challenges.WebApp.Models
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @inject RankingService rankingService
@@ -12,7 +12,7 @@
     <title>@ViewData["Title"] - Challenges</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Challenges.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Challenges.WebApp.styles.css" asp-append-version="true" />
 </head>
 <body>
     @if (SignInManager.IsSignedIn(User))
@@ -39,18 +39,15 @@
                                 <a class="nav-link" href="/Utilizatori/Index">Utilizatori</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/Realizari/Index">Badge-uri</a>
+                                <a class="nav-link" href="/Realizari/Index">Insigne</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/RealizariUtilizatori/Index">Badge-urile Utilizatorilor</a>
-                            </li>     
                             <li class="nav-item">
                                 <a class="nav-link" href="/Categorii/Index">Categorii</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-            </nav
+            </nav>
                     <div class="main-container">
             <div class="oth-div">
                 <div class="row flex-nowrap">
@@ -109,6 +106,9 @@
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="" asp-page="/Provocari/Index">Provocari</a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/ChatGPT">Ai nevoie de ajutor?</a>
+                                    </li>
                                 </ul>
                                 <partial name="_LoginPartial" />
                                 <hr>
@@ -137,9 +137,9 @@
                                                 <a class="nav-link ch-right" asp-area="" asp-page="/Provocari/Details" asp-route-id="@challenge.Id">
 
                                                     <div class="card">
-                                                        <img class="card-img-top challenge-image" src="@challenge.UrlImagine" width="50" height="50">
+                                                        <img class="card-img-top challenge-image" src="@challenge.ImageUrl" width="50" height="50">
                                                         <div class="card-body">
-                                                            <h5 class="card-title wrr">@challenge.Nume</h5>
+                                                            <h5 class="card-title wrr">@challenge.Name</h5>
                                                         </div>
                                                     </div>
                                                 </a>

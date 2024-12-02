@@ -6,46 +6,46 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.Utilizatori
+namespace Challenges.WebApp.Pages.Utilizatori
 {
     public class EditModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public EditModel(Challenges.Data.ApplicationDbContext context)
+        public EditModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public Utilizator Utilizator { get; set; } = default!;
-        public List<Provocare> ListaProvocari { get; set; }
-        public List<Categorie> ListaCategorii { get; set; }
+        public AppUser AppUser { get; set; } = default!;
+        public List<Challenge> Challenges { get; set; }
+        public List<Category> Categories { get; set; }
         [BindProperty]
         public List<int> SelectedCategories { get; set; } = new List<int>();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Utilizator == null)
+            if (id == null || _context.AppUser == null)
             {
                 return NotFound();
             }
 
-            var utilizator = await _context.Utilizator
-                  .Include(u => u.CategoriiUtilizatori)
-                  .ThenInclude(cu => cu.Categorie)
-                  .FirstOrDefaultAsync(m => m.Id == id); ListaProvocari = await _context.Provocare.ToListAsync();
+            var utilizator = await _context.AppUser
+                  .Include(u => u.UserCategories)
+                  .ThenInclude(cu => cu.Category)
+                  .FirstOrDefaultAsync(m => m.Id == id); Challenges = await _context.Challenge.ToListAsync();
 
             if (utilizator == null)
             {
                 return NotFound();
             }
-            Utilizator = utilizator;
-            ListaCategorii = await _context.Categorie.ToListAsync();
-            SelectedCategories = utilizator.CategoriiUtilizatori.Select(cu => cu.Categorie.Id).ToList();
+            AppUser = utilizator;
+            Categories = await _context.Category.ToListAsync();
+            SelectedCategories = utilizator.UserCategories.Select(cu => cu.Category.Id).ToList();
 
             return Page();
         }
@@ -56,30 +56,30 @@ namespace Challenges.Pages.Utilizatori
         {
             if (!ModelState.IsValid)
             {
-                ListaCategorii = await _context.Categorie.ToListAsync();
+                Categories = await _context.Category.ToListAsync();
                 return Page();
             }
 
-            _context.Attach(Utilizator).State = EntityState.Modified;
+            _context.Attach(AppUser).State = EntityState.Modified;
 
             // Remove existing category associations
-            var existingCategorieUtilizator = await _context.CategorieUtilizator
-                .Where(cu => cu.UtilizatorId == Utilizator.Id)
+            var existingUserPreference = await _context.UserPreference
+                .Where(cu => cu.AppUserId == AppUser.Id)
                 .ToListAsync();
-            _context.CategorieUtilizator.RemoveRange(existingCategorieUtilizator);
+            _context.UserPreference.RemoveRange(existingUserPreference);
 
             // Add new category associations
             foreach (var categoryId in SelectedCategories)
             {
-                var category = await _context.Categorie.FindAsync(categoryId);
+                var category = await _context.Category.FindAsync(categoryId);
                 if (category != null)
                 {
-                    var categorieUtilizator = new CategorieUtilizator
+                    var userPreference = new UserPreference
                     {
-                        Utilizator = Utilizator,
-                        Categorie = category
+                        AppUser = AppUser,
+                        Category = category
                     };
-                    _context.CategorieUtilizator.Add(categorieUtilizator);
+                    _context.UserPreference.Add(userPreference);
                 }
             }
 
@@ -89,7 +89,7 @@ namespace Challenges.Pages.Utilizatori
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UtilizatorExists(Utilizator.Id))
+                if (!UtilizatorExists(AppUser.Id))
                 {
                     return NotFound();
                 }
@@ -104,7 +104,7 @@ namespace Challenges.Pages.Utilizatori
 
         private bool UtilizatorExists(int id)
         {
-          return (_context.Utilizator?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.AppUser?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -5,59 +5,59 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.Sarcini
+namespace Challenges.WebApp.Pages.Sarcini
 {
     public class DeleteModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public DeleteModel(Challenges.Data.ApplicationDbContext context)
+        public DeleteModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public Sarcina Sarcina { get; set; } = default!;
+      public TodoTask TodoTask { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Sarcina == null)
+            if (id == null || _context.TodoTask == null)
             {
                 return NotFound();
             }
 
-            var sarcina = await _context.Sarcina.FirstOrDefaultAsync(m => m.Id == id);
+            var todoTask = await _context.TodoTask.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (sarcina == null)
+            if (todoTask == null)
             {
                 return NotFound();
             }
             else 
             {
-                Sarcina = sarcina;
+                TodoTask = todoTask;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Sarcina == null)
+            if (id == null || _context.TodoTask == null)
             {
                 return NotFound();
             }
-            var sarcina = await _context.Sarcina.FindAsync(id);
+            var todoTask = await _context.TodoTask.FindAsync(id);
 
-            if (sarcina != null)
+            if (todoTask != null)
             {
-                Sarcina = sarcina;
-                _context.Sarcina.Remove(Sarcina);
+                TodoTask = todoTask;
+                _context.TodoTask.Remove(TodoTask);
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
-        }
-    }
+			return RedirectToPage("./Index", new { id = TodoTask.ChallengeId });
+		}
+	}
 }

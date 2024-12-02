@@ -5,55 +5,55 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.Data;
-using Challenges.Models;
+using Challenges.WebApp.Data;
+using Challenges.WebApp.Models;
 
-namespace Challenges.Pages.Utilizatori
+namespace Challenges.WebApp.Pages.Utilizatori
 {
     public class DeleteModel : PageModel
     {
-        private readonly Challenges.Data.ApplicationDbContext _context;
+        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
 
-        public DeleteModel(Challenges.Data.ApplicationDbContext context)
+        public DeleteModel(Challenges.WebApp.Data.ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public Utilizator Utilizator { get; set; } = default!;
+      public AppUser AppUser { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Utilizator == null)
+            if (id == null || _context.AppUser == null)
             {
                 return NotFound();
             }
 
-            var utilizator = await _context.Utilizator.FirstOrDefaultAsync(m => m.Id == id);
+            var appUser = await _context.AppUser.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (utilizator == null)
+            if (appUser == null)
             {
                 return NotFound();
             }
             else 
             {
-                Utilizator = utilizator;
+                AppUser = appUser;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.Utilizator == null)
+            if (id == null || _context.AppUser == null)
             {
                 return NotFound();
             }
-            var utilizator = await _context.Utilizator.FindAsync(id);
+            var appUser = await _context.AppUser.FindAsync(id);
 
-            if (utilizator != null)
+            if (appUser != null)
             {
-                Utilizator = utilizator;
-                _context.Utilizator.Remove(Utilizator);
+                AppUser = appUser;
+                _context.AppUser.Remove(AppUser);
                 await _context.SaveChangesAsync();
             }
 

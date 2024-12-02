@@ -1,5 +1,5 @@
 ﻿@page
-@model Challenges.Pages.Provocari.CreateModel
+@model Challenges.WebApp.Pages.Provocari.CreateModel
 
 @{
     ViewData["Title"] = "Create";
@@ -18,39 +18,39 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Provocare.Nume" class="control-label"></label>
-                <input asp-for="Provocare.Nume" class="form-control" />
-                <span asp-validation-for="Provocare.Nume" class="text-danger"></span>
+                    <label asp-for="Challenge.Name" class="control-label"></label>
+                    <input asp-for="Challenge.Name" class="form-control" />
+                    <span asp-validation-for="Challenge.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Provocare.Descriere" class="control-label"></label>
-                <input asp-for="Provocare.Descriere" class="form-control" />
-                <span asp-validation-for="Provocare.Descriere" class="text-danger"></span>
+                    <label asp-for="Challenge.Description" class="control-label"></label>
+                    <input asp-for="Challenge.Description" class="form-control" />
+                    <span asp-validation-for="Challenge.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Provocare.Categorie" class="control-label"></label>
-                <input asp-for="Provocare.Categorie" class="form-control" />
-                <span asp-validation-for="Provocare.Categorie" class="text-danger"></span>
+                    <label asp-for="Challenge.Category" class="control-label"></label>
+                    <input asp-for="Challenge.Category" class="form-control" />
+                    <span asp-validation-for="Challenge.Category" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Provocare.UrlImagine" class="control-label"></label>
-                <input asp-for="Provocare.UrlImagine" class="form-control" />
-                <span asp-validation-for="Provocare.UrlImagine" class="text-danger"></span>
+                    <label asp-for="Challenge.ImageUrl" class="control-label"></label>
+                    <input asp-for="Challenge.ImageUrl" class="form-control" />
+                    <span asp-validation-for="Challenge.ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Provocare.Durata" class="control-label"></label>
-                <input asp-for="Provocare.Durata" class="form-control" />
-                <span asp-validation-for="Provocare.Durata" class="text-danger"></span>
+                    <label asp-for="Challenge.Duration" class="control-label"></label>
+                    <input asp-for="Challenge.Duration" class="form-control" />
+                    <span asp-validation-for="Challenge.Duration" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Categorii</label>
+                <label>Categories</label>
                 <div>
-                        @foreach(var categ in Model.ListaCategorii)
+                        @foreach(var category in Model.Categories)
                         {
                             <div class="from-check">
                                 <input class="form-check-input" type="checkbox"
-                                name="SelectedCategories" value="@categ.Id"/>
-                                <label class="form-check-label">@categ.Nume</label>
+                                       name="SelectedCategories" value="@category.Id" />
+                                <label class="form-check-label">@category.Name</label>
                                 </div>
                         }
                     </div>
