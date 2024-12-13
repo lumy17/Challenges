@@ -1,0 +1,42 @@
+﻿@page
+@model Challenges.WebApp.Pages.FinishedTasks.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>Details</h1>
+
+<div>
+        <h4>Finished Task</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FinishedTask.UserChallenge.Challenge.Name)
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FinishedTask.UserChallenge.Challenge.Name)
+        </dd>
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FinishedTask.TodoTask.Name)
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FinishedTask.TodoTask.Name)
+        </dd>
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FinishedTask.CompletionDate)
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FinishedTask.CompletionDate)
+        </dd>
+        <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.FinishedTask.CompletionDay)
+        </dt>
+        <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FinishedTask.CompletionDay)
+        </dd>
+    </dl>
+</div>
+</div>

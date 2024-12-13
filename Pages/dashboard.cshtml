@@ -24,13 +24,14 @@
 
             <div class="stat-box st">
                 <div class="badges">
-                    @for (int i = 0; i < 3; i++)
+                    @for (int i = 0; i < Math.Min(3, Model.Badges.Count); i++)
                     {
                         var badge = Model.Badges[i];
                         <div class="badge @(Model.UserHasBadge(badge.Id) ? "active" : "")">
                             <img src="/images/@(badge.Name).png" />
                         </div>
                     }
+
                 </div>
                 <p>Badges</p>
                 <div class="badge-header">

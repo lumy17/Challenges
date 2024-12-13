@@ -1,0 +1,53 @@
+﻿@page
+@model Challenges.WebApp.Pages.FinishedTasks.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>Edit</h1>
+
+<h4>Finished Task</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="FinishedTask.Id" />
+            <div class="form-group">
+                    <label asp-for="FinishedTask.UserChallengeId" class="control-label"></label>
+                    <input asp-for="FinishedTask.UserChallengeId" class="form-control" />
+                    <span asp-validation-for="FinishedTask.UserChallengeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <label asp-for="FinishedTask.TodoTaskId" class="control-label"></label>
+                    <input asp-for="FinishedTask.TodoTaskId" class="form-control" />
+                    <span asp-validation-for="FinishedTask.TodoTaskId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <label asp-for="FinishedTask.CompletionDate" class="control-label"></label>
+                    <input asp-for="FinishedTask.CompletionDate" class="form-control" />
+                    <span asp-validation-for="FinishedTask.CompletionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <label asp-for="FinishedTask.CompletionDay" class="control-label"></label>
+                    <input asp-for="FinishedTask.CompletionDay" class="form-control" />
+                    <span asp-validation-for="FinishedTask.CompletionDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

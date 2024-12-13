@@ -30,19 +30,19 @@
                             <li class="nav-item">
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/Provocari/IndexAdmin">Provocari</a>
+                                <a class="nav-link" href="/AppChallenges/IndexAdmin">Challenges</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/ProvocariUtilizatori/Index">Provocarile Utilizatorilor</a>
+                                <a class="nav-link" href="/UserChallenges/Index">User Challenges</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/Utilizatori/Index">Utilizatori</a>
+                                <a class="nav-link" href="/AppUsers/Index">Users</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/Realizari/Index">Insigne</a>
+                                <a class="nav-link" href="/Badges/Index">Badges</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/Categorii/Index">Categorii</a>
+                                <a class="nav-link" href="/Categories/Index">Categorii</a>
                             </li>
                         </ul>
                     </div>
@@ -64,7 +64,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-page="/Provocari/Index">Provocari</a>
+                                    <a class="nav-link" asp-area="" asp-page="/AppChallenges/Index">Challenges</a>
                                 </li>
                             </ul>
                             <partial name="_LoginPartial" />
@@ -101,13 +101,13 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-page="/ProvocariUtilizatori/Details">Provocarile Mele</a>
+                                        <a class="nav-link" asp-area="" asp-page="/UserChallenges/Details">My Challenges</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-page="/Provocari/Index">Provocari</a>
+                                        <a class="nav-link" asp-area="" asp-page="/AppChallenges/Index">Challenges</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-page="/ChatGPT">Ai nevoie de ajutor?</a>
+                                        <a class="nav-link" asp-area="" asp-page="/ChatGPT">Need Help?</a>
                                     </li>
                                 </ul>
                                 <partial name="_LoginPartial" />
@@ -134,7 +134,7 @@
                                         @foreach (var challenge in rankedChallenges)
                                         {
                                             <li class="nav-item">
-                                                <a class="nav-link ch-right" asp-area="" asp-page="/Provocari/Details" asp-route-id="@challenge.Id">
+                                                <a class="nav-link ch-right" asp-area="" asp-page="/AppChallenges/Details" asp-route-id="@challenge.Id">
 
                                                     <div class="card">
                                                         <img class="card-img-top challenge-image" src="@challenge.ImageUrl" width="50" height="50">
@@ -172,7 +172,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Provocari/Index">Provocari</a>
+                            <a class="nav-link" href="/AppChallenges/Index">Challenges</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

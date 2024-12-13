@@ -1,0 +1,70 @@
+﻿@page
+@model Challenges.WebApp.Pages.UserChallenges.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>User Challenges</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserChallenges[0].Challenge)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.UserChallenges[0].AppUser)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.UserChallenges[0].StartDate)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.UserChallenges[0].EndDate)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.UserChallenges[0].CurrentState)
+            </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.UserChallenges[0].CurrentDay)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model.UserChallenges)
+            {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Challenge.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppUser.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentState)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentDay)
+            </td>
+                    <td>
+                        <a asp-page="/SarciniRealizate/Index" asp-route-provocareUtilizatorId="@item.Id">Finished Tasks</a>
+                    </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

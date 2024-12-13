@@ -1,0 +1,51 @@
+﻿@page
+@model Challenges.WebApp.Pages.FinishedTasks.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="other_pages">
+
+<h1>Create</h1>
+
+<h4>Finished Task</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FinishedTask.UserChallengeId" class="control-label"></label>
+                    <select asp-for="FinishedTask.UserChallengeId" class="form-control" asp-items="ViewBag.UserChallengeId"></select>
+            </div>
+            <div class="form-group">
+                    <label asp-for="FinishedTask.TodoTaskId" class="control-label"></label>
+                    <select asp-for="FinishedTask.TodoTaskId" class="form-control" asp-items="ViewBag.TodoTaskId"></select>
+
+            </div>
+            <div class="form-group">
+                    <label asp-for="FinishedTask.CompletionDate" class="control-label"></label>
+                    <input asp-for="FinishedTask.CompletionDate" class="form-control" />
+                    <span asp-validation-for="FinishedTask.CompletionDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                    <label asp-for="FinishedTask.CompletionDay" class="control-label"></label>
+                    <input asp-for="FinishedTask.CompletionDay" class="form-control" />
+                    <span asp-validation-for="FinishedTask.CompletionDay" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
