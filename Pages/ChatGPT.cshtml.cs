@@ -6,7 +6,6 @@ using OpenAI_API.Models;
 using Microsoft.Extensions.Configuration;
 using OpenAI_API.Completions;
 
-
 namespace Challenges.WebApp.Pages
 {
 	public class ChatGPTModel : PageModel
@@ -22,23 +21,32 @@ namespace Challenges.WebApp.Pages
 		public string OutputResult { get; set; } = "";
 		public async Task<IActionResult> OnPostAsync()
 		{
+
 			var query = Request.Form["msg"];
 
-			var openAiKey = _configuration.GetValue<string>("OpenAiKey");
+			var openAiKey = _configuration["OpenAIKey"];
+            if (string.IsNullOrEmpty(openAiKey))
+            {
+                return new JsonResult("API Key is missing.");
+            }
 
-			var openai = new OpenAIAPI(openAiKey);
-			CompletionRequest completionRequest = new CompletionRequest();
-			completionRequest.Prompt = query;
-			completionRequest.Model = Model.ChatGPTTurboInstruct;
-			completionRequest.MaxTokens = 1024;
-
-			var completions = await openai.Completions.CreateCompletionAsync(completionRequest);
-
-			foreach (var completion in completions.Completions)
+            var openai = new OpenAIAPI(openAiKey);
+			var chatRequest = new ChatRequest
 			{
-				OutputResult += completion.Text;
-			}
-			return new JsonResult(OutputResult);
+				Messages = new List<ChatMessage>
+	{
+		new ChatMessage { Role = ChatMessageRole.System, TextContent = "You are a helpful assistant. Please keep your answers concise." },
+		new ChatMessage { Role = ChatMessageRole.User, TextContent = query }
+	},
+				Model = "gpt-3.5-turbo",
+				MaxTokens = 1028
+			};
+
+			var chatResponse = await openai.Chat.CreateChatCompletionAsync(chatRequest);
+			var response = chatResponse.Choices.FirstOrDefault()?.Message?.Content;
+
+			// Return the response
+			return new JsonResult(response ?? "Sorry, I couldn't generate a response.");
 		}
 	}
 }

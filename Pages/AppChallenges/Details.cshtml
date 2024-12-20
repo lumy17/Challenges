@@ -1,48 +1,49 @@
 ﻿@page
 @model Challenges.WebApp.Pages.AppChallenges.DetailsModel
-
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Challenge Details";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
-<div class="main--content">
-    <div class="header--wrapper">
-        <div class="header--title">
-            <h2>@Model.Challenge.Name</h2>
-        </div>
+<head>
+    <link rel="stylesheet" href="~/css/details.css" />
+</head>
+<div class="challenge-container">
+    <div class="challenge-header">
+        <h1 class="challenge-title">@Model.Challenge.Name</h1>
+        <div class="category-badge">@Model.Challenge.Category</div>
     </div>
-    <div class="card--container">
-        <div class="card--wrapper">
-<div class="container4 mt-5 other_pages">
-    <br />
-    <div class="ch-cont">
-        <div class="imgss">
-            <img src="@Model.Challenge.ImageUrl" class="img-fluid">
+
+    <div class="challenge-content">
+        <div class="challenge-image-wrapper">
+            <img src="@Model.Challenge.ImageUrl" class="challenge-image" alt="Challenge Image">
+            <div class="duration-badge">
+                <i class="fas fa-clock"></i>
+                @Model.Challenge.Duration
+            </div>
         </div>
-        <div class="txtt align-self-center ">
-            @{
-                var sentences = Model.Challenge.Description.Split('.');
-                for (var i = 0; i < sentences.Length; i += 2)
-                {
-                    var line = sentences[i].Trim();
-                    if (i + 1 < sentences.Length)
+
+        <div class="challenge-details">
+            <div class="description-card">
+                @{
+                    var sentences = Model.Challenge.Description.Split('.');
+                    for (var i = 0; i < sentences.Length; i += 2)
                     {
-                        line += ". " + sentences[i + 1].Trim();
+                        var line = sentences[i].Trim();
+                        if (i + 1 < sentences.Length)
+                        {
+                            line += ". " + sentences[i + 1].Trim();
+                        }
+                        <p>@line</p>
                     }
-                    <p>@line</p>
                 }
-            }
-            <p><strong>Category:</strong> @Model.Challenge.Category</p>
-            <p><strong>Duration:</strong> @Model.Challenge.Duration</p>
-            <form method="post">
-                <button type="submit" asp-route-id="@Model.Challenge.Id"
-                        class="btn btn-primary">
-                    Start Challenge
+            </div>
+
+            <form method="post" class="challenge-action">
+                <button type="submit" asp-route-id="@Model.Challenge.Id" class="start-button">
+                    <span class="button-text">Start Challenge</span>
+                    <i class="fas fa-arrow-right"></i>
                 </button>
             </form>
         </div>
     </div>
-</div>
-</div>
-</div>
 </div>
