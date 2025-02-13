@@ -2,8 +2,11 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 .main-container {
-
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
+
 .border-top {
     border-top: 1px solid #e5e5e5;
 }
@@ -28,21 +31,17 @@ button.accept-policy {
     white-space: nowrap;
     line-height: 60px;
 }
-.main-container {
+
+.main-container .container-fluid {
+    flex-grow: 1;
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
-    .main-container .container-fluid {
-        flex-grow: 1;
-        display: flex;
-    }
+.main-container .container-fluid .col {
+    flex-grow: 1;
+    overflow-y: auto;
+}
 
-        .main-container .container-fluid .col {
-            flex-grow: 1;
-            overflow-y: auto;
-        }
 .wrr {
     font-size: 1rem;
 }
@@ -58,4 +57,50 @@ button.accept-policy {
 
 .txt4 {
     margin-left: 1.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .col-12 {
+        width: 100%;
+    }
+
+    .ch-right {
+        width: 100%;
+    }
+
+    .pdd {
+        margin-top: 20px;
+    }
+
+    .txt4 {
+        margin-left: 0;
+    }
+
+    #sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px;
+        width: 250px;
+        height: 100vh;
+        background-color: #343a40;
+        transition: left 0.3s;
+        z-index: 1000;
+    }
+
+    #sidebar.collapse.show {
+        left: 0;
+    }
+
+    .navbar-toggler {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1001;
+    }
+}
+@media (min-width: 768px) {
+    .navbar-toggler {
+        display: none; /* Hide button on larger screens */
+    }
 }
