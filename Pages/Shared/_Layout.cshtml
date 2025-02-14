@@ -118,40 +118,49 @@
                             </div>
                         </div>
 
-                        <div class="col-7 col-md-6 col-xl-7">
-                            <div>
-                                <main role="main" class="pb-3">
-                                    @RenderBody()
-                                </main>
-                            </div>
-                        </div>
-
-                        @if (!User.IsInRole("Admin"))
-                        {
-                            <div class="col-3 col-md-3 col-xl-3 px-sm-2 px-0" data-bs-theme="dark">
-                                <div class="d-flex pdd flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-                                    <h4 class="txt4">Recommendations</h4>
-                                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
-                                        @{
-                                            var rankedChallenges = rankingService.GetRankedChallenges(User.Identity.Name);
-                                        }
-                                        @foreach (var challenge in rankedChallenges)
-                                        {
-                                            <li class="nav-item">
-                                                <a class="nav-link ch-right" asp-area="" asp-page="/AppChallenges/Details" asp-route-id="@challenge.Id">
-                                                    <div class="card">
-                                                        <img class="card-img-top challenge-image" src="@challenge.ImageUrl" width="50" height="50">
-                                                        <div class="card-body">
-                                                            <h5 class="card-title wrr">@challenge.Name</h5>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                        }
-                                    </ul>
+                        <div class="row flex-nowrap position-relative">
+                            <!-- Main Content -->
+                            <div class="col-12 col-md-9 col-xl-10">
+                                <div>
+                                    <main role="main" class="pb-3">
+                                        @RenderBody()
+                                    </main>
                                 </div>
                             </div>
-                        }
+
+                            <!-- Toggle Button for Mobile -->
+                            <button class="btn btn-secondary d-block d-md-none position-absolute" type="button" data-bs-toggle="collapse" data-bs-target="#recommendationsCollapse" aria-expanded="false" aria-controls="recommendationsCollapse" style="top: 10px; right: 10px; z-index: 1000;">
+                                Toggle Recommendations
+                            </button>
+
+                            <!-- Recommendations Section -->
+                            @if (!User.IsInRole("Admin"))
+                            {
+                                <div class="col-3 col-md-3 col-xl-3 px-sm-2 px-0 collapse d-md-block" id="recommendationsCollapse" data-bs-theme="dark">
+                                    <div class="d-flex pdd flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                                        <h4 class="txt4">Recommendations</h4>
+                                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
+                                            @{
+                                                var rankedChallenges = rankingService.GetRankedChallenges(User.Identity.Name);
+                                            }
+                                            @foreach (var challenge in rankedChallenges)
+                                            {
+                                                <li class="nav-item">
+                                                    <a class="nav-link ch-right" asp-area="" asp-page="/AppChallenges/Details" asp-route-id="@challenge.Id">
+                                                        <div class="card">
+                                                            <img class="card-img-top challenge-image" src="@challenge.ImageUrl" width="50" height="50">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title wrr">@challenge.Name</h5>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
