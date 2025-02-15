@@ -1,121 +1,37 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-.main-container {
+﻿.main-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-.border-top {
-    border-top: 1px solid #e5e5e5;
-}
+    .main-container .container-fluid {
+        flex-grow: 1;
+        display: flex;
+    }
 
-.border-bottom {
-    border-bottom: 1px solid #e5e5e5;
-}
+        .main-container .container-fluid .col {
+            flex-grow: 1;
+            overflow-y: auto;
+        }
 
-.box-shadow {
-    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-    font-size: 1rem;
-    line-height: inherit;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px;
-}
-
-.main-container .container-fluid {
-    flex-grow: 1;
-    display: flex;
-}
-
-.main-container .container-fluid .col {
-    flex-grow: 1;
+/* Ensure Recommendations Section Doesn't Overflow */
+#recommendationsCollapse {
+    width: 100%; /* Default width to take full space */
+    max-width: 300px; /* Prevents it from becoming too large */
     overflow-y: auto;
 }
 
-.wrr {
-    font-size: 1rem;
-}
-
-.ch-right {
-    width: 20vw;
-}
-
-.pdd {
-    margin-top: 50px;
-    flex-wrap: wrap;
-}
-
-.txt4 {
-    margin-left: 1.5rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .col-12 {
-        width: 100%;
-    }
-
-    .ch-right {
-        width: 100%;
-    }
-
-    .pdd {
-        margin-top: 20px;
-    }
-
-    .txt4 {
-        margin-left: 0;
-    }
-
-    #sidebar {
-        position: fixed;
-        top: 0;
-        left: -250px;
-        width: 250px;
-        height: 100vh;
-        background-color: #343a40;
-        transition: left 0.3s;
-        z-index: 1000;
-    }
-
-    #sidebar.collapse.show {
-        left: 0;
-    }
-
-    .navbar-toggler {
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        z-index: 1001;
-    }
-}
-@media (min-width: 768px) {
-    .navbar-toggler {
-        display: none; /* Hide button on larger screens */
+/* Ensure Recommendations Adjust Properly */
+@media (min-width: 768px) { /* Adjusted breakpoint */
+    #recommendationsCollapse {
+        position: relative; /* Ensures it stays inside the page */
+        width: 25%; /* Takes only a fraction of space */
+        max-width: 300px; /* Prevents overflow */
+        min-height: 100vh; /* Extends to full height */
     }
 }
 
-/* Smooth transition for the recommendations section */
-#recommendationsCollapse.collapse {
-    transition: transform 0.3s ease-in-out;
-    transform: translateX(100%);
-}
-
-    #recommendationsCollapse.collapse.show {
-        transform: translateX(0);
-    }
-
-/* Mobile Devices */
+/* Mobile: Make Recommendations Slide In/Out */
 @media (max-width: 767.98px) {
     #recommendationsCollapse {
         position: fixed;
@@ -123,6 +39,7 @@ button.accept-policy {
         right: 0;
         width: 300px;
         height: 100%;
+        background-color: #343a40;
         z-index: 999;
         overflow-y: auto;
         transform: translateX(100%);
@@ -134,5 +51,23 @@ button.accept-policy {
         }
 }
 
+/* Button for Toggling Recommendations on Mobile */
+@media (max-width: 767.98px) {
+    .recommendations-toggle-btn {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+    }
+}
 
+/* Adjust Recommendation Card Sizes */
+.ch-right {
+    width: auto; /* Adjust width dynamically */
+    max-width: 100%; /* Prevents overflow */
+}
 
+/* Padding Fix */
+.pdd {
+    margin-top: 50px;
+}
