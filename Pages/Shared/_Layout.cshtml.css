@@ -4,70 +4,69 @@
     min-height: 100vh;
 }
 
-    .main-container .container-fluid {
-        flex-grow: 1;
-        display: flex;
+.oth-div {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.row.flex-nowrap {
+    flex-wrap: nowrap;
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
+}
+
+.col-2, .col-7, .col-3 {
+    transition: all 0.3s ease; /* Smooth transition when resizing */
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .col-2 {
+        flex: 0 0 50px; /* Shrink sidebar on smaller screens */
     }
 
-        .main-container .container-fluid .col {
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-
-/* Ensure Recommendations Section Doesn't Overflow */
-#recommendationsCollapse {
-    width: 100%; /* Default width to take full space */
-    max-width: 300px; /* Prevents it from becoming too large */
-    overflow-y: auto;
-}
-
-/* Ensure Recommendations Adjust Properly */
-@media (min-width: 768px) { /* Adjusted breakpoint */
-    #recommendationsCollapse {
-        position: relative; /* Ensures it stays inside the page */
-        width: 25%; /* Takes only a fraction of space */
-        max-width: 300px; /* Prevents overflow */
-        min-height: 100vh; /* Extends to full height */
-    }
-}
-
-/* Mobile: Make Recommendations Slide In/Out */
-@media (max-width: 767.98px) {
-    #recommendationsCollapse {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 300px;
-        height: 100%;
-        background-color: #343a40;
-        z-index: 999;
-        overflow-y: auto;
-        transform: translateX(100%);
-        transition: transform 0.3s ease-in-out;
+    .col-7 {
+        flex: 1 1 auto; /* Allow main content to take remaining space */
     }
 
-        #recommendationsCollapse.collapse.show {
-            transform: translateX(0);
-        }
-}
+    .col-3 {
+        flex: 0 0 100%; /* Stack recommendations below on smaller screens */
+        margin-top: 20px;
+    }
 
-/* Button for Toggling Recommendations on Mobile */
-@media (max-width: 767.98px) {
-    .recommendations-toggle-btn {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 1000;
+    .ch-right {
+        width: 100%; /* Full width for recommendation cards */
+    }
+
+    .txt4 {
+        margin-left: 0; /* Remove left margin for smaller screens */
     }
 }
-
-/* Adjust Recommendation Card Sizes */
-.ch-right {
-    width: auto; /* Adjust width dynamically */
-    max-width: 100%; /* Prevents overflow */
+.txt4 {
+    margin-left: 1.5rem;
 }
 
-/* Padding Fix */
+.card {
+    width: 100%;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    border-radius: 8px;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+.challenge-image {
+    max-width: 100%;
+    border-radius: 4px;
+}
+
+.wrr {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
 .pdd {
     margin-top: 50px;
 }
