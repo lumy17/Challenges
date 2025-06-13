@@ -41,8 +41,7 @@ namespace Challenges.WebApp.Pages.AppChallenges
             }
             var currentUser = User.Identity.Name;
             var user = _context.AppUser.FirstOrDefault(u => u.Email == currentUser);
-            //de fiecare data cand un vizitator da click pe o provocare
-            //vizulizarile vor creste
+
             Challenge.Views++;
             await _context.SaveChangesAsync();
 
@@ -79,7 +78,7 @@ namespace Challenges.WebApp.Pages.AppChallenges
 
                 return RedirectToPage("./Tasks", new { id = Challenge.Id });
             }
-            return RedirectToPage("/Account/Login", new { area = "Identity" }); // Redirect to login page
+            return RedirectToPage("/Account/Login", new { area = "Identity" });
 
         }
     }

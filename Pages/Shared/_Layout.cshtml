@@ -48,59 +48,58 @@
                     </div>
                 </div>
             </nav>
-                    <div class="main-container">
-            <div class="oth-div">
-                <div class="row flex-nowrap">
-                    <div class="col-2 col-md-3 col-xl-2 px-sm-2 px-0" data-bs-theme="dark">
-                        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100" id="navbarColor02">
-                            <a class="navbar-brand" asp-area="" asp-page="/DashboardAdmin">
-                                <img src="~/images/logo.png" alt="Challenges Logo" style="max-width: 150px; height: auto;" />
-                            </a>
-                            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-page="/DashboardAdmin">
-                                        Dashboard
-                                        <span class="visually-hidden">(current)</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-page="/AppChallenges/Index">Challenges</a>
-                                </li>
-                            </ul>
-                            <partial name="_LoginPartial" />
-                            <hr>
-                            <br />
+            <div class="main-container">
+                <div class="oth-div">
+                    <div class="row flex-nowrap">
+                        <div class="col-2 col-md-3 col-xl-2 px-sm-2 px-0" data-bs-theme="dark">
+                            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100" id="navbarColor02">
+                                <a class="navbar-brand" asp-area="" asp-page="/DashboardAdmin">
+                                    <img src="~/images/logo.png" alt="Challenges Logo" style="max-width: 150px; height: auto;" />
+                                </a>
+                                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/Dashboards/DashboardAdmin">
+                                            Dashboard
+                                            <span class="visually-hidden">(current)</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/AppChallenges/Index">Challenges</a>
+                                    </li>
+                                </ul>
+                                <partial name="_LoginPartial" />
+                                <hr>
+                                <br />
+                            </div>
+                        </div>
+                        <div class="col-10 col-md-9 col-xl-10">
+                            <div>
+                                <main role="main" class="pb-3">
+                                    @RenderBody()
+                                </main>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-10 col-md-9 col-xl-10">
-                        <div>
-                            <main role="main" class="pb-3">
-                                @RenderBody()
-                            </main>
-                        </div>
-                    </div>
-                    </div>
-                    </div>
-                    </div>
+                </div>
+            </div>
         }
         else
         {
-<div class="main-container">
-    <div class="oth-div">
-        <div class="row flex-nowrap">
-            <!-- Sidebar -->
-            <div class="col-2 col-md-2 col-xl-2 px-sm-2 px-0" data-bs-theme="dark">
-                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100" id="navbarColor02">
-                    <a class="navbar-brand" asp-area="" asp-page="/dashboard">
-                        <img src="~/images/logo.png" alt="Challenges Logo" style="max-width: 150px; height: auto;" />
-                    </a>
-                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/dashboard">
-                                Dashboard
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
+            <div class="main-container">
+                <div class="oth-div">
+                    <div class="row flex-nowrap">
+                        <div class="col-2 col-md-2 col-xl-2 px-sm-2 px-0" data-bs-theme="dark">
+                            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100" id="navbarColor02">
+                                <a class="navbar-brand" asp-area="" asp-page="/dashboard">
+                                    <img src="~/images/logo.png" alt="Challenges Logo" style="max-width: 150px; height: auto;" />
+                                </a>
+                                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/Dashboards/dashboard">
+                                            Dashboard
+                                            <span class="visually-hidden">(current)</span>
+                                        </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a class="nav-link" asp-area="" asp-page="/UserChallenges/Details">My Challenges</a>
                                     </li>
@@ -108,36 +107,34 @@
                                         <a class="nav-link" asp-area="" asp-page="/AppChallenges/Index">Challenges</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" asp-area="" asp-page="/ChatGPT">Need Help?</a>
+                                        <a class="nav-link" asp-area="" asp-page="/ChatBots/ChatGPT">Need Help?</a>
                                     </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                    <hr>
-                    <br />
-                </div>
-            </div>
+                                </ul>
+                                <partial name="_LoginPartial" />
+                                <hr>
+                                <br />
+                            </div>
+                        </div>
 
-            <!-- Main Content -->
-            <div class="col-7 col-md-7 col-xl-7">
-                <div>
-                    <main role="main" class="pb-3">
-                        @RenderBody()
-                    </main>
-                </div>
-            </div>
+                        <div class="col-7 col-md-7 col-xl-7">
+                            <div>
+                                <main role="main" class="pb-3">
+                                    @RenderBody()
+                                </main>
+                            </div>
+                        </div>
 
-            <!-- Recommendations Section -->
-            @if (!User.IsInRole("Admin"))
-            {
-                <div class="col-3 col-md-3 col-xl-3 px-sm-2 px-0" data-bs-theme="dark">
-                    <div class="d-flex pdd flex-column align-items-center align-items-sm-start pt-2 text-white min-vh-100">
-                        <h4 class="txt4">Recommendations</h4>
-                        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
-                            @{
-                                var rankedChallenges = rankingService.GetRankedChallenges(User.Identity.Name);
-                            }
-                            @foreach (var challenge in rankedChallenges)
-                            {
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            <div class="col-3 col-md-3 col-xl-3 px-sm-2 px-0" data-bs-theme="dark">
+                                <div class="d-flex pdd flex-column align-items-center align-items-sm-start pt-2 text-white min-vh-100">
+                                    <h4 class="txt4">Recommendations</h4>
+                                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start">
+                                        @{
+                                            var rankedChallenges = rankingService.GetRankedChallenges(User.Identity.Name);
+                                        }
+                                        @foreach (var challenge in rankedChallenges)
+                                        {
                                             <li class="nav-item">
                                                 <a class="nav-link ch-right" asp-area="" asp-page="/AppChallenges/Details" asp-route-id="@challenge.Id">
                                                     <div class="card box-shadow">
@@ -149,14 +146,14 @@
                                                 </a>
                                             </li>
 
-                            }
-                        </ul>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
-            }
-        </div>
-    </div>
-</div>
+            </div>
 
         }
     }
@@ -194,7 +191,7 @@
     <div>
         <footer class="border-top footer text-muted">
             <div class="container1">
-                &copy; 2024 - Challenges - <a asp-area="" asp-page="/Privacy">Privacy</a>
+                &copy; 2024 - Challenges
             </div>
         </footer>
     </div>

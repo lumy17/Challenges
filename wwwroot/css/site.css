@@ -23,7 +23,6 @@ img {
 h1, h2, h3 {
     font-weight: bold;
 }
-/*marginea in toate partile pt toate pag inafara de home ar trebui sa fie de 60px*/
 .other_pages {
     margin: 60px;
 }
@@ -162,8 +161,3 @@ html, body, .container2 {
     margin-left: 90%;
     color: mediumspringgreen
 }
-.container4 {
-
-}
-/*for sidebar right*/
-

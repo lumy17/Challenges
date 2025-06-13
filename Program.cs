@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OpenAI_API;
 
-//ASP.NET Core project templates use Kestrel by default when not hosted with IIS. In the following template-generated Program.cs, the WebApplication.CreateBuilder method calls UseKestrel internally:so web server is kestrel
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString
@@ -17,16 +16,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<LibraryIdentityContext>(options =>
     options.UseSqlServer(connectionString));
 
-//adaugam rolurile -- putem avea admin sau user
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
-});
 if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddUserSecrets<Program>();
@@ -34,22 +28,25 @@ if (builder.Environment.IsDevelopment())
 
 builder.Services.AddSingleton<OpenAIAPI>();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+});
 
-// Add services to the container.
 builder.Services.AddRazorPages(options =>
 {
-    options.Conventions.AuthorizeFolder("/Provocari");
-    options.Conventions.AuthorizeFolder("/ProvocariUtilizatori");
-    options.Conventions.AuthorizeFolder("/Sarcini");
-    options.Conventions.AuthorizePage("/dashboard");
+    options.Conventions.AuthorizeFolder("/AppChallenges");
+    options.Conventions.AuthorizeFolder("/UserChallenges");
+    options.Conventions.AuthorizeFolder("/TodoTasks");
+    options.Conventions.AuthorizePage("/Dashboards/dashboard");
     options.Conventions.AllowAnonymousToPage("/Index");
-    options.Conventions.AllowAnonymousToPage("/Provocari/Index");
-    options.Conventions.AllowAnonymousToPage("/Provocari/Details");
-    options.Conventions.AuthorizeFolder("/Sarcini", "AdminPolicy");
-    options.Conventions.AuthorizeFolder("/SarciniRealizate", "AdminPolicy");
-    options.Conventions.AuthorizeFolder("/Realizari", "AdminPolicy");
-    options.Conventions.AuthorizeFolder("/RealizariUtilizator", "AdminPolicy");
-    options.Conventions.AuthorizeFolder("/Categorii", "AdminPolicy");
+    options.Conventions.AllowAnonymousToPage("/AppChallenges/Index");
+    options.Conventions.AllowAnonymousToPage("/AppChallenges/Details");
+    options.Conventions.AuthorizeFolder("/TodoTasks", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/FinishedTasks", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Badges", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/UserBadges", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Categories", "AdminPolicy");
 });
 builder.Services.AddScoped<RankingService>();
 
@@ -59,11 +56,9 @@ var config = builder.Configuration;
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

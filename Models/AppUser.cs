@@ -5,6 +5,7 @@ namespace Challenges.WebApp.Models
     public class AppUser
     {
         public int Id { get; set; }
+
         public string Email { get; set; }
 
         [RegularExpression(@"^[A-Z]+[a-z\s]*$")]
@@ -22,17 +23,16 @@ namespace Challenges.WebApp.Models
         public string? PhoneNumber { get; set; }
 
         public int Streak { get; set; } = 0;
+
         public int Points { get; set; } = 0;
-        //aceasta data este folosita pentru actualizarea streakului (se verifica daca 
-        //data actualizarii streakului este data de azi. daca nu, in urma finalizarii
-        //data actualizarii streakului este data de azi. daca nu, in urma finalizarii
-        //unei sarcini streakul este incrementat insa daca in aceasi zi se finalizeaza
-        //alte sarcini nu se va mai incrementa streakul.
+
         [DataType(DataType.Date)]
         public DateTime? LastStreakUpdateDate { get; set; }
 
 		public ICollection<UserChallenge>? UserChallenges {  get; set; }
+
         public ICollection<UserBadge>? UserBadges {  get; set; }
+
         public ICollection<UserPreference>? UserCategories {  get; set; }
     }
 }

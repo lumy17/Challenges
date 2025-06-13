@@ -21,7 +21,7 @@ namespace Challenges.WebApp.Pages.AppChallenges
             _context = context;
         }
 
-      public Challenge Challenge { get; set; } = default!; 
+        public Challenge Challenge { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -35,7 +35,7 @@ namespace Challenges.WebApp.Pages.AppChallenges
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Challenge = challenge;
             }

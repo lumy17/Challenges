@@ -6,7 +6,7 @@ using System.Security.Principal;
 using Challenges.WebApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Challenges.WebApp.Pages
+namespace Challenges.WebApp.Pages.Dashboards
 {
     public class dashboardModel : PageModel
     {
@@ -31,12 +31,15 @@ namespace Challenges.WebApp.Pages
         private async Task PopulateDashboardAsync()
         {
             UserEmail = User.Identity.Name;
-            CurrentUser = await _context.AppUser.FirstOrDefaultAsync(u => u.Email == UserEmail);
+            CurrentUser = await _context.AppUser.FirstOrDefaultAsync
+                (u => u.Email == UserEmail);
+            
             if (CurrentUser == null) return;
+
             Challenges = await _context.Challenge.ToListAsync();
             Badges = await _context.Badge.ToListAsync();
-            FinishedChallengesCount = await _context.UserChallenge
-                .CountAsync(uc => uc.AppUserId == CurrentUser.Id && uc.CurrentState == "finished");
+            FinishedChallengesCount = await _context.UserChallenge.CountAsync
+                (uc => uc.AppUserId == CurrentUser.Id && uc.CurrentState == "finished");
             Streak = CurrentUser.Streak;
             Points = CurrentUser.Points;
 
@@ -58,7 +61,6 @@ namespace Challenges.WebApp.Pages
                 CurrentUser.Streak++;
                 CurrentUser.LastStreakUpdateDate = DateTime.Today;
             }
-            // Daca utilizatorul nu a finalizat o sarcina ieri, reseteaza streak-ul la 0
             else if (!taskCompletedYesterday && !taskCompletedToday)
             {
                 CurrentUser.Streak = 0;
@@ -85,7 +87,7 @@ namespace Challenges.WebApp.Pages
         private async Task<TodoTask> GetCurrentTaskAsync(UserChallenge userChallenge)
         {
             bool taskCompletedToday = await _context.FinishedTask.AnyAsync
-                (uc => uc.UserChallengeId == userChallenge.Id 
+                (uc => uc.UserChallengeId == userChallenge.Id
                 && uc.CompletionDate.Value.Date == DateTime.Today);
             int dayOffset = taskCompletedToday ? -1 : 0;
             return await _context.TodoTask.FirstOrDefaultAsync

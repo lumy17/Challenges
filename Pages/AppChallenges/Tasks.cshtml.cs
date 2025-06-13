@@ -15,13 +15,11 @@ namespace Challenges.WebApp.Pages.AppChallenges
             _context = context;
         }
         public Challenge Challenge { get; set; } = default!;
-        //afiseaza taskurile pentru primul challenge.
         public List<TodoTask> TodoTasks { get; set; } = new List<TodoTask>();
         public List<Challenge> Challenges { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public int CurrentPage { get; set; } = 1;
-        //same as totalpages 
         public int Count { get; set; }
         public int PageSize { get; set; } = 1;
         public bool ShowPrevious => CurrentPage > 1;
@@ -40,13 +38,11 @@ namespace Challenges.WebApp.Pages.AppChallenges
             {
                 return NotFound();
             }
-            
             else
             {
                 Challenge = challenge;
                 var allSarcini = await _context.TodoTask.Where(
                    s => s.ChallengeId == id).ToListAsync();
-                // daca intra prima data pe pagina de sarcini currentpage ia valoarea 1
                 CurrentPage = currentpage ?? 1;
                 TodoTasks = allSarcini.OrderBy(d => d.Day).Skip(CurrentPage - 1).Take(PageSize).ToList();
 
@@ -83,13 +79,11 @@ namespace Challenges.WebApp.Pages.AppChallenges
             Challenge = await _context.Challenge.FirstOrDefaultAsync
                 (m => m.Id == idProv);
 
-            //gaseste provocarea utilizatorului si sarcina
             var userChallenge = _context.UserChallenge.
                 FirstOrDefault(pu => pu.AppUserId == user.Id 
                 && pu.ChallengeId == Challenge.Id);
             var todoTask = _context.TodoTask.FirstOrDefault(s => s.Id == idTask);
 
-            //creaza o noua inregistrare in SarcinaRealizata
             var sarcinaRealizata = new FinishedTask
             {
                 UserChallengeId = userChallenge.Id,
@@ -110,18 +104,15 @@ namespace Challenges.WebApp.Pages.AppChallenges
             var user = _context.AppUser.FirstOrDefault
                 (u => u.Email == currentUser);
 
-            //gaseste provocarea utilizatorului
             var userChallenge = _context.UserChallenge.
                 FirstOrDefault(pu => pu.AppUserId == user.Id 
                 && pu.ChallengeId == id);
 
-            //marcheaza provocarea ca finalizata
             userChallenge.CurrentState = "Completed";
             userChallenge.EndDate = DateTime.Now;
 
             var todoTask = _context.TodoTask.FirstOrDefault(s => s.Id == id);
 
-            //creaza o noua inregistrare in SarcinaRealizata
             var finishedTask = new FinishedTask
             {
                 UserChallengeId = userChallenge.Id,
@@ -142,7 +133,6 @@ namespace Challenges.WebApp.Pages.AppChallenges
         }
         private bool AreAllTasksCompleted(UserChallenge userChallenge)
         {
-            //verifica daca toate taskurile din provocarea curenta au fost finalizate
             var tasksCompleted = _context.FinishedTask
                 .Where(sr => sr.UserChallengeId == userChallenge.Id)
                 .Count();
@@ -155,14 +145,12 @@ namespace Challenges.WebApp.Pages.AppChallenges
         }
         public async Task AwardNewBadge(AppUser user)
         {
-            // Verificam daca utilizatorul a finalizat o provocare astazi
             var nextBadge = _context.Badge.FirstOrDefault
                 (b => !_context.UserBadge.Any
                 (ru => ru.UserId == user.Id && ru.BadgeId == b.Id));
 
             if (nextBadge != null)
             {
-                // Adaugam noul badge utilizatorului
                 var userBadge = new UserBadge
                 {
                     UserId = user.Id,

@@ -131,7 +131,6 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account
                 var userExists = await _userManager.FindByEmailAsync(Input.Email);
                 if (userExists != null)
                 {
-                    // Utilizatorul există deja, deci afișăm o eroare și redăm formularul de înregistrare
                     ModelState.AddModelError(string.Empty, "Un utilizator cu această adresă de email există deja.");
                     return Page();
                 }
@@ -144,18 +143,17 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    //adaugam in tabelul utilizator mailul introdus la inregistrare
                     AppUser.Email = Input.Email;
                     _context.AppUser.Add(AppUser);
                     await _context.SaveChangesAsync();
 
                     _logger.LogInformation("User created a new account with password.");
 
-                //cand se creaza un utilizator nou, va avea rolul de user implicit
                     var role = await _userManager.AddToRoleAsync(user, "User");
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,

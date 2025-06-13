@@ -105,11 +105,11 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account
         {
                             if (User.IsInRole("Admin"))
                 {
-                    returnUrl ??= Url.Content("~/DashboardAdmin");
+                    returnUrl ??= Url.Content("~/Dashboards/DashboardAdmin");
                 }
                 else
                 {
-                    returnUrl ??= Url.Content("~/dashboard");
+                    returnUrl ??= Url.Content("~/Dashboards/dashboard");
                 }
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 

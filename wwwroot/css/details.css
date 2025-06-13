@@ -1,5 +1,4 @@
-﻿/* Modern challenge details page styling */
-.challenge-container {
+﻿.challenge-container {
     max-width: 1200px;
     margin: 2rem auto;
     padding: 0 1.5rem;
@@ -114,7 +113,6 @@
         }
 
 
-/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -149,7 +147,6 @@
     }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .challenge-content {
         grid-template-columns: 1fr;
