@@ -103,14 +103,6 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-                            if (User.IsInRole("Admin"))
-                {
-                    returnUrl ??= Url.Content("~/Dashboards/DashboardAdmin");
-                }
-                else
-                {
-                    returnUrl ??= Url.Content("~/Dashboards/dashboard");
-                }
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             if (ModelState.IsValid)
@@ -121,6 +113,17 @@ namespace Challenges.WebApp.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
+                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                    var roles = await _signInManager.UserManager.GetRolesAsync(user);
+
+                    if (roles.Contains("Admin"))
+                    {
+                        returnUrl ??= Url.Content("~/Dashboards/DashboardAdmin");
+                    }
+                    else
+                    {
+                        returnUrl ??= Url.Content("~/Dashboards/dashboard");
+                    }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

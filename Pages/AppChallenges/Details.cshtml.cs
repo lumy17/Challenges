@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Challenges.WebApp.Data;
@@ -12,15 +8,14 @@ namespace Challenges.WebApp.Pages.AppChallenges
 {
     public class DetailsModel : PageModel
     {
-        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DetailsModel(Challenges.WebApp.Data.ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
         public Challenge Challenge { get; set; } = default!;
-        public List<Challenge> Challenges { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,19 +23,19 @@ namespace Challenges.WebApp.Pages.AppChallenges
             {
                 return NotFound();
             }
-            var provocare = await _context.Challenge
+            var challenge = await _context.Challenge
+                .Include(c => c.ChallengeCategories)
+                    .ThenInclude(cc => cc.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            Challenges = await _context.Challenge.ToListAsync();
-            if (provocare == null)
+
+            if (challenge == null)
             {
                 return NotFound();
             }
             else
             {
-                Challenge = provocare;
+                Challenge = challenge;
             }
-            var currentUser = User.Identity.Name;
-            var user = _context.AppUser.FirstOrDefault(u => u.Email == currentUser);
 
             Challenge.Views++;
             await _context.SaveChangesAsync();
@@ -59,11 +54,12 @@ namespace Challenges.WebApp.Pages.AppChallenges
             {
                 return NotFound();
             }
+
             var currentUser = User.Identity.Name;
             var user = _context.AppUser.FirstOrDefault(u => u.Email == currentUser);
+
             if (user != null)
             {
-
                 var userChallenge = new UserChallenge
                 {
                     ChallengeId = Challenge.Id,
@@ -79,7 +75,6 @@ namespace Challenges.WebApp.Pages.AppChallenges
                 return RedirectToPage("./Tasks", new { id = Challenge.Id });
             }
             return RedirectToPage("/Account/Login", new { area = "Identity" });
-
         }
     }
 }

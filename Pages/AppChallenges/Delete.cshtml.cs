@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Challenges.WebApp.Data;
@@ -14,15 +10,15 @@ namespace Challenges.WebApp.Pages.AppChallenges
     [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
     {
-        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DeleteModel(Challenges.WebApp.Data.ApplicationDbContext context)
+        public DeleteModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public Challenge Challenge { get; set; } = default!;
+        public Challenge Challenge { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -59,7 +55,7 @@ namespace Challenges.WebApp.Pages.AppChallenges
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./IndexAdmin");
         }
     }
 }

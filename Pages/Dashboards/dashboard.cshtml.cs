@@ -50,12 +50,18 @@ namespace Challenges.WebApp.Pages.Dashboards
         {
             var userChallenge = await _context.UserChallenge
                 .FirstOrDefaultAsync(u => u.AppUserId == CurrentUser.Id);
+            if (userChallenge == null)
+            {
+                return;
+            }
             bool taskCompletedToday = await _context.FinishedTask
                 .AnyAsync(u => u.UserChallengeId == userChallenge.Id
                 && u.CompletionDate.Value.Date == DateTime.Today);
+
             bool taskCompletedYesterday = _context.FinishedTask
                 .Any(u => u.UserChallengeId == userChallenge.Id
                 && u.CompletionDate.Value.Date == DateTime.Today.AddDays(-1));
+
             if (taskCompletedToday && CurrentUser.LastStreakUpdateDate != DateTime.Today)
             {
                 CurrentUser.Streak++;

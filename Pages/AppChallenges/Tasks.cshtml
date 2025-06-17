@@ -1,7 +1,5 @@
 ﻿@page
 @model Challenges.WebApp.Pages.AppChallenges.TasksModel
-@{
-}
 
 <div class="container">
     <div class="dropdown-stl">
@@ -60,9 +58,9 @@
     @foreach (var item in @Model.TodoTasks)
     {
         <h2>@item.Name</h2>
-        <h3>Ziua: @item.Day</h3>
+        <h3>Day: @item.Day</h3>
         <br />
-            @if (await Model.IsTaskCompletedAsync(item.Id))
+            @if (await Model.IsTaskAvailable(item.Id))
             {
                 var sentences2 = item.Description.Split('.');
                 for (var i = 0; i < sentences2.Length; i += 2)
@@ -80,7 +78,7 @@
                     <button type="submit" class="btn btn-primary"
                             asp-page-handler="MarkTaskAsCompleted"
                             asp-route-idTask="@item.Id"
-                            asp-route-idProv="@Model.Challenge.Id">
+                            asp-route-idChallenge="@Model.Challenge.Id">
                         Finish Task
                     </button>
                 }

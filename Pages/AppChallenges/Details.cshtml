@@ -5,12 +5,16 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 <head>
-    <link rel="stylesheet" href="~/css/details.css" />
+    <link rel="stylesheet" href="~/css/AppChallengesDetails.css" />
 </head>
+
 <div class="challenge-container">
     <div class="challenge-header">
         <h1 class="challenge-title">@Model.Challenge.Name</h1>
-        <div class="category-badge">@Model.Challenge.Category</div>
+        @foreach (var cat in Model.Challenge.ChallengeCategories)
+        {
+            <div class="category-badge">@cat.Category.Name</div>
+        }
     </div>
 
     <div class="challenge-content">

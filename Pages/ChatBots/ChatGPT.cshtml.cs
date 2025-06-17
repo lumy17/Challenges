@@ -5,45 +5,44 @@ using OpenAI_API.Chat;
 
 namespace Challenges.WebApp.Pages.ChatBots
 {
-    public class ChatGPTModel : PageModel
-    {
-        private readonly IConfiguration _configuration;
+	public class ChatGPTModel : PageModel
+	{
+		private readonly OpenAIAPI _openAiApi;
+		private readonly IConfiguration _configuration;
+		public ChatGPTModel(OpenAIAPI openAiApi, IConfiguration configuration)
+		{
+			_openAiApi = openAiApi;
+			_configuration = configuration;
+		}
 
-        public ChatGPTModel(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+		public string OutputResult { get; set; } = "";
+		public async Task<IActionResult> OnPostAsync()
+		{
 
-        [BindProperty]
-        public string UserMessage { get; set; }
+			var query = Request.Form["msg"];
 
-        public string ResponseMessage { get; set; }
+			var openAiKey = _configuration["OpenAIKey"];
+			if (string.IsNullOrEmpty(openAiKey))
+			{
+				return new JsonResult("API Key is missing.");
+			}
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (string.IsNullOrWhiteSpace(UserMessage))
-            {
-                return Page();
-            }
+			var openai = new OpenAIAPI(openAiKey);
+			var chatRequest = new ChatRequest
+			{
+				Messages = new List<ChatMessage>
+				{
+					new ChatMessage { Role = ChatMessageRole.System, TextContent = "You are a helpful assistant. Please keep your answers concise." },
+					new ChatMessage { Role = ChatMessageRole.User, TextContent = query }
+				},
+				Model = "gpt-3.5-turbo",
+				MaxTokens = 1028
+			};
 
-            var openAiKey = _configuration["OpenAIKey"];
-            var openai = new OpenAIAPI(openAiKey);
+			var chatResponse = await openai.Chat.CreateChatCompletionAsync(chatRequest);
+			var response = chatResponse.Choices.FirstOrDefault()?.Message?.Content;
 
-            var chatRequest = new ChatRequest
-            {
-                Messages = new List<ChatMessage>
-                {
-                    new ChatMessage { Role = ChatMessageRole.System, TextContent = "You are a helpful assistant." },
-                    new ChatMessage { Role = ChatMessageRole.User, TextContent = UserMessage }
-                },
-                Model = "gpt-3.5-turbo",
-                MaxTokens = 500
-            };
-
-            var result = await openai.Chat.CreateChatCompletionAsync(chatRequest);
-            ResponseMessage = result.Choices.FirstOrDefault()?.Message?.Content;
-
-            return Page();
-        }
-    }
+			return new JsonResult(response ?? "Sorry, I couldn't generate a response.");
+		}
+	}
 }
