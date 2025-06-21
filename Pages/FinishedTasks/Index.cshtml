@@ -7,50 +7,50 @@
 }
 <div class="other_pages">
 
-<h1>Sarcini Realizate</h1>
+    <h1>Finished Tasks</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Challenge
-            </th>
-            <th>
-                User
-            </th>
-            <th>
-                Task
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinishedTask[0].CompletionDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FinishedTask[0].CompletionDay)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Challenge
+                </th>
+                <th>
+                    User
+                </th>
+                <th>
+                    Task
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FinishedTask[0].CompletionDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FinishedTask[0].CompletionDay)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
             @foreach (var item in Model.FinishedTask)
             {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserChallenge.Challenge.Name)
-            </td> 
-            <td>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserChallenge.Challenge.Name)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.UserChallenge.AppUser.Email)
-            </td>
-            <td>
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.TodoTask.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompletionDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompletionDay)
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompletionDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompletionDay)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

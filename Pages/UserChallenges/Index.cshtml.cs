@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Challenges.WebApp.Data;
 using Challenges.WebApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Challenges.WebApp.Data;
 
 namespace Challenges.WebApp.Pages.UserChallenges
 {
     [Authorize(Roles = "Admin")]
     public class IndexModel : PageModel
     {
-        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(Challenges.WebApp.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IList<UserChallenge> UserChallenges { get;set; } = default!;
-        public List<Challenge> Challenges { get; set; }
+        public List<UserChallenge> UserChallenges { get;set; } = default!;
+
         public async Task OnGetAsync()
         {
             if (_context.UserChallenge != null)
@@ -31,8 +26,6 @@ namespace Challenges.WebApp.Pages.UserChallenges
                 .Include(p => p.Challenge)
                 .Include(p => p.AppUser).ToListAsync();
             }
-            Challenges = await _context.Challenge.ToListAsync();
-
         }
     }
 }

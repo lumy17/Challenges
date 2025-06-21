@@ -163,9 +163,9 @@ namespace Challenges.WebApp.Pages.AppChallenges
             else
             {
                 return _context.FinishedTask.Any(
-                    sr => sr.CompletionDay == todoTask.Day &&
+                    sr => sr.CompletionDay+1 == todoTask.Day &&
                     sr.UserChallengeId == userChallenge.Id
-                    && sr.CompletionDate < DateTime.Now);
+                    && sr.CompletionDate < DateTime.Today);
             }
         }
 
