@@ -1,29 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Challenges.WebApp.Data;
 using Challenges.WebApp.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Challenges.WebApp.Pages.TodoTasks
 {
     public class CreateModel : PageModel
     {
-        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(Challenges.WebApp.Data.ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
         }
-        public List<Challenge> Challenges { get; set; }
+
         public IActionResult OnGet()
         {
-        ViewData["ProvocareId"] = new SelectList(_context.Challenge, "Id", "Id");
-            Challenges = _context.Challenge.ToList();
+            ViewData["ChallengeId"] = new SelectList(_context.Challenge, "Id", "Id");
 
             return Page();
         }
@@ -31,11 +25,9 @@ namespace Challenges.WebApp.Pages.TodoTasks
         [BindProperty]
         public TodoTask TodoTask { get; set; } = default!;
         
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.TodoTask == null || TodoTask == null)
+          if (!ModelState.IsValid || TodoTask == null)
             {
                 return Page();
             }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Challenges.WebApp.Data;
@@ -12,19 +8,18 @@ namespace Challenges.WebApp.Pages.TodoTasks
 {
     public class DetailsModel : PageModel
     {
-        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DetailsModel(Challenges.WebApp.Data.ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
-      public TodoTask TodoTask { get; set; } = default!;
-        public List<Challenge> Challenges { get; set; }
+        public TodoTask TodoTask { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.TodoTask == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -38,7 +33,6 @@ namespace Challenges.WebApp.Pages.TodoTasks
             {
                 TodoTask = todoTask;
             }
-            Challenges = await _context.Challenge.ToListAsync();
 
             return Page();
         }

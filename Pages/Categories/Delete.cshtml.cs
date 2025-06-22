@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Challenges.WebApp.Data;
@@ -12,19 +8,19 @@ namespace Challenges.WebApp.Pages.Categories
 {
     public class DeleteModel : PageModel
     {
-        private readonly Challenges.WebApp.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DeleteModel(Challenges.WebApp.Data.ApplicationDbContext context)
+        public DeleteModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-      public Category Category { get; set; } = default!;
+        public Category Category { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Category == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -48,11 +44,11 @@ namespace Challenges.WebApp.Pages.Categories
             {
                 return NotFound();
             }
-            var categorie = await _context.Category.FindAsync(id);
+            var category = await _context.Category.FindAsync(id);
 
-            if (categorie != null)
+            if (category != null)
             {
-                Category = categorie;
+                Category = category;
                 _context.Category.Remove(Category);
                 await _context.SaveChangesAsync();
             }
