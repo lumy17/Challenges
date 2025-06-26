@@ -3,7 +3,6 @@ using Challenges.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace Challenges.WebApp.Pages.AppChallenges
 {

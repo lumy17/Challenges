@@ -1,10 +1,8 @@
 using Challenges.WebApp.Data;
 using Challenges.WebApp.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace Challenges.WebApp.Pages.Dashboards
 {
@@ -39,8 +37,8 @@ namespace Challenges.WebApp.Pages.Dashboards
                 .Concat(await GetLastStartedChallenges())
                 .OrderBy(s =>
                 {
-                    var splitParts = s.Split("acum ");
-                    return splitParts.Length >= 2 ? splitParts[1].Split(" luni")[0] : "";
+                    var splitParts = s.Split("now ");
+                    return splitParts.Length >= 2 ? splitParts[1].Split(" months")[0] : "";
                 })
                 .ToList();
 
@@ -65,7 +63,7 @@ namespace Challenges.WebApp.Pages.Dashboards
             {
                 var interval = DateTime.Now - uc.EndDate.Value;
                 var formattedInterval = interval.FormatTimeInterval();
-                return $"Utilizatorul {uc.AppUser} a finalizat provocarea \"{uc.Challenge}\" {formattedInterval}";
+                return $"User {uc.AppUser} has finished challenge \"{uc.Challenge}\" {formattedInterval}";
             }).ToList();
         }
         private async Task<List<string>> GetLastFinishedTasks()
@@ -81,7 +79,7 @@ namespace Challenges.WebApp.Pages.Dashboards
                 var todoTask = _context.TodoTask.Find(ft.TodoTaskId).Name;
                 var interval = DateTime.Now - ft.CompletionDate.Value;
                 var formattedInterval = interval.FormatTimeInterval();
-                return $"Utilizatorul {appUser} a finalizat sarcina \"{todoTask}\" {formattedInterval}";
+                return $"User {appUser} has finished the task \"{todoTask}\" {formattedInterval}";
             }).ToList();
         }
         private async Task<List<string>> GetLastStartedChallenges()
@@ -97,7 +95,7 @@ namespace Challenges.WebApp.Pages.Dashboards
                 var challenge = _context.Challenge.Find(uc.ChallengeId).Name;
                 var interval = DateTime.Now - uc.StartDate.Value;
                 var formattedInterval = interval.FormatTimeInterval();
-                return $"Utilizatorul {appUser} a inceput provocarea \"{challenge}\" {formattedInterval}";
+                return $"User {appUser} has started the challenge \"{challenge}\" {formattedInterval}";
             }).ToList();
         }
     }

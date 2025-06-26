@@ -74,7 +74,6 @@ app.UseEndpoints(endpoints =>
     endpoints.MapRazorPages();
 });
 
-
 app.MapRazorPages();
 
 app.Run();
